@@ -57,20 +57,23 @@ export function CustomerSidebar() {
     <div className="flex h-full flex-col bg-sidebar">
       {!mobile && (
         <div className="flex h-10 items-center justify-end border-b border-sidebar-border px-4 py-1">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleCollapsed}
-            className="h-7 w-7 border-sidebar-border bg-transparent hover:bg-sidebar-accent transition-all duration-200"
-            title={isCollapsed ? "Développer le menu" : "Réduire le menu"}
-          >
-            {isCollapsed ? (
-              <ChevronRight className="h-3.5 w-3.5 transition-transform" />
-            ) : (
-              <ChevronLeft className="h-3.5 w-3.5 transition-transform" />
-            )}
-            <span className="sr-only">{isCollapsed ? "Développer le menu" : "Réduire le menu"}</span>
-          </Button>
+        <Button
+  variant="outline"
+  size="icon"
+  onClick={toggleCollapsed}
+  className="h-7 w-7 border-sidebar-border bg-transparent 
+             hover:bg-sidebar-accent hover:text-gray-900 hover:font-semibold 
+             transition-all duration-200"
+  title={isCollapsed ? "Développer le menu" : "Réduire le menu"}
+>
+  {isCollapsed ? (
+    <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:text-gray-900" />
+  ) : (
+    <ChevronLeft className="h-3.5 w-3.5 transition-transform group-hover:text-gray-900" />
+  )}
+  <span className="sr-only">{isCollapsed ? "Développer le menu" : "Réduire le menu"}</span>
+</Button>
+
         </div>
       )}
 
@@ -87,7 +90,7 @@ export function CustomerSidebar() {
                   "w-full justify-start gap-3 transition-all duration-200",
                   isCollapsed && !mobile && "justify-center px-2",
                   isActive && "bg-sidebar-accent text-sidebar-primary font-medium shadow-sm",
-                  !isActive && "hover:bg-sidebar-accent/50",
+                  !isActive && "hover:bg-sidebar-accent/50 hover:text-gray-800 hover:font-semibold",
                 )}
                 title={isCollapsed && !mobile ? item.label : undefined}
               >
@@ -104,7 +107,7 @@ export function CustomerSidebar() {
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-start gap-3 hover:bg-sidebar-accent/50 transition-all duration-200",
+              "w-full justify-start gap-3 hover:bg-sidebar-accent/50  transition-all duration-200",
               isCollapsed && !mobile && "justify-center px-2",
             )}
             title={isCollapsed && !mobile ? "Se déconnecter" : undefined}
@@ -120,21 +123,22 @@ export function CustomerSidebar() {
   return (
     <>
       {/* Mobile menu */}
-      <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
-        <SheetTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="fixed left-4 top-[4.5rem] z-50 md:hidden shadow-lg hover:shadow-xl transition-shadow duration-200 bg-background border-2"
-          >
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Ouvrir le menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-64 p-0 mt-16">
-          <SidebarContent mobile />
-        </SheetContent>
-      </Sheet>
+     <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
+  <SheetTrigger asChild>
+    <Button
+      variant="outline"
+      size="icon"
+      className="fixed left-4 top-[4.5rem] z-50 md:hidden shadow-lg hover:shadow-xl transition-shadow duration-200 bg-background border-2"
+    >
+      <Menu className="h-5 w-5 bottom-1.5" />
+      <span className="sr-only">Ouvrir le menu</span>
+    </Button>
+  </SheetTrigger>
+  <SheetContent side="left" className="w-64 p-0 mt-16">
+    <SidebarContent mobile />
+  </SheetContent>
+</Sheet>
+
 
       {/* Desktop sidebar */}
       <aside
