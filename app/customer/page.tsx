@@ -73,12 +73,12 @@ export default function CustomerDashboard() {
         {/* Recent Orders */}
         <Card>
           <CardHeader>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ">
               <div className="text-center sm:text-left">
                 <CardTitle>{t("customer.recentOrders")}</CardTitle>
                 <CardDescription>{t("customer.viewAll")}</CardDescription>
               </div>
-              <Button variant="outline" asChild>
+              <Button variant="outline" asChild className="bg-accent text-white">
                 <Link href="/customer/orders">{t("customer.viewAll")}</Link>
               </Button>
             </div>
