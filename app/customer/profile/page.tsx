@@ -154,7 +154,7 @@ export default function ProfilePage() {
       <div className="min-h-screen pb-20 md:pb-8">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+            {/* <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
               <Avatar className="h-20 w-20 border-4 border-background shadow-lg sm:h-24 sm:w-24">
                 <AvatarImage src="/professional-portrait.png" alt="John Doe" />
                 <AvatarFallback className="bg-primary text-primary-foreground text-xl font-semibold sm:text-2xl">
@@ -167,11 +167,27 @@ export default function ProfilePage() {
                 </h1>
                 <p className="text-muted-foreground mt-1 text-sm sm:text-base">{formData.email}</p>
               </div>
-            </div>
+            </div> */}
+<div className="flex flex-col items-center text-center gap-4 sm:flex-row sm:items-center sm:text-left sm:gap-6">
+  <Avatar className="h-20 w-20 border-4 border-background shadow-lg sm:h-24 sm:w-24">
+    <AvatarImage src="/professional-portrait.png" alt="John Doe" />
+    <AvatarFallback className="bg-primary text-primary-foreground text-xl font-semibold sm:text-2xl">
+      JD
+    </AvatarFallback>
+  </Avatar>
+  <div>
+    <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+      {formData.firstName} {formData.lastName}
+    </h1>
+    <p className="text-muted-foreground mt-1 text-sm sm:text-base">{formData.email}</p>
+  </div>
+</div>
+
+
 
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
               <DialogTrigger asChild>
-                <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700 sm:w-auto">
+                <Button size="lg" className="w-full bg-[oklch(0.55_0.15_35)] sm:w-auto">
                   {t("common.edit")} {t("customer.profile")}
                 </Button>
               </DialogTrigger>
@@ -325,7 +341,7 @@ export default function ProfilePage() {
                 <CardTitle className="text-lg sm:text-xl">{t("common.security")}</CardTitle>
                 <Dialog open={isPasswordDialogOpen} onOpenChange={setIsPasswordDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button variant="outline" size="sm" className="w-full sm:w-auto bg-transparent">
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto bg-accent text-white ">
                       <Lock className="mr-2 h-4 w-4" />
                       {t("customer.changePassword")}
                     </Button>
@@ -407,7 +423,7 @@ export default function ProfilePage() {
                   {t("customer.noOrders") || "Vous n'avez pas encore passé de commande"}
                 </p>
                 <Link href="/customer/orders">
-                  <Button variant="outline" className="w-full bg-transparent sm:w-auto">
+                  <Button variant="outline" className="w-full bg-accent text-white sm:w-auto">
                     {t("customer.viewAllOrders")}
                   </Button>
                 </Link>
@@ -421,7 +437,7 @@ export default function ProfilePage() {
                   {t("customer.reviews")}
                 </CardTitle>
                 <Link href="/customer/reviews">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 sm:w-auto">{t("customer.addReview")}</Button>
+                  <Button className="w-full bg-[oklch(0.55_0.15_35)]  sm:w-auto">{t("customer.addReview")}</Button>
                 </Link>
               </CardHeader>
               <CardContent>

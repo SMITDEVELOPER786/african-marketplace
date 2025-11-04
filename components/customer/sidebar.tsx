@@ -56,20 +56,20 @@ export function CustomerSidebar() {
   const SidebarContent = ({ mobile = false }: { mobile?: boolean }) => (
     <div className="flex h-full flex-col bg-sidebar">
       {!mobile && (
-        <div className="flex h-10 items-center justify-end border-b border-sidebar-border px-4 py-1">
+        <div className="flex h-10 items-center justify-end border-b border-sidebar-border px-4 py-3 pb-6 pt-6.5">
         <Button
   variant="outline"
   size="icon"
   onClick={toggleCollapsed}
   className="h-7 w-7 border-sidebar-border bg-transparent 
              hover:bg-sidebar-accent hover:text-gray-900 hover:font-semibold 
-             transition-all duration-200"
+             transition-all duration-20 "
   title={isCollapsed ? "Développer le menu" : "Réduire le menu"}
 >
   {isCollapsed ? (
     <ChevronRight className="h-3.5 w-3.5 transition-transform " />
   ) : (
-    <ChevronLeft className="h-3.5 w-3.5 transition-transform group-hover:text-gray-900" />
+    <ChevronLeft className="h-3.5 w-3.5 transition-transform group-hover:text-gray-900   " />
   )}
   <span className="sr-only">{isCollapsed ? "Développer le menu" : "Réduire le menu"}</span>
 </Button>
@@ -77,7 +77,7 @@ export function CustomerSidebar() {
         </div>
       )}
 
-      <nav className="flex-1 space-y-1 overflow-y-auto p-2 pt-2">
+      <nav className="flex-1 space-y-1 overflow-y-auto p-2 pt-2 ">
         {menuItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href
@@ -87,10 +87,10 @@ export function CustomerSidebar() {
               <Button
                 variant={isActive ? "secondary" : "ghost"}
                 className={cn(
-                  "w-full justify-start gap-3 transition-all duration-200",
+                  "w-full justify-start gap-3 transition-all duration-200  ",
                   isCollapsed && !mobile && "justify-center px-2",
                   isActive && "bg-sidebar-accent text-sidebar-primary font-medium shadow-sm",
-                  !isActive && "hover:bg-sidebar-accent/50 hover:text-gray-800 hover:font-semibold",
+                  !isActive && "hover:text-white hover:font-semibold",
                 )}
                 title={isCollapsed && !mobile ? item.label : undefined}
               >
@@ -107,7 +107,7 @@ export function CustomerSidebar() {
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-start gap-3 hover:bg-sidebar-accent/50  transition-all duration-200",
+              "w-full justify-start gap-3 hover:bg-sidebar-accent transition-all duration-200 ",
               isCollapsed && !mobile && "justify-center px-2",
             )}
             title={isCollapsed && !mobile ? "Se déconnecter" : undefined}
@@ -143,7 +143,7 @@ export function CustomerSidebar() {
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-16 bottom-0 z-40 hidden border-r border-sidebar-border bg-sidebar shadow-sm transition-all duration-300 md:block",
+          "fixed left-0 top-16 bottom-0 z-40 hidden border-r border-sidebar-border bg-sidebar shadow-sm transition-all duration-300 md:block  ",
           isCollapsed ? "w-16" : "w-64",
         )}
       >
