@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahier des Charges - AfroMarket</title>
+    <style>
+        @page {
+            margin: 2.5cm;
+        }
+        
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 2cm;
+            background: white;
+        }
+        
+        .cover-page {
+            text-align: center;
+            padding: 5cm 0;
+            page-break-after: always;
+        }
+        
+        .cover-page h1 {
+            font-size: 48px;
+            color: #B8621B;
+            margin-bottom: 1cm;
+            font-weight: bold;
+        }
+        
+        .cover-page .subtitle {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 2cm;
+        }
+        
+        .cover-page .logo {
+            width: 150px;
+            height: 150px;
+            background: #B8621B;
+            border-radius: 50%;
+            margin: 0 auto 2cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 72px;
+            font-weight: bold;
+        }
+        
+        .cover-page .info {
+            margin-top: 3cm;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        h1 {
+            color: #B8621B;
+            font-size: 32px;
+            margin-top: 2cm;
+            margin-bottom: 1cm;
+            border-bottom: 3px solid #B8621B;
+            padding-bottom: 0.5cm;
+            page-break-before: always;
+        }
+        
+        h2 {
+            color: #B8621B;
+            font-size: 24px;
+            margin-top: 1.5cm;
+            margin-bottom: 0.5cm;
+        }
+        
+        h3 {
+            color: #333;
+            font-size: 18px;
+            margin-top: 1cm;
+            margin-bottom: 0.3cm;
+        }
+        
+        .toc {
+            page-break-after: always;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc li {
+            margin: 0.5cm 0;
+            padding-left: 1cm;
+        }
+        
+        .toc a {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            color: #B8621B;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1cm 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #B8621B;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .screenshot {
+            width: 100%;
+            max-width: 800px;
+            margin: 1cm auto;
+            display: block;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .feature-box {
+            background: #f5f5f5;
+            border-left: 4px solid #B8621B;
+            padding: 1cm;
+            margin: 0.5cm 0;
+        }
+        
+        .important {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 0.5cm;
+            margin: 0.5cm 0;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5cm;
+            margin: 1cm 0;
+        }
+        
+        .tech-item {
+            background: #f5f5f5;
+            padding: 0.5cm;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        ul, ol {
+            margin: 0.5cm 0;
+            padding-left: 1.5cm;
+        }
+        
+        li {
+            margin: 0.3cm 0;
+        }
+        
+        .page-break {
+            page-break-after: always;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page de couverture -->
+    <div class="cover-page">
+        <div class="logo">A</div>
+        <h1>AfroMarket</h1>
+        <div class="subtitle">Cahier des Charges Technique</div>
+        <div class="subtitle">Plateforme N°1 des produits africains dans le monde</div>
+        <div class="info">
+            <p><strong>Version:</strong> 1.0</p>
+            <p><strong>Date:</strong> Janvier 2025</p>
+            <p><strong>Statut:</strong> Document de spécifications</p>
+        </div>
+    </div>
+
+    <!-- Table des matières -->
+    <div class="toc">
+        <h1>Table des Matières</h1>
+        <ul>
+            <li><a href="#introduction">1. Introduction</a></li>
+            <li><a href="#contexte">2. Contexte et Objectifs</a></li>
+            <li><a href="#perimetre">3. Périmètre Fonctionnel</a></li>
+            <li><a href="#specifications">4. Spécifications Fonctionnelles</a></li>
+            <li><a href="#architecture">5. Architecture Technique</a></li>
+            <li><a href="#interfaces">6. Interfaces et Maquettes</a></li>
+            <li><a href="#securite">7. Sécurité et Performance</a></li>
+            <li><a href="#planning">8. Planning et Livrables</a></li>
+            <li><a href="#annexes">9. Annexes</a></li>
+        </ul>
+    </div>
+
+    <!-- 1. Introduction -->
+    <h1 id="introduction">1. Introduction</h1>
+    
+    <h2>1.1 Présentation du Projet</h2>
+    <p>
+        <strong>AfroMarket</strong> est une plateforme marketplace innovante dédiée à la promotion et à la vente de produits africains authentiques à travers le monde. L'application connecte les commerçants africains avec une clientèle internationale en Europe, aux États-Unis et au Canada.
+    </p>
+    
+    <h2>1.2 Vision</h2>
+    <p>
+        Devenir la plateforme de référence mondiale pour la découverte, l'achat et la livraison de produits africains authentiques, tout en valorisant le patrimoine culturel et gastronomique africain.
+    </p>
+    
+    <h2>1.3 Objectifs Stratégiques</h2>
+    <ul>
+        <li>Faciliter l'accès aux produits africains authentiques pour la diaspora et les amateurs de culture africaine</li>
+        <li>Offrir une vitrine digitale aux commerçants et restaurants africains</li>
+        <li>Créer une communauté engagée autour de la culture africaine</li>
+        <li>Générer des revenus durables pour les commerçants partenaires</li>
+    </ul>
+
+    <!-- 2. Contexte et Objectifs -->
+    <h1 id="contexte">2. Contexte et Objectifs</h1>
+    
+    <h2>2.1 Contexte du Marché</h2>
+    <p>
+        Le marché des produits africains en Europe et en Amérique du Nord connaît une croissance significative, portée par :
+    </p>
+    <ul>
+        <li>Une diaspora africaine en expansion (plus de 10 millions de personnes en Europe)</li>
+        <li>Un intérêt croissant pour les cuisines du monde et les produits authentiques</li>
+        <li>Une demande pour des plateformes digitales facilitant l'accès à ces produits</li>
+        <li>Un besoin de visibilité pour les commerçants africains</li>
+    </ul>
+    
+    <h2>2.2 Problématiques Identifiées</h2>
+    <div class="feature-box">
+        <h3>Pour les Clients</h3>
+        <ul>
+            <li>Difficulté à trouver des produits africains authentiques</li>
+            <li>Manque d'informations sur les commerces et restaurants africains locaux</li>
+            <li>Absence de plateforme centralisée pour la recherche et la réservation</li>
+        </ul>
+    </div>
+    
+    <div class="feature-box">
+        <h3>Pour les Commerçants</h3>
+        <ul>
+            <li>Visibilité limitée auprès de la clientèle cible</li>
+            <li>Coûts élevés de marketing et de publicité</li>
+            <li>Gestion manuelle des réservations et commandes</li>
+            <li>Absence d'outils digitaux adaptés</li>
+        </ul>
+    </div>
+    
+    <h2>2.3 Solutions Apportées</h2>
+    <p>
+        AfroMarket répond à ces problématiques en proposant :
+    </p>
+    <ul>
+        <li>Une plateforme de recherche avancée avec filtres géographiques et catégoriels</li>
+        <li>Un système de réservation en ligne pour les restaurants</li>
+        <li>Des profils détaillés pour chaque commerce avec photos, descriptions et avis</li>
+        <li>Un système de favoris et de recommandations personnalisées</li>
+        <li>Une interface multilingue (7 langues supportées)</li>
+        <li>Un design responsive optimisé pour mobile</li>
+    </ul>
+
+    <!-- 3. Périmètre Fonctionnel -->
+    <h1 id="perimetre">3. Périmètre Fonctionnel</h1>
+    
+    <h2>3.1 Utilisateurs Cibles</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Type d'Utilisateur</th>
+                <th>Description</th>
+                <th>Besoins Principaux</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Clients</strong></td>
+                <td>Particuliers recherchant des produits africains</td>
+                <td>Recherche, réservation, favoris, avis</td>
+            </tr>
+            <tr>
+                <td><strong>Commerçants</strong></td>
+                <td>Propriétaires de magasins de produits africains</td>
+                <td>Gestion catalogue, commandes, statistiques</td>
+            </tr>
+            <tr>
+                <td><strong>Restaurateurs</strong></td>
+                <td>Propriétaires de restaurants africains</td>
+                <td>Gestion menu, réservations, avis clients</td>
+            </tr>
+            <tr>
+                <td><strong>Administrateurs</strong></td>
+                <td>Équipe de gestion de la plateforme</td>
+                <td>Modération, statistiques, support</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>3.2 Zones Géographiques Couvertes</h2>
+    <div class="feature-box">
+        <h3>Europe</h3>
+        <p>France, Allemagne, Royaume-Uni, Belgique, Pays-Bas, Italie, Espagne</p>
+        
+        <h3>Amérique du Nord</h3>
+        <p>États-Unis (New York, Los Angeles, Chicago, Houston, Atlanta), Canada (Toronto, Montréal, Vancouver)</p>
+    </div>
+
+    <!-- 4. Spécifications Fonctionnelles -->
+    <h1 id="specifications">4. Spécifications Fonctionnelles Détaillées</h1>
+    
+    <h2>4.1 Module de Recherche</h2>
+    
+    <h3>4.1.1 Recherche Avancée</h3>
+    <div class="feature-box">
+        <h4>Fonctionnalités</h4>
+        <ul>
+            <li><strong>Barre de recherche intelligente</strong> avec suggestions en temps réel</li>
+            <li><strong>Filtres multiples :</strong>
+                <ul>
+                    <li>Pays et villes (avec compteurs de résultats)</li>
+                    <li>Catégories de produits (épices, tissus, cosmétiques, etc.)</li>
+                    <li>Type d'établissement (magasin, restaurant)</li>
+                    <li>Statut (ouvert maintenant, fermé)</li>
+                    <li>Note minimale (1 à 5 étoiles)</li>
+                    <li>Distance (rayon en km)</li>
+                    <li>Fourchette de prix</li>
+                </ul>
+            </li>
+            <li><strong>Tri des résultats :</strong> Pertinence, Note, Distance, Prix, Nouveauté</li>
+            <li><strong>Modes d'affichage :</strong> Grille, Liste, Carte</li>
+            <li><strong>Pagination :</strong> 12 résultats par page</li>
+        </ul>
+    </div>
+    
+    <h3>4.1.2 Sélection de Localisation</h3>
+    <div class="feature-box">
+        <h4>Fonctionnalités</h4>
+        <ul>
+            <li>Sélecteur de pays avec drapeaux</li>
+            <li>Liste des villes principales par pays</li>
+            <li>Sauvegarde de la localisation préférée (localStorage)</li>
+            <li>Détection automatique de la localisation (optionnelle)</li>
+        </ul>
+    </div>
+    
+    <h2>4.2 Module de Réservation</h2>
+    
+    <h3>4.2.1 Création de Réservation</h3>
+    <div class="feature-box">
+        <h4>Informations Requises</h4>
+        <ul>
+            <li>Restaurant sélectionné</li>
+            <li>Date et heure de réservation</li>
+            <li>Nombre de personnes (1-20)</li>
+            <li>Coordonnées du client (nom, téléphone, email)</li>
+            <li>Demandes spéciales (optionnel)</li>
+        </ul>
+        
+        <h4>Validation</h4>
+        <ul>
+            <li>Vérification de la disponibilité en temps réel</li>
+            <li>Confirmation par email et SMS</li>
+            <li>Génération d'un code de réservation unique</li>
+        </ul>
+    </div>
+    
+    <h3>4.2.2 Gestion des Réservations</h3>
+    <div class="feature-box">
+        <h4>Fonctionnalités Client</h4>
+        <ul>
+            <li><strong>Consultation :</strong> Liste des réservations (en cours, historique)</li>
+            <li><strong>Modification :</strong> Date, heure, nombre de personnes</li>
+            <li><strong>Annulation :</strong> Avec raison et conditions d'annulation</li>
+            <li><strong>Téléchargement PDF :</strong> Confirmation de réservation avec QR code</li>
+            <li><strong>Ajout au calendrier :</strong> Export au format .ics</li>
+            <li><strong>Rappel WhatsApp :</strong> Notification programmable (1h à 48h avant)</li>
+        </ul>
+    </div>
+    
+    <h2>4.3 Module de Profil Client</h2>
+    
+    <h3>4.3.1 Informations Personnelles</h3>
+    <div class="feature-box">
+        <ul>
+            <li>Photo de profil</li>
+            <li>Nom complet</li>
+            <li>Email (avec vérification)</li>
+            <li>Téléphone</li>
+            <li>Adresse de livraison</li>
+            <li>Préférences de langue</li>
+        </ul>
+    </div>
+    
+    <h3>4.3.2 Activités</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Favoris :</strong> Liste des commerces et restaurants favoris</li>
+            <li><strong>Commandes :</strong> Historique des achats</li>
+            <li><strong>Réservations :</strong> Historique et réservations actives</li>
+            <li><strong>Avis :</strong> Commentaires et notes laissés</li>
+        </ul>
+    </div>
+    
+    <h2>4.4 Module de Profil Commerçant</h2>
+    
+    <h3>4.4.1 Gestion du Commerce</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Informations générales :</strong> Nom, description, adresse, horaires</li>
+            <li><strong>Catalogue produits :</strong> Ajout, modification, suppression</li>
+            <li><strong>Photos :</strong> Galerie d'images du commerce et des produits</li>
+            <li><strong>Catégories :</strong> Classification des produits</li>
+            <li><strong>Prix et promotions :</strong> Gestion des tarifs et offres spéciales</li>
+        </ul>
+    </div>
+    
+    <h3>4.4.2 Gestion des Commandes</h3>
+    <div class="feature-box">
+        <ul>
+            <li>Réception des commandes en temps réel</li>
+            <li>Statuts : Nouvelle, En préparation, Prête, Livrée, Annulée</li>
+            <li>Notifications push et email</li>
+            <li>Historique complet</li>
+        </ul>
+    </div>
+    
+    <h2>4.5 Module de Profil Restaurant</h2>
+    
+    <h3>4.5.1 Gestion du Menu</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Catégories :</strong> Entrées, Plats, Desserts, Boissons</li>
+            <li><strong>Plats :</strong> Nom, description, prix, allergènes, photo</li>
+            <li><strong>Disponibilité :</strong> Gestion en temps réel</li>
+            <li><strong>Menus spéciaux :</strong> Menu du jour, menu dégustation</li>
+        </ul>
+    </div>
+    
+    <h3>4.5.2 Gestion des Réservations</h3>
+    <div class="feature-box">
+        <ul>
+            <li>Calendrier des réservations</li>
+            <li>Configuration des créneaux horaires</li>
+            <li>Capacité par créneau</li>
+            <li>Validation/refus des réservations</li>
+            <li>Gestion des listes d'attente</li>
+        </ul>
+    </div>
+    
+    <h2>4.6 Module Multilingue</h2>
+    
+    <h3>4.6.1 Langues Supportées</h3>
+    <div class="tech-stack">
+        <div class="tech-item">🇫🇷 Français</div>
+        <div class="tech-item">🇬🇧 Anglais</div>
+        <div class="tech-item">🇩🇪 Allemand</div>
+        <div class="tech-item">🇪🇸 Espagnol</div>
+        <div class="tech-item">🇮🇹 Italien</div>
+        <div class="tech-item">🇵🇹 Portugais</div>
+        <div class="tech-item">🇳🇱 Néerlandais</div>
+    </div>
+    
+    <h3>4.6.2 Fonctionnalités</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Détection automatique :</strong> Langue du navigateur au premier chargement</li>
+            <li><strong>Sélecteur visible :</strong> Dropdown avec drapeaux dans le header</li>
+            <li><strong>Traduction complète :</strong> Interface, messages, emails</li>
+            <li><strong>Traduction des contenus :</strong> Descriptions, menus (via API)</li>
+            <li><strong>Persistance :</strong> Sauvegarde de la préférence utilisateur</li>
+        </ul>
+    </div>
+    
+    <h2>4.7 Module d'Aide</h2>
+    
+    <h3>4.7.1 Guides d'Utilisation</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Pour les clients :</strong> Comment rechercher, réserver, commander</li>
+            <li><strong>Pour les commerçants :</strong> Comment créer un profil, gérer le catalogue</li>
+            <li><strong>Pour les restaurants :</strong> Comment gérer les réservations, le menu</li>
+        </ul>
+    </div>
+    
+    <h3>4.7.2 FAQ</h3>
+    <div class="feature-box">
+        <ul>
+            <li>Questions fréquentes par catégorie</li>
+            <li>Recherche dans la FAQ</li>
+            <li>Réponses détaillées avec captures d'écran</li>
+        </ul>
+    </div>
+    
+    <h3>4.7.3 Tutoriels Vidéo</h3>
+    <div class="feature-box">
+        <ul>
+            <li>Vidéos explicatives pour chaque fonctionnalité</li>
+            <li>Sous-titres multilingues</li>
+            <li>Durée : 2-5 minutes par vidéo</li>
+        </ul>
+    </div>
+
+    <!-- 5. Architecture Technique -->
+    <h1 id="architecture">5. Architecture Technique</h1>
+    
+    <h2>5.1 Stack Technologique</h2>
+    
+    <h3>5.1.1 Frontend</h3>
+    <div class="tech-stack">
+        <div class="tech-item">
+            <strong>Next.js 16</strong><br>
+            Framework React
+        </div>
+        <div class="tech-item">
+            <strong>React 19.2</strong><br>
+            Bibliothèque UI
+        </div>
+        <div class="tech-item">
+            <strong>TypeScript</strong><br>
+            Typage statique
+        </div>
+        <div class="tech-item">
+            <strong>Tailwind CSS v4</strong><br>
+            Framework CSS
+        </div>
+        <div class="tech-item">
+            <strong>shadcn/ui</strong><br>
+            Composants UI
+        </div>
+        <div class="tech-item">
+            <strong>Recharts</strong><br>
+            Graphiques
+        </div>
+    </div>
+    
+    <h3>5.1.2 Backend</h3>
+    <div class="tech-stack">
+        <div class="tech-item">
+            <strong>Next.js API Routes</strong><br>
+            API REST
+        </div>
+        <div class="tech-item">
+            <strong>Server Actions</strong><br>
+            Mutations serveur
+        </div>
+        <div class="tech-item">
+            <strong>Supabase</strong><br>
+            Base de données
+        </div>
+    </div>
+    
+    <h3>5.1.3 Base de Données</h3>
+    <div class="feature-box">
+        <h4>Supabase (PostgreSQL)</h4>
+        <ul>
+            <li><strong>Tables principales :</strong>
+                <ul>
+                    <li>users (clients, commerçants, restaurants)</li>
+                    <li>businesses (commerces et restaurants)</li>
+                    <li>products (catalogue produits)</li>
+                    <li>menus (plats et menus restaurants)</li>
+                    <li>reservations (réservations restaurants)</li>
+                    <li>orders (commandes)</li>
+                    <li>reviews (avis clients)</li>
+                    <li>favorites (favoris utilisateurs)</li>
+                </ul>
+            </li>
+            <li><strong>Authentification :</strong> Supabase Auth (email/password)</li>
+            <li><strong>Stockage :</strong> Supabase Storage (images, documents)</li>
+            <li><strong>Sécurité :</strong> Row Level Security (RLS)</li>
+        </ul>
+    </div>
+    
+    <h2>5.2 Architecture de l'Application</h2>
+    
+    <h3>5.2.1 Structure des Dossiers</h3>
+    <div class="feature-box">
+        <pre>
+afromarket/
+├── app/                      # Pages Next.js (App Router)
+│   ├── page.tsx             # Page d'accueil
+│   ├── about/               # Page À propos
+│   ├── help/                # Page Aide
+│   ├── search/
+│   │   └── results/         # Résultats de recherche
+│   ├── customer/
+│   │   ├── profile/         # Profil client
+│   │   ├── reservations/    # Réservations client
+│   │   └── orders/          # Commandes client
+│   ├── merchant/
+│   │   ├── profile/         # Profil commerçant
+│   │   ├── products/        # Gestion produits
+│   │   └── orders/          # Gestion commandes
+│   └── restaurant/
+│       ├── profile/         # Profil restaurant
+│       ├── menu/            # Gestion menu
+│       └── reservations/    # Gestion réservations
+├── components/              # Composants réutilisables
+│   ├── ui/                  # Composants shadcn/ui
+│   ├── marketplace/         # Composants métier
+│   └── language-selector.tsx
+├── lib/                     # Utilitaires
+│   ├── i18n-context.tsx    # Système de traduction
+│   └── supabase/           # Client Supabase
+├── utils/                   # Fonctions utilitaires
+│   ├── addToCalendar.ts
+│   └── translate-content.ts
+└── public/                  # Assets statiques
+        </pre>
+    </div>
+    
+    <h3>5.2.2 Patterns et Bonnes Pratiques</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Server Components :</strong> Par défaut pour les pages</li>
+            <li><strong>Client Components :</strong> Uniquement pour l'interactivité</li>
+            <li><strong>Server Actions :</strong> Pour les mutations de données</li>
+            <li><strong>SWR :</strong> Pour le cache et la synchronisation client</li>
+            <li><strong>TypeScript strict :</strong> Typage complet</li>
+            <li><strong>Responsive Design :</strong> Mobile-first</li>
+            <li><strong>Accessibilité :</strong> ARIA, semantic HTML</li>
+        </ul>
+    </div>
+    
+    <h2>5.3 Sécurité</h2>
+    
+    <h3>5.3.1 Authentification</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Supabase Auth :</strong> Gestion des sessions</li>
+            <li><strong>JWT Tokens :</strong> Authentification stateless</li>
+            <li><strong>Refresh Tokens :</strong> Renouvellement automatique</li>
+            <li><strong>Middleware :</strong> Protection des routes</li>
+        </ul>
+    </div>
+    
+    <h3>5.3.2 Autorisation</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Row Level Security (RLS) :</strong> Contrôle d'accès au niveau base de données</li>
+            <li><strong>Rôles utilisateurs :</strong> Client, Commerçant, Restaurant, Admin</li>
+            <li><strong>Permissions granulaires :</strong> Par ressource et action</li>
+        </ul>
+    </div>
+    
+    <h3>5.3.3 Protection des Données</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Validation des entrées :</strong> Côté client et serveur</li>
+            <li><strong>Sanitization :</strong> Nettoyage des données utilisateur</li>
+            <li><strong>HTTPS :</strong> Chiffrement des communications</li>
+            <li><strong>CORS :</strong> Configuration stricte</li>
+            <li><strong>Rate Limiting :</strong> Protection contre les abus</li>
+        </ul>
+    </div>
+    
+    <h2>5.4 Performance</h2>
+    
+    <h3>5.4.1 Optimisations Frontend</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Code Splitting :</strong> Chargement à la demande</li>
+            <li><strong>Lazy Loading :</strong> Images et composants</li>
+            <li><strong>Memoization :</strong> useMemo, useCallback</li>
+            <li><strong>Debouncing :</strong> Recherche et filtres</li>
+            <li><strong>Image Optimization :</strong> Next.js Image</li>
+        </ul>
+    </div>
+    
+    <h3>5.4.2 Optimisations Backend</h3>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Caching :</strong> SWR, React Query</li>
+            <li><strong>Indexation :</strong> Base de données</li>
+            <li><strong>Pagination :</strong> Limitation des résultats</li>
+            <li><strong>CDN :</strong> Vercel Edge Network</li>
+        </ul>
+    </div>
+
+    <!-- 6. Interfaces et Maquettes -->
+    <h1 id="interfaces">6. Interfaces et Maquettes</h1>
+    
+    <h2>6.1 Page d'Accueil</h2>
+    <div class="feature-box">
+        <h3>Éléments Principaux</h3>
+        <ul>
+            <li><strong>Header :</strong> Logo, sélecteur de langue, compte utilisateur</li>
+            <li><strong>Navigation :</strong> Accueil, Commerces, Restaurants, À propos, Aide</li>
+            <li><strong>Hero Section :</strong> Badge "Plateforme N°1", slogan, barre de recherche</li>
+            <li><strong>Catégories Populaires :</strong> Grille de 4-8 catégories avec images</li>
+            <li><strong>Commerces les Mieux Notés :</strong> Carrousel de cartes</li>
+            <li><strong>Commerces Vedettes :</strong> Mise en avant des partenaires premium</li>
+            <li><strong>Statistiques :</strong> Compteurs animés (utilisateurs, commerces, produits)</li>
+            <li><strong>CTA Inscription :</strong> Bouton pour les non-inscrits</li>
+            <li><strong>Footer :</strong> Liens, réseaux sociaux, newsletter</li>
+        </ul>
+    </div>
+    
+    <h2>6.2 Page de Résultats de Recherche</h2>
+    <div class="feature-box">
+        <h3>Éléments Principaux</h3>
+        <ul>
+            <li><strong>Header + Navigation :</strong> Sticky</li>
+            <li><strong>Barre de recherche :</strong> Avec bouton de lancement</li>
+            <li><strong>Titre :</strong> "Résultats de recherche" + nombre de résultats</li>
+            <li><strong>Contrôles :</strong> Tri (dropdown) + Modes d'affichage (grille/liste/carte)</li>
+            <li><strong>Sidebar Filtres :</strong>
+                <ul>
+                    <li>Type d'annonce (avec compteurs)</li>
+                    <li>Pays (avec compteurs)</li>
+                    <li>Villes (avec compteurs)</li>
+                    <li>Catégories (avec compteurs)</li>
+                    <li>Prix</li>
+                    <li>Distance</li>
+                    <li>Note</li>
+                    <li>Statut</li>
+                </ul>
+            </li>
+            <li><strong>Grille de résultats :</strong> Cartes avec image, nom, note, description, bouton favori</li>
+            <li><strong>Pagination :</strong> En bas de page</li>
+            <li><strong>Footer</strong></li>
+        </ul>
+    </div>
+    
+    <h2>6.3 Page de Profil Client</h2>
+    <div class="feature-box">
+        <h3>Sections</h3>
+        <ul>
+            <li><strong>Informations personnelles :</strong> Photo, nom, email, téléphone, adresse</li>
+            <li><strong>Statistiques :</strong> Commandes, réservations, avis, favoris</li>
+            <li><strong>Onglets :</strong>
+                <ul>
+                    <li>Favoris (commerces et restaurants)</li>
+                    <li>Commandes (historique)</li>
+                    <li>Réservations (actives et passées)</li>
+                    <li>Avis (commentaires laissés)</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    <h2>6.4 Page de Réservations</h2>
+    <div class="feature-box">
+        <h3>Éléments Principaux</h3>
+        <ul>
+            <li><strong>Titre :</strong> "Gérez vos réservations de restaurants"</li>
+            <li><strong>Bouton :</strong> "Nouvelle réservation"</li>
+            <li><strong>Onglets :</strong> En cours, Historique</li>
+            <li><strong>Cartes de réservation :</strong>
+                <ul>
+                    <li>Nom du restaurant + adresse</li>
+                    <li>Badge de statut (Confirmée, En attente, Annulée)</li>
+                    <li>Date, heure, nombre de personnes, téléphone</li>
+                    <li>Boutons : Modifier, Annuler</li>
+                    <li>Boutons : PDF, Calendrier, Rappel WhatsApp</li>
+                </ul>
+            </li>
+            <li><strong>Pagination</strong></li>
+        </ul>
+    </div>
+    
+    <h2>6.5 Page À Propos</h2>
+    <div class="feature-box">
+        <h3>Sections</h3>
+        <ul>
+            <li><strong>Hero :</strong> Titre, description, image</li>
+            <li><strong>Notre Mission :</strong> Texte + image</li>
+            <li><strong>Notre Histoire :</strong> Timeline</li>
+            <li><strong>Nos Valeurs :</strong> Grille de cartes</li>
+            <li><strong>L'Équipe :</strong> Photos et descriptions</li>
+            <li><strong>Statistiques :</strong> Chiffres clés</li>
+        </ul>
+    </div>
+    
+    <h2>6.6 Page Aide</h2>
+    <div class="feature-box">
+        <h3>Sections</h3>
+        <ul>
+            <li><strong>Barre de recherche :</strong> Recherche dans l'aide</li>
+            <li><strong>Catégories :</strong> Pour clients, commerçants, restaurants</li>
+            <li><strong>Guides :</strong> Tutoriels étape par étape avec captures d'écran</li>
+            <li><strong>FAQ :</strong> Questions/réponses par catégorie</li>
+            <li><strong>Vidéos :</strong> Tutoriels vidéo</li>
+            <li><strong>Contact :</strong> Formulaire de support</li>
+        </ul>
+    </div>
+
+    <!-- 7. Sécurité et Performance -->
+    <h1 id="securite">7. Exigences Non Fonctionnelles</h1>
+    
+    <h2>7.1 Performance</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Métrique</th>
+                <th>Objectif</th>
+                <th>Mesure</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Temps de chargement initial</td>
+                <td>&lt; 2 secondes</td>
+                <td>Lighthouse Performance Score &gt; 90</td>
+            </tr>
+            <tr>
+                <td>First Contentful Paint (FCP)</td>
+                <td>&lt; 1.5 secondes</td>
+                <td>Core Web Vitals</td>
+            </tr>
+            <tr>
+                <td>Largest Contentful Paint (LCP)</td>
+                <td>&lt; 2.5 secondes</td>
+                <td>Core Web Vitals</td>
+            </tr>
+            <tr>
+                <td>Cumulative Layout Shift (CLS)</td>
+                <td>&lt; 0.1</td>
+                <td>Core Web Vitals</td>
+            </tr>
+            <tr>
+                <td>Time to Interactive (TTI)</td>
+                <td>&lt; 3 secondes</td>
+                <td>Lighthouse</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>7.2 Accessibilité</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>WCAG 2.1 Level AA :</strong> Conformité complète</li>
+            <li><strong>Navigation au clavier :</strong> Tous les éléments accessibles</li>
+            <li><strong>Lecteurs d'écran :</strong> ARIA labels, semantic HTML</li>
+            <li><strong>Contraste :</strong> Ratio minimum 4.5:1</li>
+            <li><strong>Taille de police :</strong> Minimum 16px pour le corps de texte</li>
+            <li><strong>Focus visible :</strong> Indicateurs clairs</li>
+        </ul>
+    </div>
+    
+    <h2>7.3 Compatibilité</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Plateforme</th>
+                <th>Versions Supportées</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Navigateurs Desktop</strong></td>
+                <td>Chrome 90+, Firefox 88+, Safari 14+, Edge 90+</td>
+            </tr>
+            <tr>
+                <td><strong>Navigateurs Mobile</strong></td>
+                <td>Chrome Mobile, Safari iOS 14+, Samsung Internet</td>
+            </tr>
+            <tr>
+                <td><strong>Résolutions</strong></td>
+                <td>320px (mobile) à 2560px (desktop)</td>
+            </tr>
+            <tr>
+                <td><strong>Systèmes d'exploitation</strong></td>
+                <td>Windows 10+, macOS 11+, iOS 14+, Android 10+</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>7.4 Scalabilité</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Utilisateurs simultanés :</strong> 10,000+</li>
+            <li><strong>Commerces :</strong> 50,000+</li>
+            <li><strong>Produits :</strong> 500,000+</li>
+            <li><strong>Réservations/jour :</strong> 10,000+</li>
+            <li><strong>Temps de réponse API :</strong> &lt; 200ms (p95)</li>
+        </ul>
+    </div>
+    
+    <h2>7.5 Disponibilité</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Uptime :</strong> 99.9% (SLA)</li>
+            <li><strong>Maintenance :</strong> Fenêtres planifiées hors heures de pointe</li>
+            <li><strong>Backup :</strong> Quotidien avec rétention 30 jours</li>
+            <li><strong>Disaster Recovery :</strong> RTO &lt; 4h, RPO &lt; 1h</li>
+        </ul>
+    </div>
+
+    <!-- 8. Planning et Livrables -->
+    <h1 id="planning">8. Planning et Livrables</h1>
+    
+    <h2>8.1 Phases du Projet</h2>
+    
+    <h3>Phase 1 : MVP (Minimum Viable Product) - 8 semaines</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Semaine</th>
+                <th>Livrables</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1-2</td>
+                <td>
+                    - Architecture technique<br>
+                    - Setup projet<br>
+                    - Design system
+                </td>
+                <td>✅ Complété</td>
+            </tr>
+            <tr>
+                <td>3-4</td>
+                <td>
+                    - Page d'accueil<br>
+                    - Système de recherche<br>
+                    - Page de résultats
+                </td>
+                <td>✅ Complété</td>
+            </tr>
+            <tr>
+                <td>5-6</td>
+                <td>
+                    - Authentification<br>
+                    - Profils utilisateurs<br>
+                    - Module de réservation
+                </td>
+                <td>✅ Complété</td>
+            </tr>
+            <tr>
+                <td>7-8</td>
+                <td>
+                    - Système multilingue<br>
+                    - Pages Aide et À propos<br>
+                    - Tests et corrections
+                </td>
+                <td>✅ Complété</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3>Phase 2 : Fonctionnalités Avancées - 6 semaines</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Semaine</th>
+                <th>Livrables</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>9-10</td>
+                <td>
+                    - Profil commerçant complet<br>
+                    - Gestion catalogue produits<br>
+                    - Gestion commandes
+                </td>
+                <td>🔄 En cours</td>
+            </tr>
+            <tr>
+                <td>11-12</td>
+                <td>
+                    - Profil restaurant complet<br>
+                    - Gestion menu<br>
+                    - Gestion réservations avancée
+                </td>
+                <td>📅 Planifié</td>
+            </tr>
+            <tr>
+                <td>13-14</td>
+                <td>
+                    - Système de paiement<br>
+                    - Notifications (email, SMS, WhatsApp)<br>
+                    - Tableau de bord admin
+                </td>
+                <td>📅 Planifié</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3>Phase 3 : Optimisation et Lancement - 4 semaines</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Semaine</th>
+                <th>Livrables</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>15-16</td>
+                <td>
+                    - Tests de charge<br>
+                    - Optimisations performance<br>
+                    - Audit sécurité
+                </td>
+                <td>📅 Planifié</td>
+            </tr>
+            <tr>
+                <td>17-18</td>
+                <td>
+                    - Beta testing<br>
+                    - Corrections bugs<br>
+                    - Documentation<br>
+                    - Lancement production
+                </td>
+                <td>📅 Planifié</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>8.2 Équipe Projet</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Rôle</th>
+                <th>Responsabilités</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Chef de Projet</strong></td>
+                <td>Coordination, planning, suivi</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><strong>Développeurs Full-Stack</strong></td>
+                <td>Développement frontend et backend</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><strong>Designer UI/UX</strong></td>
+                <td>Maquettes, design system, UX</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><strong>QA Engineer</strong></td>
+                <td>Tests, validation, qualité</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><strong>DevOps</strong></td>
+                <td>Infrastructure, déploiement, monitoring</td>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>8.3 Budget Estimatif</h2>
+    <div class="important">
+        <strong>Note :</strong> Les coûts ci-dessous sont des estimations indicatives et peuvent varier selon les ressources et les prestataires.
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Poste</th>
+                <th>Détail</th>
+                <th>Coût Estimé</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Développement</strong></td>
+                <td>18 semaines × 7 personnes</td>
+                <td>150,000 - 200,000 €</td>
+            </tr>
+            <tr>
+                <td><strong>Infrastructure</strong></td>
+                <td>Hébergement, base de données, CDN (1 an)</td>
+                <td>5,000 - 10,000 €</td>
+            </tr>
+            <tr>
+                <td><strong>Services Tiers</strong></td>
+                <td>APIs (traduction, paiement, SMS, etc.)</td>
+                <td>3,000 - 5,000 €</td>
+            </tr>
+            <tr>
+                <td><strong>Marketing</strong></td>
+                <td>Lancement, communication</td>
+                <td>10,000 - 20,000 €</td>
+            </tr>
+            <tr>
+                <td><strong>Divers</strong></td>
+                <td>Licences, outils, imprévus</td>
+                <td>5,000 - 10,000 €</td>
+            </tr>
+            <tr>
+                <td><strong>TOTAL</strong></td>
+                <td></td>
+                <td><strong>173,000 - 245,000 €</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 9. Annexes -->
+    <h1 id="annexes">9. Annexes</h1>
+    
+    <h2>9.1 Glossaire</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Terme</th>
+                <th>Définition</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Marketplace</strong></td>
+                <td>Plateforme en ligne mettant en relation vendeurs et acheteurs</td>
+            </tr>
+            <tr>
+                <td><strong>RLS (Row Level Security)</strong></td>
+                <td>Mécanisme de sécurité au niveau des lignes de base de données</td>
+            </tr>
+            <tr>
+                <td><strong>SSR (Server-Side Rendering)</strong></td>
+                <td>Rendu des pages côté serveur pour améliorer les performances</td>
+            </tr>
+            <tr>
+                <td><strong>SWR (Stale-While-Revalidate)</strong></td>
+                <td>Stratégie de cache pour les données</td>
+            </tr>
+            <tr>
+                <td><strong>i18n (Internationalization)</strong></td>
+                <td>Système de traduction et localisation</td>
+            </tr>
+            <tr>
+                <td><strong>WCAG</strong></td>
+                <td>Web Content Accessibility Guidelines (normes d'accessibilité)</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>9.2 Références</h2>
+    <div class="feature-box">
+        <ul>
+            <li><strong>Next.js Documentation :</strong> https://nextjs.org/docs</li>
+            <li><strong>React Documentation :</strong> https://react.dev</li>
+            <li><strong>Supabase Documentation :</strong> https://supabase.com/docs</li>
+            <li><strong>Tailwind CSS :</strong> https://tailwindcss.com</li>
+            <li><strong>shadcn/ui :</strong> https://ui.shadcn.com</li>
+            <li><strong>WCAG Guidelines :</strong> https://www.w3.org/WAI/WCAG21/quickref/</li>
+        </ul>
+    </div>
+    
+    <h2>9.3 Contacts</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Rôle</th>
+                <th>Nom</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Chef de Projet</strong></td>
+                <td>À définir</td>
+                <td>project@afromarket.com</td>
+            </tr>
+            <tr>
+                <td><strong>Lead Developer</strong></td>
+                <td>À définir</td>
+                <td>dev@afromarket.com</td>
+            </tr>
+            <tr>
+                <td><strong>Support Technique</strong></td>
+                <td>Équipe Support</td>
+                <td>support@afromarket.com</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="page-break"></div>
+    
+    <h2>9.4 Historique des Versions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Version</th>
+                <th>Date</th>
+                <th>Auteur</th>
+                <th>Modifications</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1.0</td>
+                <td>Janvier 2025</td>
+                <td>Équipe AfroMarket</td>
+                <td>Version initiale du cahier des charges</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 3cm; text-align: center; color: #666;">
+        <p>© 2025 AfroMarket - Tous droits réservés</p>
+        <p>Ce document est confidentiel et ne peut être reproduit sans autorisation</p>
+    </div>
+    
+    <div class="no-print" style="position: fixed; bottom: 20px; right: 20px; background: #B8621B; color: white; padding: 15px 30px; border-radius: 8px; cursor: pointer;" onclick="window.print()">
+        📄 Imprimer / Sauvegarder en PDF
+    </div>
+</body>
+</html>
