@@ -691,48 +691,70 @@ export default function AdminUsersPage() {
         </TabsContent>
       </Tabs>
 
-      {/* Email Modal */}
-      <Dialog open={isEmailModalOpen} onOpenChange={setIsEmailModalOpen}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Envoyer un email</DialogTitle>
-            <DialogDescription>
-              Composez votre message pour{" "}
-              {selectedUsers.length > 0 ? `${selectedUsers.length} utilisateur(s)` : "l'utilisateur sélectionné"}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="subject">Sujet</Label>
-              <Input
-                id="subject"
-                value={emailSubject}
-                onChange={(e) => setEmailSubject(e.target.value)}
-                placeholder="Objet de l'email"
-              />
-            </div>
-            <div>
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
-                value={emailMessage}
-                onChange={(e) => setEmailMessage(e.target.value)}
-                placeholder="Votre message..."
-                rows={6}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEmailModalOpen(false)}>
-              Annuler
-            </Button>
-            <Button onClick={() => setIsEmailModalOpen(false)}>
-              <Mail className="mr-2 h-4 w-4" />
-              Envoyer
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+     {/* Email Modal */}
+<Dialog open={isEmailModalOpen} onOpenChange={setIsEmailModalOpen}>
+  <DialogContent className="sm:max-w-[600px] w-full rounded-lg shadow-lg p-6 bg-white">
+    <DialogHeader>
+      <DialogTitle className="text-lg font-semibold">Envoyer un email</DialogTitle>
+      <DialogDescription className="text-sm text-muted-foreground">
+        Composez votre message pour{" "}
+        {selectedUsers.length > 0
+          ? `${selectedUsers.length} utilisateur(s)`
+          : "l'utilisateur sélectionné"}
+      </DialogDescription>
+    </DialogHeader>
+
+    <div className="space-y-4 mt-4">
+      {/* Subject */}
+      <div className="flex flex-col">
+        <Label htmlFor="subject" className="mb-1 text-sm font-medium">
+          Sujet
+        </Label>
+        <Input
+          id="subject"
+          value={emailSubject}
+          onChange={(e) => setEmailSubject(e.target.value)}
+          placeholder="Objet de l'email"
+          className="rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary"
+        />
+      </div>
+
+      {/* Message */}
+      <div className="flex flex-col">
+        <Label htmlFor="message" className="mb-1 text-sm font-medium">
+          Message
+        </Label>
+        <Textarea
+          id="message"
+          value={emailMessage}
+          onChange={(e) => setEmailMessage(e.target.value)}
+          placeholder="Votre message..."
+          rows={6}
+          className="rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary resize-none"
+        />
+      </div>
+    </div>
+
+    {/* Footer Buttons */}
+    <DialogFooter className="mt-6 flex justify-end gap-3">
+      <Button
+        variant="outline"
+        onClick={() => setIsEmailModalOpen(false)}
+        className="px-4 py-2 rounded-md"
+      >
+        Annuler
+      </Button>
+      <Button
+        onClick={() => setIsEmailModalOpen(false)}
+        className="flex items-center gap-2 px-4 py-2 rounded-md"
+      >
+        <Mail className="h-4 w-4" />
+        Envoyer
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
 
       {/* Edit User Modal */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
