@@ -85,6 +85,20 @@ export function AdminSidebar() {
         )}
       </div>
 
+      {/* Move "Back to Site" button to top, under header */}
+      <div className="border-b p-2">
+        <Link href="/" onClick={() => mobile && setIsMobileOpen(false)}>
+          <Button
+            variant="ghost"
+            className={cn("w-full justify-start gap-3", isCollapsed && !mobile && "justify-center px-2")}
+            title={isCollapsed && !mobile ? t("admin.backToSite") : undefined}
+          >
+            <LayoutDashboard className="h-5 w-5 flex-shrink-0" />
+            {(!isCollapsed || mobile) && <span>{t("admin.backToSite")}</span>}
+          </Button>
+        </Link>
+      </div>
+
       {/* Navigation */}
       <nav className="flex-1 space-y-1 overflow-y-auto p-2">
         {navigation.map((item) => {
@@ -108,21 +122,22 @@ export function AdminSidebar() {
           )
         })}
 
-        <Link href={subscriptionsLink.href} onClick={() => mobile && setIsMobileOpen(false)}>
-          <Button
-            variant={pathname.startsWith("/admin/subscriptions") ? "secondary" : "ghost"}
-            className={cn(
-              "w-full justify-start gap-3",
-              isCollapsed && !mobile && "justify-center px-2",
-              pathname.startsWith("/admin/subscriptions") &&
-                "bg-destructive/10 text-destructive hover:bg-destructive/20 hover:text-destructive",
-            )}
-            title={isCollapsed && !mobile ? subscriptionsLink.name : undefined}
-          >
-            <CreditCard className="h-5 w-5 flex-shrink-0" />
-            {(!isCollapsed || mobile) && <span>{subscriptionsLink.name}</span>}
-          </Button>
-        </Link>
+ <Link href={subscriptionsLink.href} onClick={() => mobile && setIsMobileOpen(false)}>
+  <Button
+    variant={pathname.startsWith("/admin/subscriptions") ? "secondary" : "ghost"}
+    className={cn(
+      "w-full justify-start gap-3 h-10 min-h-10 focus:ring-0 focus:outline-none",
+      isCollapsed && !mobile && "justify-center px-2",
+      pathname.startsWith("/admin/subscriptions") &&
+        "bg-destructive/10 text-destructive hover:bg-destructive/20 hover:text-destructive",
+    )}
+    title={isCollapsed && !mobile ? subscriptionsLink.name : undefined}
+  >
+    <CreditCard className="h-5 w-5 flex-shrink-0" />
+    {(!isCollapsed || mobile) && <span>{subscriptionsLink.name}</span>}
+  </Button>
+</Link>
+
 
         <Link href={settingsLink.href} onClick={() => mobile && setIsMobileOpen(false)}>
           <Button
@@ -140,20 +155,6 @@ export function AdminSidebar() {
           </Button>
         </Link>
       </nav>
-
-      {/* Footer */}
-      <div className="border-t p-2">
-        <Link href="/" onClick={() => mobile && setIsMobileOpen(false)}>
-          <Button
-            variant="ghost"
-            className={cn("w-full justify-start gap-3", isCollapsed && !mobile && "justify-center px-2")}
-            title={isCollapsed && !mobile ? t("admin.backToSite") : undefined}
-          >
-            <LayoutDashboard className="h-5 w-5 flex-shrink-0" />
-            {(!isCollapsed || mobile) && <span>{t("admin.backToSite")}</span>}
-          </Button>
-        </Link>
-      </div>
     </div>
   )
 

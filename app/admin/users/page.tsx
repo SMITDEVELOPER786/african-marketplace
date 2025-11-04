@@ -120,7 +120,7 @@ const users = [
     avatar: "",
     type: "admin" as const,
     group: "Administrateurs",
-    role: "Super Admin",
+    role: "Utilisateuer",
     status: "active" as const,
     joinDate: "2024-01-01",
     lastLogin: "2025-01-21",
@@ -184,6 +184,12 @@ export default function AdminUsersPage() {
   const [emailMessage, setEmailMessage] = useState("")
   const [editingUser, setEditingUser] = useState<(typeof users)[0] | null>(null)
 
+   // ✅ Add this at the top of your component
+  const handleSaveUser = () => {
+    console.log("Save clicked for user:", editingUser);
+    setIsEditModalOpen(false);
+  }
+  
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -330,7 +336,7 @@ export default function AdminUsersPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
+        <TabsList className="mb-4 ">
           <TabsTrigger value="all">Tous ({users.length})</TabsTrigger>
           <TabsTrigger value="clients">Clients ({users.filter((u) => u.type === "client").length})</TabsTrigger>
           <TabsTrigger value="merchants">Commerçants ({users.filter((u) => u.type === "merchant").length})</TabsTrigger>
@@ -691,599 +697,628 @@ export default function AdminUsersPage() {
         </TabsContent>
       </Tabs>
 
-      {/* Email Modal */}
-      <Dialog open={isEmailModalOpen} onOpenChange={setIsEmailModalOpen}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>Envoyer un email</DialogTitle>
-            <DialogDescription>
-              Composez votre message pour{" "}
-              {selectedUsers.length > 0 ? `${selectedUsers.length} utilisateur(s)` : "l'utilisateur sélectionné"}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
+     {/* Email Modal */}
+<Dialog open={isEmailModalOpen} onOpenChange={setIsEmailModalOpen}>
+ <DialogContent
+  className="
+    w-full 
+    max-w-full 
+    sm:max-w-[600px] 
+    max-h-[100vh] 
+    mx-auto 
+    mt-8 sm:mt-4    /* Mobile top margin zyada, desktop thoda kam */
+    overflow-y-auto 
+    rounded-lg 
+    p-4 sm:p-6 
+    bg-white
+  "
+>
+
+    <DialogHeader>
+      <DialogTitle className="text-lg font-semibold">Envoyer un email</DialogTitle>
+      <DialogDescription className="text-sm text-muted-foreground">
+        Composez votre message pour{" "}
+        {selectedUsers.length > 0
+          ? `${selectedUsers.length} utilisateur(s)`
+          : "l'utilisateur sélectionné"}
+      </DialogDescription>
+    </DialogHeader>
+
+    <div className="space-y-4 mt-4">
+      {/* Subject */}
+      <div className="flex flex-col">
+        <Label htmlFor="subject" className="mb-1 text-sm font-medium">
+          Sujet
+        </Label>
+        <Input
+          id="subject"
+          value={emailSubject}
+          onChange={(e) => setEmailSubject(e.target.value)}
+          placeholder="Objet de l'email"
+          className="rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary"
+        />
+      </div>
+
+      {/* Message */}
+      <div className="flex flex-col">
+        <Label htmlFor="message" className="mb-1 text-sm font-medium">
+          Message
+        </Label>
+        <Textarea
+          id="message"
+          value={emailMessage}
+          onChange={(e) => setEmailMessage(e.target.value)}
+          placeholder="Votre message..."
+          rows={6}
+          className="rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary resize-none"
+        />
+      </div>
+    </div>
+
+    {/* Footer Buttons */}
+    <DialogFooter className="mt-6 flex justify-end gap-3">
+      <Button
+        variant="outline"
+        onClick={() => setIsEmailModalOpen(false)}
+        className="px-4 py-2 rounded-md"
+      >
+        Annuler
+      </Button>
+      <Button
+        onClick={() => setIsEmailModalOpen(false)}
+        className="flex items-center gap-2 px-4 py-2 rounded-md"
+      >
+        <Mail className="h-4 w-4" />
+        Envoyer
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
+{/* Edit User Modal */}
+<Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+  <DialogContent className="sm:max-w-[800px] max-h-[85vh] mx-auto overflow-y-auto my-8 w-full">
+
+    <DialogHeader>
+      <DialogTitle>Modifier l'utilisateur</DialogTitle>
+      <DialogDescription>Modifiez les informations de {editingUser?.name}</DialogDescription>
+    </DialogHeader>
+
+    {editingUser && (
+      <div className="space-y-6">
+
+        {/* Avatar & Upload */}
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <Avatar className="h-20 w-20">
+            <AvatarImage src={editingUser.avatar || "/placeholder.svg"} />
+            <AvatarFallback className="text-2xl">
+              {editingUser.name.split(" ").map(n => n[0]).join("")}
+            </AvatarFallback>
+          </Avatar>
+
+          <div className="flex flex-col items-center sm:items-start gap-2">
+            <Button variant="outline" size="sm">
+              <Upload className="mr-2 h-4 w-4" />
+              Changer la photo
+            </Button>
+            <p className="mt-1 text-xs text-muted-foreground">JPG, PNG ou GIF (max. 2MB)</p>
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* Personal Information */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Informations personnelles</h3>
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="subject">Sujet</Label>
-              <Input
-                id="subject"
-                value={emailSubject}
-                onChange={(e) => setEmailSubject(e.target.value)}
-                placeholder="Objet de l'email"
-              />
+              <Label htmlFor="edit-firstname">Prénom</Label>
+              <Input id="edit-firstname" defaultValue={editingUser.name.split(" ")[0]} />
             </div>
             <div>
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
-                value={emailMessage}
-                onChange={(e) => setEmailMessage(e.target.value)}
-                placeholder="Votre message..."
-                rows={6}
-              />
+              <Label htmlFor="edit-lastname">Nom</Label>
+              <Input id="edit-lastname" defaultValue={editingUser.name.split(" ")[1] || ""} />
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEmailModalOpen(false)}>
-              Annuler
-            </Button>
-            <Button onClick={() => setIsEmailModalOpen(false)}>
-              <Mail className="mr-2 h-4 w-4" />
-              Envoyer
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
-      {/* Edit User Modal */}
-      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Modifier l'utilisateur</DialogTitle>
-            <DialogDescription>Modifiez les informations de {editingUser?.name}</DialogDescription>
-          </DialogHeader>
-          {editingUser && (
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={editingUser.avatar || "/placeholder.svg"} />
-                  <AvatarFallback className="text-2xl">
-                    {editingUser.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="edit-email">Email</Label>
+              <Input id="edit-email" type="email" defaultValue={editingUser.email} />
+            </div>
+            <div>
+              <Label htmlFor="edit-phone">Téléphone</Label>
+              <Input id="edit-phone" defaultValue={editingUser.phone} />
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="edit-birthdate">Date de naissance</Label>
+              <Input id="edit-birthdate" type="date" />
+            </div>
+            <div>
+              <Label htmlFor="edit-gender">Genre</Label>
+              <Select defaultValue="not-specified">
+                <SelectTrigger id="edit-gender">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="not-specified">Non spécifié</SelectItem>
+                  <SelectItem value="male">Homme</SelectItem>
+                  <SelectItem value="female">Femme</SelectItem>
+                  <SelectItem value="other">Autre</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* Address */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <MapPin className="h-5 w-5" />
+            Adresse
+          </h3>
+          <div>
+            <Label htmlFor="edit-address">Rue</Label>
+            <Input id="edit-address" placeholder="123 Rue de la République" />
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div>
+              <Label htmlFor="edit-city">Ville</Label>
+              <Input id="edit-city" placeholder="Paris" />
+            </div>
+            <div>
+              <Label htmlFor="edit-postal">Code postal</Label>
+              <Input id="edit-postal" placeholder="75001" />
+            </div>
+            <div>
+              <Label htmlFor="edit-country">Pays</Label>
+              <Select defaultValue="france">
+                <SelectTrigger id="edit-country">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="france">France</SelectItem>
+                  <SelectItem value="belgium">Belgique</SelectItem>
+                  <SelectItem value="switzerland">Suisse</SelectItem>
+                  <SelectItem value="canada">Canada</SelectItem>
+                  <SelectItem value="other">Autre</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* Business Info (Merchant/Restaurant) */}
+        {(editingUser.type === "merchant" || editingUser.type === "restaurant") && (
+          <>
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <Building className="h-5 w-5" />
+                Informations professionnelles
+              </h3>
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <Button variant="outline" size="sm">
-                    <Upload className="mr-2 h-4 w-4" />
-                    Changer la photo
-                  </Button>
-                  <p className="mt-1 text-xs text-muted-foreground">JPG, PNG ou GIF (max. 2MB)</p>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Personal Information Section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Informations personnelles</h3>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="edit-firstname">Prénom</Label>
-                    <Input id="edit-firstname" defaultValue={editingUser.name.split(" ")[0]} />
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-lastname">Nom</Label>
-                    <Input id="edit-lastname" defaultValue={editingUser.name.split(" ")[1] || ""} />
-                  </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="edit-email">Email</Label>
-                    <Input id="edit-email" type="email" defaultValue={editingUser.email} />
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-phone">Téléphone</Label>
-                    <Input id="edit-phone" defaultValue={editingUser.phone} />
-                  </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="edit-birthdate">Date de naissance</Label>
-                    <Input id="edit-birthdate" type="date" />
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-gender">Genre</Label>
-                    <Select defaultValue="not-specified">
-                      <SelectTrigger id="edit-gender">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="not-specified">Non spécifié</SelectItem>
-                        <SelectItem value="male">Homme</SelectItem>
-                        <SelectItem value="female">Femme</SelectItem>
-                        <SelectItem value="other">Autre</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Address Section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <MapPin className="h-5 w-5" />
-                  Adresse
-                </h3>
-                <div>
-                  <Label htmlFor="edit-address">Rue</Label>
-                  <Input id="edit-address" placeholder="123 Rue de la République" />
-                </div>
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div>
-                    <Label htmlFor="edit-city">Ville</Label>
-                    <Input id="edit-city" placeholder="Paris" />
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-postal">Code postal</Label>
-                    <Input id="edit-postal" placeholder="75001" />
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-country">Pays</Label>
-                    <Select defaultValue="france">
-                      <SelectTrigger id="edit-country">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="france">France</SelectItem>
-                        <SelectItem value="belgium">Belgique</SelectItem>
-                        <SelectItem value="switzerland">Suisse</SelectItem>
-                        <SelectItem value="canada">Canada</SelectItem>
-                        <SelectItem value="other">Autre</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Business Information (for merchants/restaurants) */}
-              {(editingUser.type === "merchant" || editingUser.type === "restaurant") && (
-                <>
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                      <Building className="h-5 w-5" />
-                      Informations professionnelles
-                    </h3>
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div>
-                        <Label htmlFor="edit-business-name">Nom de l'entreprise</Label>
-                        <Input id="edit-business-name" placeholder="Mon Commerce" />
-                      </div>
-                      <div>
-                        <Label htmlFor="edit-siret">SIRET</Label>
-                        <Input id="edit-siret" placeholder="123 456 789 00012" />
-                      </div>
-                    </div>
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div>
-                        <Label htmlFor="edit-business-type">Type d'activité</Label>
-                        <Select defaultValue="retail">
-                          <SelectTrigger id="edit-business-type">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="retail">Commerce de détail</SelectItem>
-                            <SelectItem value="restaurant">Restaurant</SelectItem>
-                            <SelectItem value="cafe">Café</SelectItem>
-                            <SelectItem value="grocery">Épicerie</SelectItem>
-                            <SelectItem value="other">Autre</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="edit-website">Site web</Label>
-                        <Input id="edit-website" type="url" placeholder="https://moncommerce.fr" />
-                      </div>
-                    </div>
-                  </div>
-                  <Separator />
-                </>
-              )}
-
-              {/* Account Settings Section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <Settings className="h-5 w-5" />
-                  Paramètres du compte
-                </h3>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="edit-type">Type de compte</Label>
-                    <Select defaultValue={editingUser.type}>
-                      <SelectTrigger id="edit-type">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="client">Client</SelectItem>
-                        <SelectItem value="merchant">Commerçant</SelectItem>
-                        <SelectItem value="restaurant">Restaurateur</SelectItem>
-                        <SelectItem value="admin">Administrateur</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-status">Statut</Label>
-                    <Select defaultValue={editingUser.status}>
-                      <SelectTrigger id="edit-status">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="active">Actif</SelectItem>
-                        <SelectItem value="suspended">Suspendu</SelectItem>
-                        <SelectItem value="banned">Banni</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="edit-group">Groupe</Label>
-                    <Select defaultValue={editingUser.group}>
-                      <SelectTrigger id="edit-group">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {groups.map((group) => (
-                          <SelectItem key={group.id} value={group.name}>
-                            {group.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-role">Rôle</Label>
-                    <Select defaultValue={editingUser.role}>
-                      <SelectTrigger id="edit-role">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {roles.map((role) => (
-                          <SelectItem key={role.id} value={role.name}>
-                            {role.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="edit-language">Langue préférée</Label>
-                    <Select defaultValue="fr">
-                      <SelectTrigger id="edit-language">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="fr">Français</SelectItem>
-                        <SelectItem value="en">English</SelectItem>
-                        <SelectItem value="es">Español</SelectItem>
-                        <SelectItem value="ar">العربية</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-timezone">Fuseau horaire</Label>
-                    <Select defaultValue="europe-paris">
-                      <SelectTrigger id="edit-timezone">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="europe-paris">Europe/Paris (GMT+1)</SelectItem>
-                        <SelectItem value="europe-london">Europe/London (GMT+0)</SelectItem>
-                        <SelectItem value="america-new-york">America/New York (GMT-5)</SelectItem>
-                        <SelectItem value="africa-casablanca">Africa/Casablanca (GMT+1)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <Label htmlFor="edit-business-name">Nom de l'entreprise</Label>
+                  <Input id="edit-business-name" placeholder="Mon Commerce" />
                 </div>
                 <div>
-                  <Label htmlFor="edit-expiry">Date d'expiration du compte (optionnel)</Label>
-                  <Input id="edit-expiry" type="date" />
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Laissez vide pour un compte sans date d'expiration
-                  </p>
+                  <Label htmlFor="edit-siret">SIRET</Label>
+                  <Input id="edit-siret" placeholder="123 456 789 00012" />
                 </div>
               </div>
-
-              <Separator />
-
-              {/* Account Information (Read-only) */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <FileText className="h-5 w-5" />
-                  Informations du compte
-                </h3>
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div>
-                    <Label className="text-muted-foreground">Date d'inscription</Label>
-                    <p className="text-sm font-medium">{editingUser.joinDate}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Dernière connexion</Label>
-                    <p className="text-sm font-medium">{editingUser.lastLogin}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground">Nombre de connexions</Label>
-                    <p className="text-sm font-medium">127 fois</p>
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Permissions Section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <Shield className="h-5 w-5" />
-                  Permissions spécifiques
-                </h3>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="perm-manage-users" />
-                    <Label htmlFor="perm-manage-users" className="font-normal">
-                      Gérer les utilisateurs
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="perm-manage-businesses" />
-                    <Label htmlFor="perm-manage-businesses" className="font-normal">
-                      Gérer les commerces
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="perm-view-analytics" />
-                    <Label htmlFor="perm-view-analytics" className="font-normal">
-                      Voir les statistiques
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="perm-manage-payments" />
-                    <Label htmlFor="perm-manage-payments" className="font-normal">
-                      Gérer les paiements
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="perm-moderate-content" />
-                    <Label htmlFor="perm-moderate-content" className="font-normal">
-                      Modérer le contenu
-                    </Label>
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Admin Notes Section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Notes administratives</h3>
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <Label htmlFor="edit-notes">Notes internes</Label>
-                  <Textarea
-                    id="edit-notes"
-                    placeholder="Ajoutez des notes visibles uniquement par les administrateurs..."
-                    rows={4}
-                  />
-                  <p className="mt-1 text-xs text-muted-foreground">Ces notes ne sont pas visibles par l'utilisateur</p>
+                  <Label htmlFor="edit-business-type">Type d'activité</Label>
+                  <Select defaultValue="retail">
+                    <SelectTrigger id="edit-business-type">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="retail">Commerce de détail</SelectItem>
+                      <SelectItem value="restaurant">Restaurant</SelectItem>
+                      <SelectItem value="cafe">Café</SelectItem>
+                      <SelectItem value="grocery">Épicerie</SelectItem>
+                      <SelectItem value="other">Autre</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div>
-                  <Label htmlFor="edit-tags">Tags / Labels</Label>
-                  <Input id="edit-tags" placeholder="VIP, Client fidèle, À surveiller..." />
-                  <p className="mt-1 text-xs text-muted-foreground">Séparez les tags par des virgules</p>
+                  <Label htmlFor="edit-website">Site web</Label>
+                  <Input id="edit-website" type="url" placeholder="https://moncommerce.fr" />
                 </div>
               </div>
             </div>
-          )}
-          <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>
-              Annuler
+            <Separator />
+          </>
+        )}
+
+        {/* Account Settings */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <Settings className="h-5 w-5" />
+            Paramètres du compte
+          </h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="edit-type">Type de compte</Label>
+              <Select defaultValue={editingUser.type}>
+                <SelectTrigger id="edit-type">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="client">Client</SelectItem>
+                  <SelectItem value="merchant">Commerçant</SelectItem>
+                  <SelectItem value="restaurant">Restaurateur</SelectItem>
+                  <SelectItem value="admin">Administrateur</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="edit-status">Statut</Label>
+              <Select defaultValue={editingUser.status}>
+                <SelectTrigger id="edit-status">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="active">Actif</SelectItem>
+                  <SelectItem value="suspended">Suspendu</SelectItem>
+                  <SelectItem value="banned">Banni</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="edit-group">Groupe</Label>
+              <Select defaultValue={editingUser.group}>
+                <SelectTrigger id="edit-group">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {groups.map(group => (
+                    <SelectItem key={group.id} value={group.name}>{group.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="edit-role">Rôle</Label>
+              <Select defaultValue={editingUser.role}>
+                <SelectTrigger id="edit-role">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {roles.map(role => (
+                    <SelectItem key={role.id} value={role.name}>{role.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="edit-language">Langue préférée</Label>
+              <Select defaultValue="fr">
+                <SelectTrigger id="edit-language">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="fr">Français</SelectItem>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="es">Español</SelectItem>
+                  <SelectItem value="ar">العربية</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="edit-timezone">Fuseau horaire</Label>
+              <Select defaultValue="europe-paris">
+                <SelectTrigger id="edit-timezone">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="europe-paris">Europe/Paris (GMT+1)</SelectItem>
+                  <SelectItem value="europe-london">Europe/London (GMT+0)</SelectItem>
+                  <SelectItem value="america-new-york">America/New York (GMT-5)</SelectItem>
+                  <SelectItem value="africa-casablanca">Africa/Casablanca (GMT+1)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div>
+            <Label htmlFor="edit-expiry">Date d'expiration du compte (optionnel)</Label>
+            <Input id="edit-expiry" type="date" />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Laissez vide pour un compte sans date d'expiration
+            </p>
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* Account Info (Read-only) */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Informations du compte
+          </h3>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div>
+              <Label className="text-muted-foreground">Date d'inscription</Label>
+              <p className="text-sm font-medium">{editingUser.joinDate}</p>
+            </div>
+            <div>
+              <Label className="text-muted-foreground">Dernière connexion</Label>
+              <p className="text-sm font-medium">{editingUser.lastLogin}</p>
+            </div>
+            <div>
+              <Label className="text-muted-foreground">Nombre de connexions</Label>
+              <p className="text-sm font-medium">127 fois</p>
+            </div>
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* Permissions */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <Shield className="h-5 w-5" />
+            Permissions spécifiques
+          </h3>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <Checkbox id="perm-manage-users" />
+              <Label htmlFor="perm-manage-users" className="font-normal">Gérer les utilisateurs</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="perm-manage-businesses" />
+              <Label htmlFor="perm-manage-businesses" className="font-normal">Gérer les commerces</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="perm-view-analytics" />
+              <Label htmlFor="perm-view-analytics" className="font-normal">Voir les statistiques</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="perm-manage-payments" />
+              <Label htmlFor="perm-manage-payments" className="font-normal">Gérer les paiements</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="perm-moderate-content" />
+              <Label htmlFor="perm-moderate-content" className="font-normal">Modérer le contenu</Label>
+            </div>
+          </div>
+        </div>
+
+        <Separator />
+
+        {/* Admin Notes */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Notes administratives</h3>
+          <div>
+            <Label htmlFor="edit-notes">Notes internes</Label>
+            <Textarea id="edit-notes" placeholder="Ajouter des notes..." defaultValue={editingUser.adminNotes} />
+          </div>
+        </div>
+
+        <DialogFooter className="flex flex-col sm:flex-row gap-2 justify-end">
+          <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>
+            Annuler
+          </Button>
+          <Button onClick={handleSaveUser}>
+            Enregistrer les modifications
+          </Button>
+        </DialogFooter>
+
+      </div>
+    )}
+
+  </DialogContent>
+</Dialog>
+<Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
+  <DialogContent className="sm:max-w-[600px] max-h-[80vh] mx-auto my-6 w-full overflow-y-auto">
+
+    <DialogHeader>
+      <DialogTitle>Profil de l'utilisateur</DialogTitle>
+      <DialogDescription>Informations détaillées de l'utilisateur</DialogDescription>
+    </DialogHeader>
+
+    {viewingUser && (
+      <div className="space-y-6">
+
+        {/* User Header */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+          <Avatar className="h-20 w-20">
+            <AvatarImage src={viewingUser.avatar || "/placeholder.svg"} />
+            <AvatarFallback className="text-2xl">
+              {viewingUser.name.split(" ").map(n => n[0]).join("")}
+            </AvatarFallback>
+          </Avatar>
+
+          <div className="flex-1 text-center sm:text-left">
+            <h3 className="text-2xl font-bold">{viewingUser.name}</h3>
+            <p className="text-muted-foreground">{viewingUser.email}</p>
+
+            <div className="mt-2 flex flex-wrap justify-center sm:justify-start gap-2">
+              <Badge variant="secondary">{viewingUser.group}</Badge>
+              <Badge variant="outline">{viewingUser.role}</Badge>
+              <Badge
+                variant={
+                  viewingUser.status === "active"
+                    ? "default"
+                    : viewingUser.status === "suspended"
+                      ? "secondary"
+                      : "destructive"
+                }
+              >
+                {viewingUser.status === "active"
+                  ? "Actif"
+                  : viewingUser.status === "suspended"
+                    ? "Suspendu"
+                    : "Banni"}
+              </Badge>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Informations de contact</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+              <Mail className="h-4 w-4 text-muted-foreground" />
+              <div className="text-center sm:text-left">
+                <p className="text-sm font-medium">Email</p>
+                <p className="text-sm text-muted-foreground">{viewingUser.email}</p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+              <MessageCircle className="h-4 w-4 text-muted-foreground" />
+              <div className="text-center sm:text-left">
+                <p className="text-sm font-medium">Téléphone</p>
+                <p className="text-sm text-muted-foreground">{viewingUser.phone}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Account Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Informations du compte</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+              <Users className="h-4 w-4 text-muted-foreground" />
+              <div className="text-center sm:text-left">
+                <p className="text-sm font-medium">Type de compte</p>
+                <p className="text-sm text-muted-foreground">
+                  {viewingUser.type === "client"
+                    ? "Client"
+                    : viewingUser.type === "merchant"
+                      ? "Commerçant"
+                      : viewingUser.type === "restaurant"
+                        ? "Restaurateur"
+                        : "Administrateur"}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+              <Shield className="h-4 w-4 text-muted-foreground" />
+              <div className="text-center sm:text-left">
+                <p className="text-sm font-medium">Groupe</p>
+                <p className="text-sm text-muted-foreground">{viewingUser.group}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+              <Key className="h-4 w-4 text-muted-foreground" />
+              <div className="text-center sm:text-left">
+                <p className="text-sm font-medium">Rôle</p>
+                <p className="text-sm text-muted-foreground">{viewingUser.role}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <div className="text-center sm:text-left">
+                <p className="text-sm font-medium">Date d'inscription</p>
+                <p className="text-sm text-muted-foreground">{viewingUser.joinDate}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <div className="text-center sm:text-left">
+                <p className="text-sm font-medium">Dernière connexion</p>
+                <p className="text-sm text-muted-foreground">{viewingUser.lastLogin}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Activity Statistics (Client only) */}
+        {viewingUser.type === "client" && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Statistiques d'activité</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
+                <ShoppingBag className="h-4 w-4 text-muted-foreground" />
+                <div className="text-center sm:text-left">
+                  <p className="text-sm font-medium">Commandes passées</p>
+                  <p className="text-sm text-muted-foreground">{viewingUser.orders} commande(s)</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-center sm:justify-start">
+          <Button variant="outline" onClick={() => handleEditUser(viewingUser)}>
+            <Edit className="mr-2 h-4 w-4" />
+            Modifier
+          </Button>
+          <Button variant="outline" onClick={() => handleSendEmail(viewingUser)}>
+            <Mail className="mr-2 h-4 w-4" />
+            Envoyer un email
+          </Button>
+          <Button variant="outline" onClick={() => handleWhatsApp(viewingUser.phone, viewingUser.name)}>
+            <MessageCircle className="mr-2 h-4 w-4" />
+            WhatsApp
+          </Button>
+          <Button variant="outline" onClick={() => handleResetPassword(viewingUser)}>
+            <Key className="mr-2 h-4 w-4" />
+            Réinitialiser mot de passe
+          </Button>
+          {viewingUser.status === "active" ? (
+            <Button
+              variant="outline"
+              className="text-orange-600 bg-transparent"
+              onClick={() => handleToggleStatus(viewingUser)}
+            >
+              <Ban className="mr-2 h-4 w-4" />
+              Suspendre
             </Button>
-            <Button onClick={() => setIsEditModalOpen(false)}>
+          ) : (
+            <Button
+              variant="outline"
+              className="text-green-600 bg-transparent"
+              onClick={() => handleToggleStatus(viewingUser)}
+            >
               <CheckCircle2 className="mr-2 h-4 w-4" />
-              Enregistrer les modifications
+              Activer
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isProfileModalOpen} onOpenChange={setIsProfileModalOpen}>
-        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Profil de l'utilisateur</DialogTitle>
-            <DialogDescription>Informations détaillées de l'utilisateur</DialogDescription>
-          </DialogHeader>
-          {viewingUser && (
-            <div className="space-y-6">
-              {/* User Header */}
-              <div className="flex items-start gap-4">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={viewingUser.avatar || "/placeholder.svg"} />
-                  <AvatarFallback className="text-2xl">
-                    {viewingUser.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold">{viewingUser.name}</h3>
-                  <p className="text-muted-foreground">{viewingUser.email}</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <Badge variant="secondary">{viewingUser.group}</Badge>
-                    <Badge variant="outline">{viewingUser.role}</Badge>
-                    <Badge
-                      variant={
-                        viewingUser.status === "active"
-                          ? "default"
-                          : viewingUser.status === "suspended"
-                            ? "secondary"
-                            : "destructive"
-                      }
-                    >
-                      {viewingUser.status === "active"
-                        ? "Actif"
-                        : viewingUser.status === "suspended"
-                          ? "Suspendu"
-                          : "Banni"}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-
-              {/* Contact Information */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Informations de contact</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Email</p>
-                      <p className="text-sm text-muted-foreground">{viewingUser.email}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <MessageCircle className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Téléphone</p>
-                      <p className="text-sm text-muted-foreground">{viewingUser.phone}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Account Information */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Informations du compte</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Type de compte</p>
-                      <p className="text-sm text-muted-foreground">
-                        {viewingUser.type === "client"
-                          ? "Client"
-                          : viewingUser.type === "merchant"
-                            ? "Commerçant"
-                            : viewingUser.type === "restaurant"
-                              ? "Restaurateur"
-                              : "Administrateur"}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Shield className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Groupe</p>
-                      <p className="text-sm text-muted-foreground">{viewingUser.group}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Key className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Rôle</p>
-                      <p className="text-sm text-muted-foreground">{viewingUser.role}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Date d'inscription</p>
-                      <p className="text-sm text-muted-foreground">{viewingUser.joinDate}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Dernière connexion</p>
-                      <p className="text-sm text-muted-foreground">{viewingUser.lastLogin}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Activity Statistics */}
-              {viewingUser.type === "client" && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Statistiques d'activité</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <ShoppingBag className="h-4 w-4 text-muted-foreground" />
-                      <div>
-                        <p className="text-sm font-medium">Commandes passées</p>
-                        <p className="text-sm text-muted-foreground">{viewingUser.orders} commande(s)</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap gap-2">
-                <Button variant="outline" onClick={() => handleEditUser(viewingUser)}>
-                  <Edit className="mr-2 h-4 w-4" />
-                  Modifier
-                </Button>
-                <Button variant="outline" onClick={() => handleSendEmail(viewingUser)}>
-                  <Mail className="mr-2 h-4 w-4" />
-                  Envoyer un email
-                </Button>
-                <Button variant="outline" onClick={() => handleWhatsApp(viewingUser.phone, viewingUser.name)}>
-                  <MessageCircle className="mr-2 h-4 w-4" />
-                  WhatsApp
-                </Button>
-                <Button variant="outline" onClick={() => handleResetPassword(viewingUser)}>
-                  <Key className="mr-2 h-4 w-4" />
-                  Réinitialiser mot de passe
-                </Button>
-                {viewingUser.status === "active" ? (
-                  <Button
-                    variant="outline"
-                    className="text-orange-600 bg-transparent"
-                    onClick={() => handleToggleStatus(viewingUser)}
-                  >
-                    <Ban className="mr-2 h-4 w-4" />
-                    Suspendre
-                  </Button>
-                ) : (
-                  <Button
-                    variant="outline"
-                    className="text-green-600 bg-transparent"
-                    onClick={() => handleToggleStatus(viewingUser)}
-                  >
-                    <CheckCircle2 className="mr-2 h-4 w-4" />
-                    Activer
-                  </Button>
-                )}
-              </div>
-            </div>
           )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsProfileModalOpen(false)}>
-              Fermer
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+        </div>
+
+      </div>
+    )}
+
+    <DialogFooter>
+      <Button variant="outline" onClick={() => setIsProfileModalOpen(false)}>
+        Fermer
+      </Button>
+    </DialogFooter>
+
+  </DialogContent>
+</Dialog>
+
+              
+       
     </div>
   )
 }
