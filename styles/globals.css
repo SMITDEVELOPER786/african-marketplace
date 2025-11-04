@@ -122,3 +122,32 @@
     @apply bg-background text-foreground;
   }
 }
+/* ======== LOGIN PAGE HEIGHT FIX ======== */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--muted);
+  padding: 1rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 1rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--card);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* mobile adjustment */
+@media (max-width: 640px) {
+  .login-card {
+    max-height: 95vh;
+    margin-top: 0.5rem;
+  }
+}
