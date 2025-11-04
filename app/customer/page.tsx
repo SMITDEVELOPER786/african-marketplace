@@ -41,28 +41,33 @@ export default function CustomerDashboard() {
       
       
       
-<div className="grid gap-3 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-  {stats.map((stat) => {
-    const Icon = stat.icon
-    return (
-      <Link key={stat.title} href={stat.href}>
-        <Card className="group transition-all duration-300 hover:bg-accent cursor-pointer h-40 sm:h-32 flex flex-col justify-between">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium transition-colors group-hover:text-white">
-              {stat.title}
-            </CardTitle>
-            <Icon className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-white" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold transition-colors group-hover:text-white">
-              {stat.value}
-            </div>
-          </CardContent>
-        </Card>
-      </Link>
-    )
-  })}
-</div>
+ <div className="grid gap-3 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {stats.map((stat) => {
+        const Icon = stat.icon
+        return (
+          <Link key={stat.title} href={stat.href}>
+            <Card className="group transition-all duration-300 hover:bg-accent cursor-pointer h-40 flex flex-col">
+              {/* Top section */}
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium transition-colors group-hover:text-white">
+                  {stat.title}
+                </CardTitle>
+                <Icon className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-white" />
+              </CardHeader>
+
+              {/* Bottom-fixed number */}
+              <CardContent className="flex-grow flex items-end">
+                <div className="text-2xl font-bold transition-colors group-hover:text-white">
+                  {stat.value}
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        )
+      })}
+    </div>
+  
+
 
 
 
