@@ -67,7 +67,7 @@ export function CustomerSidebar() {
   title={isCollapsed ? "Développer le menu" : "Réduire le menu"}
 >
   {isCollapsed ? (
-    <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:text-gray-900" />
+    <ChevronRight className="h-3.5 w-3.5 transition-transform " />
   ) : (
     <ChevronLeft className="h-3.5 w-3.5 transition-transform group-hover:text-gray-900" />
   )}
@@ -131,7 +131,7 @@ export function CustomerSidebar() {
       className="fixed left-4 top-[4.5rem] z-50 md:hidden shadow-lg hover:shadow-xl transition-shadow duration-200 bg-background border-2"
     >
       <Menu className="h-5 w-5 bottom-1.5" />
-      <span className="sr-only">Ouvrir le menu</span>
+      <span className="sr-only ">Ouvrir le menu</span>
     </Button>
   </SheetTrigger>
   <SheetContent side="left" className="w-64 p-0 mt-16">
