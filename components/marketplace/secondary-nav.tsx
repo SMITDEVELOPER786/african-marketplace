@@ -4,8 +4,20 @@ import Link from "next/link"
 import { MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const locations = {
   europe: {
@@ -61,7 +73,7 @@ export function SecondaryNav() {
           region: selectedRegion,
           location: selectedLocation,
           city: selectedCity,
-        }),
+        })
       )
       setIsLocationDialogOpen(false)
     }
@@ -76,60 +88,81 @@ export function SecondaryNav() {
 
   return (
     <>
+      {/* NAVBAR */}
       <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex h-14 items-center justify-between">
-            <div className="flex items-center gap-6">
+            {/* Left Links */}
+            <div className="flex items-center gap-2 sm:gap-6 text-xs sm:text-sm overflow-x-auto no-scrollbar">
               <Link
                 href="/"
-                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+                className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
               >
                 Accueil
               </Link>
               <Link
                 href="/search/results?type=store"
-                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+                className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
               >
                 Commerces
               </Link>
               <Link
                 href="/search/results?type=restaurant"
-                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+                className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
               >
                 Restaurants
               </Link>
               <Link
                 href="/about"
-                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+                className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
               >
                 À propos
               </Link>
               <Link
                 href="/help"
-                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+                className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
               >
                 Aide
               </Link>
             </div>
 
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2 bg-transparent"
-              onClick={() => setIsLocationDialogOpen(true)}
-            >
-              <MapPin className="h-4 w-4" />
-              <span className="hidden sm:inline">{getLocationDisplay()}</span>
-            </Button>
+            {/* Location Button for Desktop */}
+            <div className="hidden sm:block">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 bg-transparent"
+                onClick={() => setIsLocationDialogOpen(true)}
+              >
+                <MapPin className="h-4 w-4" />
+                <span className="text-sm">{getLocationDisplay()}</span>
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
 
+      {/* Location Button for Mobile (Below Navbar) */}
+      <div className="flex sm:hidden justify-center mt-2 mb-2 px-3">
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full justify-center gap-2 bg-transparent text-xs py-2"
+          onClick={() => setIsLocationDialogOpen(true)}
+        >
+          <MapPin className="h-4 w-4" />
+          <span>Localisation</span>
+        </Button>
+      </div>
+
+      {/* LOCATION MODAL */}
       <Dialog open={isLocationDialogOpen} onOpenChange={setIsLocationDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="w-[95%] sm:max-w-[500px] rounded-xl">
           <DialogHeader>
-            <DialogTitle>Choisissez votre localisation</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-lg sm:text-xl text-center">
+              Choisissez votre localisation
+            </DialogTitle>
+            <DialogDescription className="text-center text-sm text-muted-foreground">
               Sélectionnez votre pays et ville pour voir les commerces et restaurants près de chez vous
             </DialogDescription>
           </DialogHeader>
@@ -145,7 +178,7 @@ export function SecondaryNav() {
                   setSelectedCity("")
                 }}
               >
-                <SelectTrigger>
+                <SelectTrigger className="text-sm sm:text-base">
                   <SelectValue placeholder="Sélectionner une région" />
                 </SelectTrigger>
                 <SelectContent>
@@ -168,7 +201,7 @@ export function SecondaryNav() {
                     setSelectedCity("")
                   }}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="text-sm sm:text-base">
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
@@ -186,7 +219,7 @@ export function SecondaryNav() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Ville</label>
                 <Select value={selectedCity} onValueChange={setSelectedCity}>
-                  <SelectTrigger>
+                  <SelectTrigger className="text-sm sm:text-base">
                     <SelectValue placeholder="Sélectionner une ville" />
                   </SelectTrigger>
                   <SelectContent>
@@ -202,7 +235,11 @@ export function SecondaryNav() {
               </div>
             )}
 
-            <Button className="w-full" onClick={handleSaveLocation} disabled={!selectedCity || !selectedLocation}>
+            <Button
+              className="w-full mt-2 text-sm sm:text-base"
+              onClick={handleSaveLocation}
+              disabled={!selectedCity || !selectedLocation}
+            >
               Enregistrer ma localisation
             </Button>
           </div>
