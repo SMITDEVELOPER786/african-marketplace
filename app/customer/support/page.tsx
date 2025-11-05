@@ -42,13 +42,13 @@ export default function SupportPage() {
           return (
             <Card key={index} className="hover:shadow-lg transition-all duration-300">
               <CardHeader className="flex flex-col items-center lg:items-start">
-                <Icon className="h-8 w-8 text-blue-600 mb-2" />
+                <Icon className="h-8 w-8 text-primary mb-2" />
                 <CardTitle className="text-lg font-semibold">{item.title}</CardTitle>
                 <CardDescription className="text-base">{item.desc}</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center lg:items-start">
                 {item.button ? (
-                  <Button className="w-full sm:w-auto mt-2">Démarrer le chat</Button>
+                  <Button className="w-full sm:w-auto mt-2 bg-primary">Démarrer le chat</Button>
                 ) : (
                   <p className="text-sm text-muted-foreground">{item.note}</p>
                 )}
@@ -71,7 +71,7 @@ export default function SupportPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="name">Nom complet</Label>
-                <Input id="name" placeholder="John Doe" required className="focus:ring-2 focus:ring-blue-500" />
+                <Input id="name" placeholder="John Doe" required className="focus:ring-2 focus:ring-primary" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
@@ -80,7 +80,7 @@ export default function SupportPage() {
                   type="email"
                   placeholder="john.doe@example.com"
                   required
-                  className="focus:ring-2 focus:ring-blue-500"
+                  className="focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
@@ -88,7 +88,7 @@ export default function SupportPage() {
             <div className="space-y-2">
               <Label htmlFor="subject">Sujet</Label>
               <Select required>
-                <SelectTrigger id="subject" className="focus:ring-2 focus:ring-blue-500">
+                <SelectTrigger id="subject" className="focus:ring-2 focus:ring-primary">
                   <SelectValue placeholder="Sélectionnez un sujet" />
                 </SelectTrigger>
                 <SelectContent>
@@ -108,13 +108,13 @@ export default function SupportPage() {
                 placeholder="Décrivez votre problème ou votre question..."
                 rows={6}
                 required
-                className="focus:ring-2 focus:ring-blue-500"
+                className="focus:ring-2 focus:ring-primary"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 transition-all duration-300"
+              className="w-full sm:w-auto bg-primary hover:bg-primary transition-all duration-300"
             >
               Envoyer le message
             </Button>
@@ -126,7 +126,7 @@ export default function SupportPage() {
      {/* FAQ Section */}
 <Card className="mt-10 shadow-sm hover:shadow-md transition-all duration-300">
   <CardHeader className="flex flex-col items-center lg:items-start">
-    <HelpCircle className="h-8 w-8 text-blue-600 mb-2" />
+    <HelpCircle className="h-8 w-8 text-primary mb-2" />
     <CardTitle className="text-2xl font-semibold">Questions fréquentes</CardTitle>
   </CardHeader>
   <CardContent className="space-y-4">
@@ -149,7 +149,7 @@ export default function SupportPage() {
         className="border border-gray-200 rounded-xl p-4 hover:bg-blue-50 transition-all duration-300"
       >
         <h3 className="font-semibold text-gray-900 mb-1 flex items-center gap-2">
-          <HelpCircle className="h-4 w-4 text-blue-600" />
+          <HelpCircle className="h-4 w-4 text-primary" />
           {faq.q}
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
