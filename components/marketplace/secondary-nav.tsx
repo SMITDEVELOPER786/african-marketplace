@@ -90,14 +90,14 @@ export function SecondaryNav() {
     <>
       {/* NAVBAR */}
       <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex h-10 pt-5 items-center justify-between">
+        <div className="max-w-8xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex h-10 sm:h-14 pt-5 sm:pt-0 items-center justify-between">
             {/* Left Links */}
 <div className="flex items-center gap-2 sm:gap-6 text-xs sm:text-sm overflow-x-auto no-scrollbar justify-center sm:justify-start">
 
               <Link
                 href="/"
-                className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
+  className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2  sm:px-3 py-1 sm:py-2 rounded-md"
               >
                 Accueil
               </Link>
@@ -168,82 +168,92 @@ export function SecondaryNav() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Région</label>
-              <Select
-                value={selectedRegion}
-                onValueChange={(value) => {
-                  setSelectedRegion(value)
-                  setSelectedLocation("")
-                  setSelectedCity("")
-                }}
-              >
-                <SelectTrigger className="text-sm sm:text-base">
-                  <SelectValue placeholder="Sélectionner une région" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="europe">Europe</SelectItem>
-                  <SelectItem value="usa">États-Unis</SelectItem>
-                  <SelectItem value="canada">Canada</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+       <div className="space-y-4 py-4">
+  {/* Région + Pays/État/Province in one line */}
+  <div className="flex flex-wrap sm:flex-nowrap gap-3">
+    {/* Région */}
+    <div className="flex-1 min-w-[150px] space-y-2">
+      <label className="text-sm font-medium">Région</label>
+      <Select
+        value={selectedRegion}
+        onValueChange={(value) => {
+          setSelectedRegion(value)
+          setSelectedLocation("")
+          setSelectedCity("")
+        }}
+      >
+        <SelectTrigger className="text-sm sm:text-base w-full h-10 rounded-lg">
+          <SelectValue placeholder="Sélectionner une région" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="europe">Europe</SelectItem>
+          <SelectItem value="usa">États-Unis</SelectItem>
+          <SelectItem value="canada">Canada</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
 
-            {selectedRegion && (
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  {selectedRegion === "europe" ? "Pays" : selectedRegion === "usa" ? "État" : "Province"}
-                </label>
-                <Select
-                  value={selectedLocation}
-                  onValueChange={(value) => {
-                    setSelectedLocation(value)
-                    setSelectedCity("")
-                  }}
-                >
-                  <SelectTrigger className="text-sm sm:text-base">
-                    <SelectValue placeholder="Sélectionner" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.keys(locations[selectedRegion as keyof typeof locations]).map((loc) => (
-                      <SelectItem key={loc} value={loc}>
-                        {loc.charAt(0).toUpperCase() + loc.slice(1)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+    {/* Pays / État / Province */}
+    {selectedRegion && (
+      <div className="flex-1 min-w-[150px] space-y-2">
+        <label className="text-sm font-medium">
+          {selectedRegion === "europe"
+            ? "Pays"
+            : selectedRegion === "usa"
+            ? "État"
+            : "Province"}
+        </label>
+        <Select
+          value={selectedLocation}
+          onValueChange={(value) => {
+            setSelectedLocation(value)
+            setSelectedCity("")
+          }}
+        >
+          <SelectTrigger className="text-sm sm:text-base w-full h-10 rounded-lg">
+            <SelectValue placeholder="Sélectionner" />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.keys(locations[selectedRegion as keyof typeof locations]).map((loc) => (
+              <SelectItem key={loc} value={loc}>
+                {loc.charAt(0).toUpperCase() + loc.slice(1)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    )}
+  </div>
 
-            {selectedLocation && (
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Ville</label>
-                <Select value={selectedCity} onValueChange={setSelectedCity}>
-                  <SelectTrigger className="text-sm sm:text-base">
-                    <SelectValue placeholder="Sélectionner une ville" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {locations[selectedRegion as keyof typeof locations][
-                      selectedLocation as keyof (typeof locations)[keyof typeof locations]
-                    ]?.map((city: string) => (
-                      <SelectItem key={city} value={city}>
-                        {city}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+  {/* Ville (niche rahe) */}
+  {selectedLocation && (
+    <div className="space-y-2">
+      <label className="text-sm font-medium">Ville</label>
+      <Select value={selectedCity} onValueChange={setSelectedCity}>
+        <SelectTrigger className="text-sm sm:text-base w-full h-10 rounded-lg">
+          <SelectValue placeholder="Sélectionner une ville" />
+        </SelectTrigger>
+        <SelectContent>
+          {locations[selectedRegion as keyof typeof locations][
+            selectedLocation as keyof (typeof locations)[keyof typeof locations]
+          ]?.map((city: string) => (
+            <SelectItem key={city} value={city}>
+              {city}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  )}
 
-            <Button
-              className="w-full mt-2 text-sm sm:text-base"
-              onClick={handleSaveLocation}
-              disabled={!selectedCity || !selectedLocation}
-            >
-              Enregistrer ma localisation
-            </Button>
-          </div>
+  <Button
+    className="w-full mt-2 text-sm sm:text-base"
+    onClick={handleSaveLocation}
+    disabled={!selectedCity || !selectedLocation}
+  >
+    Enregistrer ma localisation
+  </Button>
+</div>
         </DialogContent>
       </Dialog>
     </>
