@@ -182,8 +182,8 @@ export default function RequestsPage() {
     <div className="section-spacing">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Demandes</h1>
-          <p className="text-muted-foreground mt-2">Gérez vos demandes envoyées et reçues</p>
+          <h1 className="text-3xl font-bold tracking-tight text-center sm:text-left">Demandes</h1>
+          <p className="text-muted-foreground mt-2 text-center sm:text-left">Gérez vos demandes envoyées et reçues</p>
         </div>
 
         <Dialog open={isNewRequestOpen} onOpenChange={setIsNewRequestOpen}>
