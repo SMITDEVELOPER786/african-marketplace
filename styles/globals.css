@@ -1,81 +1,101 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Prevent horizontal scroll on all devices */
+html, body {
+  overflow-x: hidden !important;
+  width: 100%;
+  position: relative;
+}
+
+/* Optional: smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure container and components don’t overflow */
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  /* Palette de couleurs africaine améliorée avec plus de contraste */
+  --background: oklch(0.99 0.005 85);
+  --foreground: oklch(0.15 0.02 60);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.15 0.02 60);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.15 0.02 60);
+  --primary: oklch(0.55 0.15 35);
+  --primary-foreground: oklch(0.99 0.005 85);
+  --secondary: oklch(0.65 0.12 75);
+  --secondary-foreground: oklch(0.15 0.02 60);
+  --muted: oklch(0.96 0.01 85);
+  --muted-foreground: oklch(0.45 0.02 60);
+  --accent: oklch(0.45 0.08 140);
+  --accent-foreground: oklch(0.99 0.005 85);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --destructive-foreground: oklch(0.99 0.005 85);
+  --border: oklch(0.9 0.01 85);
+  --input: oklch(0.96 0.01 85);
+  --ring: oklch(0.55 0.15 35);
+  --chart-1: oklch(0.55 0.15 35);
+  --chart-2: oklch(0.65 0.12 75);
+  --chart-3: oklch(0.45 0.08 140);
+  --chart-4: oklch(0.6 0.18 25);
+  --chart-5: oklch(0.7 0.15 50);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.99 0.005 85);
+  --sidebar-foreground: oklch(0.15 0.02 60);
+  --sidebar-primary: oklch(0.55 0.15 35);
+  --sidebar-primary-foreground: oklch(0.99 0.005 85);
+  --sidebar-accent: oklch(0.96 0.01 85);
+  --sidebar-accent-foreground: oklch(0.15 0.02 60);
+  --sidebar-border: oklch(0.9 0.01 85);
+  --sidebar-ring: oklch(0.55 0.15 35);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --background: oklch(0.12 0.02 60);
+  --foreground: oklch(0.98 0.005 85);
+  --card: oklch(0.15 0.02 60);
+  --card-foreground: oklch(0.98 0.005 85);
+  --popover: oklch(0.15 0.02 60);
+  --popover-foreground: oklch(0.98 0.005 85);
+  --primary: oklch(0.65 0.15 35);
+  --primary-foreground: oklch(0.12 0.02 60);
+  --secondary: oklch(0.75 0.12 75);
+  --secondary-foreground: oklch(0.12 0.02 60);
+  --muted: oklch(0.2 0.02 60);
+  --muted-foreground: oklch(0.65 0.02 60);
+  --accent: oklch(0.5 0.08 140);
+  --accent-foreground: oklch(0.98 0.005 85);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0.005 85);
+  --border: oklch(0.22 0.02 60);
+  --input: oklch(0.2 0.02 60);
+  --ring: oklch(0.65 0.15 35);
+  --chart-1: oklch(0.65 0.15 35);
+  --chart-2: oklch(0.75 0.12 75);
+  --chart-3: oklch(0.5 0.08 140);
+  --chart-4: oklch(0.7 0.18 25);
+  --chart-5: oklch(0.8 0.15 50);
+  --sidebar: oklch(0.15 0.02 60);
+  --sidebar-foreground: oklch(0.98 0.005 85);
+  --sidebar-primary: oklch(0.65 0.15 35);
+  --sidebar-primary-foreground: oklch(0.12 0.02 60);
+  --sidebar-accent: oklch(0.2 0.02 60);
+  --sidebar-accent-foreground: oklch(0.98 0.005 85);
+  --sidebar-border: oklch(0.22 0.02 60);
+  --sidebar-ring: oklch(0.65 0.15 35);
 }
 
 @theme inline {
-  /* optional: --font-sans, --font-serif, --font-mono if they are applied in the layout.tsx */
+  --font-sans: "Geist", "Geist Fallback";
+  --font-mono: "Geist Mono", "Geist Mono Fallback";
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -118,36 +138,221 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
+  }
+
+  /* Scrollbars personnalisées modernes et fluides */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.7 0.02 60) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: oklch(0.7 0.02 60);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.55 0.15 35);
+  }
+
+  .dark *::-webkit-scrollbar-thumb {
+    background: oklch(0.35 0.02 60);
+  }
+
+  .dark *::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.65 0.15 35);
+  }
+
+  /* Mobile-first typography with responsive scaling */
+  h1 {
+    @apply text-2xl font-bold tracking-tight leading-tight sm:text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-xl font-bold tracking-tight leading-tight sm:text-2xl md:text-3xl;
+  }
+
+  h3 {
+    @apply text-lg font-semibold tracking-tight leading-snug sm:text-xl md:text-2xl;
+  }
+
+  h4 {
+    @apply text-base font-semibold tracking-tight leading-snug sm:text-lg md:text-xl;
+  }
+
+  h5 {
+    @apply text-sm font-semibold leading-snug sm:text-base md:text-lg;
+  }
+
+  h6 {
+    @apply text-sm font-semibold leading-normal sm:text-base;
+  }
+
+  p {
+    @apply text-sm leading-relaxed sm:text-base;
+  }
+
+  /* Animations fluides pour les transitions */
+  * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Focus visible amélioré pour l'accessibilité */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  /* Improve tap targets for mobile (minimum 44px) */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 2.75rem; /* 44px */
+  }
+
+  /* Prevent text size adjustment on mobile */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 }
-/* ======== LOGIN PAGE HEIGHT FIX ======== */
-.login-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: var(--muted);
-  padding: 1rem;
+
+/* Utilitaires pour les espacements cohérents */
+@layer utilities {
+  /* Mobile-first section spacing */
+  .section-spacing {
+    @apply py-4 sm:py-6 md:py-8 lg:py-12;
+  }
+
+  /* Mobile-first container spacing */
+  .container-spacing {
+    @apply px-4 sm:px-6 md:px-8 lg:px-12;
+  }
+
+  /* Mobile-first card spacing */
+  .card-spacing {
+    @apply p-3 sm:p-4 md:p-6;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Safe area for mobile devices with notches */
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Smooth scrolling for better mobile UX */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Responsive grid utilities */
+  .grid-responsive {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+  }
+
+  .grid-responsive-4 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+  }
+
+  /* Mobile-optimized flex utilities */
+  .flex-mobile-col {
+    @apply flex flex-col md:flex-row gap-4;
+  }
+
+  .flex-mobile-col-reverse {
+    @apply flex flex-col-reverse md:flex-row gap-4;
+  }
 }
 
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 1rem;
-  max-height: 90vh;
-  overflow-y: auto;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background-color: var(--card);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Reduce motion for better mobile performance */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Optimize font rendering on mobile */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Prevent zoom on input focus (iOS) */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="number"],
+  input[type="search"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
 }
 
-/* mobile adjustment */
-@media (max-width: 640px) {
-  .login-card {
-    max-height: 95vh;
-    margin-top: 0.5rem;
+/* Tablet-specific optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .section-spacing {
+    @apply py-6 md:py-8;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1024px) {
+  /* Enable hover effects only on desktop */
+  .hover-desktop:hover {
+    @apply scale-105 transition-transform duration-200;
   }
 }
