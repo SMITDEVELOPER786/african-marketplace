@@ -275,7 +275,7 @@ export default function RequestsPage() {
       </div>
 
       <Tabs defaultValue="sent" className="space-y-6">
-        <TabsList className="grid w-full max-w-md grid-cols-2">
+        <TabsList className="grid w-full max-w-md grid-cols-2 ">
           <TabsTrigger value="sent" className="gap-2">
             <Send className="h-4 w-4" />
             Envoyées ({filteredRequests("sent").length})
