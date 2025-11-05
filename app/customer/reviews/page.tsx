@@ -183,17 +183,22 @@ export default function CustomerReviewsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Mes avis</h1>
-          <p className="text-muted-foreground">Gérez vos avis et commentaires sur les commerces</p>
-        </div>
-        <Dialog open={isWriteReviewOpen} onOpenChange={setIsWriteReviewOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-[#B85C38] hover:bg-[#9A4A2E]">
-              <MessageSquare className="mr-2 h-4 w-4" />
-              Écrire un avis
-            </Button>
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+  <div className="text-center sm:text-left">
+    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Mes avis</h1>
+    <p className="text-muted-foreground text-sm sm:text-base pt-1">
+      Gérez vos avis et commentaires sur les commerces
+    </p>
+  </div>
+
+  <Dialog open={isWriteReviewOpen} onOpenChange={setIsWriteReviewOpen}>
+    <DialogTrigger asChild>
+      <Button className="!px-3 !py-1.5 sm:!px-4 sm:!py-2 bg-[#B85C38] hover:bg-[#9A4A2E] text-sm sm:text-base mx-auto sm:mx-0">
+        <MessageSquare className="mr-2 h-4 w-4" />
+        Écrire un avis
+      </Button>
+   
+
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
@@ -245,22 +250,23 @@ export default function CustomerReviewsPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-3">
-        {stats.map((stat) => {
-          const Icon = stat.icon
-          return (
-            <Card key={stat.title}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-                <Icon className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-              </CardContent>
-            </Card>
-          )
-        })}
-      </div>
+     <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3">
+  {stats.map((stat) => {
+    const Icon = stat.icon
+    return (
+      <Card key={stat.title} className="flex flex-col h-full">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 flex-grow-0">
+          <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+          <Icon className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent className="flex-grow flex items-end">
+          <div className="text-2xl font-bold">{stat.value}</div>
+        </CardContent>
+      </Card>
+    )
+  })}
+</div>
+
 
       {/* Search */}
       <Card>
