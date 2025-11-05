@@ -83,7 +83,7 @@ export default function FavoritesPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-center md:text-left">{t("customer.favorites")}</h1>
-        <p className="text-muted-foreground">{t("customer.favoritesDesc")}</p>
+        <p className="text-muted-foreground  text-center sm:text-left">{t("customer.favoritesDesc")}</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={handleTabChange}>
