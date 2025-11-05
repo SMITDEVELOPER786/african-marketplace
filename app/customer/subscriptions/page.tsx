@@ -69,8 +69,8 @@ export default function SubscriptionsPage() {
   return (
     <div className="section-spacing">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Mes abonnements</h1>
-        <p className="text-muted-foreground mt-2">Gérez votre abonnement et découvrez nos offres</p>
+        <h1 className="text-3xl font-bold tracking-tight text-center md:text-left">Mes abonnements</h1>
+        <p className="text-muted-foreground mt-2 text-center md:text-left">Gérez votre abonnement et découvrez nos offres</p>
       </div>
 
       <Card className="mb-8">
@@ -96,10 +96,10 @@ export default function SubscriptionsPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {plans.map((plan) => (
-          <Card key={plan.name} className={cn("relative", plan.popular && "border-blue-600 border-2")}>
+          <Card key={plan.name} className={cn("relative", plan.popular && "border-primary border-2")}>
             {plan.popular && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <Badge className="bg-orange-500 hover:bg-orange-600">Populaire</Badge>
+                <Badge className="bg-primary ">Populaire</Badge>
               </div>
             )}
             <CardHeader>
@@ -109,7 +109,8 @@ export default function SubscriptionsPage() {
                 <span className="text-muted-foreground">{plan.period}</span>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+          <CardContent className="flex flex-col space-y-4 h-full">
+
               <ul className="space-y-3">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
@@ -122,9 +123,13 @@ export default function SubscriptionsPage() {
                   </li>
                 ))}
               </ul>
-              <Button className="w-full" variant={plan.current ? "secondary" : "default"} disabled={plan.current}>
-                {plan.current ? "Plan actuel" : "S'abonner"}
-              </Button>
+             <Button
+  className="mt-auto w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300"
+  disabled={plan.current}
+>
+  {plan.current ? "Plan actuel" : "S'abonner"}
+</Button>
+
             </CardContent>
           </Card>
         ))}
