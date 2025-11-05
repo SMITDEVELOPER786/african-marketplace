@@ -566,4 +566,8 @@ export default function HomePage() {
       <MarketplaceFooter />
     </div>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c

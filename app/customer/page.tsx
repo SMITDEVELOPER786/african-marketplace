@@ -27,6 +27,7 @@ export default function CustomerDashboard() {
   ]
 
   return (
+<<<<<<< HEAD
     <div className="flex justify-center px-3 sm:px-6 lg:px-8">
       <div className="w-full max-w-6xl space-y-8 py-6">
         {/* Header */}
@@ -61,6 +62,47 @@ export default function CustomerDashboard() {
             )
           })}
         </div>
+=======
+    <div className="flex justify-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-6xl space-y-8 py-6">
+        {/* Header */}
+        <div className="text-center md:text-left">
+          <h1 className="text-3xl font-bold">
+            {t("customer.welcome")}, {user?.firstName}!
+          </h1>
+          <p className="text-muted-foreground">{t("customer.overview")}</p>
+        </div>
+
+        {/* Stats Grid */}
+      
+      
+      
+<div className="grid gap-3 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  {stats.map((stat) => {
+    const Icon = stat.icon
+    return (
+      <Link key={stat.title} href={stat.href}>
+        <Card className="group transition-all duration-300 hover:bg-accent cursor-pointer h-40 sm:h-32 flex flex-col justify-between">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium transition-colors group-hover:text-white">
+              {stat.title}
+            </CardTitle>
+            <Icon className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-white" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold transition-colors group-hover:text-white">
+              {stat.value}
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+    )
+  })}
+</div>
+
+
+
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
 
         {/* AI Recommendations */}
         <AIRecommendations />
@@ -68,6 +110,7 @@ export default function CustomerDashboard() {
         {/* Recent Orders */}
         <Card>
           <CardHeader>
+<<<<<<< HEAD
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="text-center sm:text-left">
                 <CardTitle className="text-lg sm:text-xl">{t("customer.recentOrders")}</CardTitle>
@@ -80,6 +123,14 @@ export default function CustomerDashboard() {
                 asChild
                 className="bg-accent text-white w-full sm:w-auto text-sm sm:text-base"
               >
+=======
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ">
+              <div className="text-center sm:text-left">
+                <CardTitle>{t("customer.recentOrders")}</CardTitle>
+                <CardDescription>{t("customer.viewAll")}</CardDescription>
+              </div>
+              <Button variant="outline" asChild className="bg-accent text-white">
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                 <Link href="/customer/orders">{t("customer.viewAll")}</Link>
               </Button>
             </div>
@@ -87,6 +138,7 @@ export default function CustomerDashboard() {
           <CardContent>
             <div className="space-y-4">
               {recentOrders.map((order) => (
+<<<<<<< HEAD
                 <div
                   key={order.id}
                   className="flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-lg border p-4 gap-3"
@@ -96,16 +148,30 @@ export default function CustomerDashboard() {
                     <div>
                       <p className="font-medium text-sm sm:text-base">{order.store}</p>
                       <p className="text-xs sm:text-sm text-muted-foreground">
+=======
+                <div key={order.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-lg border p-4 gap-3 sm:gap-0">
+                  <div className="flex items-center gap-4">
+                    <Package className="h-10 w-10 text-muted-foreground" />
+                    <div>
+                      <p className="font-medium">{order.store}</p>
+                      <p className="text-sm text-muted-foreground">
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                         {t("customer.orderNumber")}
                         {order.id} • {order.date}
                       </p>
                     </div>
                   </div>
+<<<<<<< HEAD
                   <div className="text-left sm:text-right">
                     <p className="font-semibold text-sm sm:text-base">{order.total}</p>
                     <p className="text-xs sm:text-sm text-green-600">
                       {t(`customer.${order.status}`)}
                     </p>
+=======
+                  <div className="text-right">
+                    <p className="font-semibold">{order.total}</p>
+                    <p className="text-sm text-green-600">{t(`customer.${order.status}`)}</p>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                   </div>
                 </div>
               ))}
@@ -114,9 +180,18 @@ export default function CustomerDashboard() {
         </Card>
 
         {/* AI Chatbot */}
+<<<<<<< HEAD
         <div className="fixed bottom-3 right-3 sm:bottom-8 sm:right-6 z-50">
           <AIChatbot />
         </div>
+=======
+ <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
+        <AIChatbot />
+      </div>
+
+
+
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
       </div>
     </div>
   )

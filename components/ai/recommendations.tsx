@@ -39,7 +39,11 @@ export function AIRecommendations() {
   ]
 
   return (
+<<<<<<< HEAD
     <Card className="w-full">
+=======
+    <Card>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
       <CardHeader>
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
@@ -47,6 +51,7 @@ export function AIRecommendations() {
         </div>
         <CardDescription>{t("customer.basedOnPreferences")}</CardDescription>
       </CardHeader>
+<<<<<<< HEAD
 
       <CardContent className="p-4 sm:p-6">
        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
@@ -62,11 +67,22 @@ export function AIRecommendations() {
                     className="object-cover"
                   />
                   <Badge className="absolute right-2 top-2 bg-primary text-white text-xs sm:text-sm">
+=======
+      <CardContent>
+        <div className="grid gap-4 md:grid-cols-3">
+          {recommendations.map((item) => (
+            <Link key={item.id} href={`/products/${item.id}`}>
+              <Card className="overflow-hidden transition-all hover:shadow-lg">
+                <div className="relative h-48 w-full">
+                  <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
+                  <Badge className="absolute right-2 top-2 bg-primary">
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                     {item.reason === "basedOnPreferences" && t("customer.recommendedForYou")}
                     {item.reason === "trendingNow" && t("customer.trendingNow")}
                     {item.reason === "newArrivals" && t("customer.newArrivals")}
                   </Badge>
                 </div>
+<<<<<<< HEAD
 
                 <CardContent className="p-4">
                   <h3 className="font-semibold text-sm sm:text-base">{item.name}</h3>
@@ -76,6 +92,14 @@ export function AIRecommendations() {
                     <Button size="sm" className="text-xs sm:text-sm">
                       {t("store.viewDetails")}
                     </Button>
+=======
+                <CardContent className="p-4">
+                  <h3 className="font-semibold">{item.name}</h3>
+                  <p className="text-sm text-muted-foreground">{item.store}</p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <span className="text-lg font-bold">{item.price}</span>
+                    <Button size="sm">{t("store.viewDetails")}</Button>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                   </div>
                 </CardContent>
               </Card>

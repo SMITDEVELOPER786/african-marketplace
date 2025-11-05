@@ -46,6 +46,7 @@ export function AIChatbot() {
     <>
       {/* Floating Chat Icon */}
       {!isOpen && (
+<<<<<<< HEAD
         <Button
           onClick={() => setIsOpen(true)}
           size="lg"
@@ -56,10 +57,23 @@ export function AIChatbot() {
         >
           <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </Button>
+=======
+   <Button
+  onClick={() => setIsOpen(true)}
+  size="lg"
+  className="fixed bottom-4 right-62 sm:bottom-6 sm:right-16 md:bottom-2 md:right-2 lg:right-16 xl:right-20 
+             h-14 w-14 rounded-full shadow-lg z-50 bg-[#b5432a] hover:bg-[#a53b24]
+             translate-x-0 overflow-hidden"
+>
+  <MessageCircle className="h-6 w-6 text-white" />
+</Button>
+
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
       )}
 
       {/* Chat Window */}
       {isOpen && (
+<<<<<<< HEAD
         <Card
           className={cn(
             "fixed bottom-4 right-4 left-4 sm:left-auto sm:w-[90vw] md:w-[370px] lg:w-[380px] xl:w-[400px]",
@@ -72,6 +86,22 @@ export function AIChatbot() {
             <div className="flex items-center gap-2">
               <Bot className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               <CardTitle className="text-base sm:text-lg">
+=======
+      <Card
+  className={cn(
+  "fixed bottom-3 right-30 sm:right-4 md:right-6 lg:right-8 w-[54%] sm:w-[90%] md:w-[370px] lg:w-[380px] xl:w-[400px]",
+  "max-h-[75vh] flex flex-col rounded-2xl border border-gray-200 shadow-2xl z-50"
+)}
+
+
+>
+
+          {/* Header */}
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
+            <div className="flex items-center gap-2">
+              <Bot className="h-6 w-5 text-primary" />
+              <CardTitle className="text-lg mb-1">
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                 {t("customer.aiAssistant")}
               </CardTitle>
             </div>
@@ -79,20 +109,34 @@ export function AIChatbot() {
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
+<<<<<<< HEAD
               className="h-8 w-8 sm:h-9 sm:w-9 hover:bg-transparent"
               aria-label={t("customer.closeChat") || "Close chat"}
+=======
+              className="hover:bg-transparent"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
             >
               <X className="h-4 w-4" />
             </Button>
           </CardHeader>
 
           {/* Chat Body */}
+<<<<<<< HEAD
           <CardContent className="flex flex-col flex-grow space-y-0 px-4 sm:px-6 pb-4 sm:pb-6">
             {/* Messages (Scrollable Area) */}
             <div
               className="flex-grow overflow-y-auto max-h-[50vh] sm:max-h-[45vh] rounded-lg border p-3 bg-background
                          space-y-3 sm:space-y-4 overflow-x-hidden"
             >
+=======
+          <CardContent className="flex flex-col flex-grow space-y-0">
+            {/* Messages (Scrollable Area) */}
+           <div
+  className="flex-grow overflow-y-auto max-h-[45vh] sm:max-h-[50vh] rounded-lg border p-3 bg-background
+             space-y-4 overflow-x-hidden"
+>
+
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               {messages.map((message, index) => (
                 <div
                   key={index}
@@ -103,7 +147,11 @@ export function AIChatbot() {
                 >
                   <div
                     className={cn(
+<<<<<<< HEAD
                       "max-w-[85%] sm:max-w-[80%] rounded-lg px-3 py-2 text-sm break-words leading-relaxed",
+=======
+                      "max-w-[80%] rounded-lg px-4 py-2 text-sm break-words leading-relaxed",
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                       message.role === "user"
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted"
@@ -116,19 +164,31 @@ export function AIChatbot() {
             </div>
 
             {/* Input Field */}
+<<<<<<< HEAD
             <div className="flex items-center gap-2 mt-3 sm:mt-4">
+=======
+            <div className="flex items-center gap-2 mt-2">
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 placeholder={t("customer.askQuestion")}
+<<<<<<< HEAD
                 className="text-sm flex-1 h-10 sm:h-9"
+=======
+                className="text-sm flex-1"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               />
               <Button
                 onClick={handleSend}
                 size="icon"
+<<<<<<< HEAD
                 className="shrink-0 h-10 w-10 sm:h-9 sm:w-9 bg-[#b5432a] hover:bg-[#a53b24]"
                 aria-label={t("customer.sendMessage") || "Send message"}
+=======
+                className="shrink-0 bg-[#b5432a] hover:bg-[#a53b24]"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               >
                 <Send className="h-4 w-4 text-white" />
               </Button>
@@ -138,4 +198,9 @@ export function AIChatbot() {
       )}
     </>
   )
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c

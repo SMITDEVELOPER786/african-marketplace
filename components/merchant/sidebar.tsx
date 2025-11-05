@@ -114,10 +114,17 @@ export function MerchantSidebar({ isRestaurant = false }: MerchantSidebarProps) 
               <Button
                 variant={isActive ? "secondary" : "ghost"}
                 className={cn(
+<<<<<<< HEAD
                   "w-full justify-start gap-3 transition-all duration-200 mb-1",
                   isCollapsed && !mobile && "justify-center px-2",
                   isActive && "bg-sidebar-accent text-sidebar-primary font-medium shadow-sm",
                   !isActive && "hover:bg-sidebar-accent hover:text-sidebar-primary hover:font-medium hover:shadow-sm",
+=======
+                  "w-full justify-start gap-3 transition-all duration-200",
+                  isCollapsed && !mobile && "justify-center px-2",
+                  isActive && "bg-sidebar-accent text-sidebar-primary font-medium shadow-sm",
+                  !isActive && "hover:bg-sidebar-accent/50",
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                 )}
                 title={isCollapsed && !mobile ? item.name : undefined}
               >
@@ -137,8 +144,12 @@ export function MerchantSidebar({ isRestaurant = false }: MerchantSidebarProps) 
                 isCollapsed && !mobile && "justify-center px-2",
                 pathname.startsWith(`${basePath}/users`) &&
                   "bg-sidebar-accent text-sidebar-primary font-medium shadow-sm",
+<<<<<<< HEAD
              !pathname.startsWith(`${basePath}/users`) &&
   "hover:bg-sidebar-accent hover:text-sidebar-primary hover:font-medium hover:shadow-sm",
+=======
+                !pathname.startsWith(`${basePath}/users`) && "hover:bg-sidebar-accent/50",
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               )}
               title={isCollapsed && !mobile ? "Utilisateurs" : undefined}
             >
@@ -174,7 +185,11 @@ export function MerchantSidebar({ isRestaurant = false }: MerchantSidebarProps) 
                       className={cn(
                         "w-full justify-start transition-all duration-200",
                         isActive && "bg-sidebar-accent text-sidebar-primary font-medium",
+<<<<<<< HEAD
                        !isActive && "hover:bg-sidebar-accent hover:text-sidebar-primary hover:font-medium",
+=======
+                        !isActive && "hover:bg-sidebar-accent/50",
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                       )}
                     >
                       <span className="truncate">{item.name}</span>
@@ -192,7 +207,11 @@ export function MerchantSidebar({ isRestaurant = false }: MerchantSidebarProps) 
           <Button
             variant="ghost"
             className={cn(
+<<<<<<< HEAD
            "w-full justify-start gap-3  transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-primary hover:font-medium hover:shadow-sm",
+=======
+              "w-full justify-start gap-3 hover:bg-sidebar-accent/50 transition-all duration-200",
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               isCollapsed && !mobile && "justify-center px-2",
             )}
             title={isCollapsed && !mobile ? "Retour au site" : undefined}
@@ -214,7 +233,11 @@ export function MerchantSidebar({ isRestaurant = false }: MerchantSidebarProps) 
             size="icon"
             className="fixed left-4 top-20 z-50 md:hidden shadow-lg hover:shadow-xl transition-shadow duration-200 bg-transparent"
           >
+<<<<<<< HEAD
             <Menu className="h-5 w-5  " />
+=======
+            <Menu className="h-5 w-5" />
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
             <span className="sr-only">Ouvrir le menu</span>
           </Button>
         </SheetTrigger>

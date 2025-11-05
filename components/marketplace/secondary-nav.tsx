@@ -4,6 +4,7 @@ import Link from "next/link"
 import { MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
+<<<<<<< HEAD
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+=======
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
 
 const locations = {
   europe: {
@@ -73,7 +78,11 @@ export function SecondaryNav() {
           region: selectedRegion,
           location: selectedLocation,
           city: selectedCity,
+<<<<<<< HEAD
         })
+=======
+        }),
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
       )
       setIsLocationDialogOpen(false)
     }
@@ -88,6 +97,7 @@ export function SecondaryNav() {
 
   return (
     <>
+<<<<<<< HEAD
       {/* NAVBAR */}
       <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
@@ -97,35 +107,61 @@ export function SecondaryNav() {
               <Link
                 href="/"
                 className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
+=======
+      <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex h-14 items-center justify-between">
+            <div className="flex items-center gap-6">
+              <Link
+                href="/"
+                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               >
                 Accueil
               </Link>
               <Link
                 href="/search/results?type=store"
+<<<<<<< HEAD
                 className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
+=======
+                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               >
                 Commerces
               </Link>
               <Link
                 href="/search/results?type=restaurant"
+<<<<<<< HEAD
                 className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
+=======
+                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               >
                 Restaurants
               </Link>
               <Link
                 href="/about"
+<<<<<<< HEAD
                 className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
+=======
+                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               >
                 À propos
               </Link>
               <Link
                 href="/help"
+<<<<<<< HEAD
                 className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
+=======
+                className="text-sm font-medium transition-colors hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-md"
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               >
                 Aide
               </Link>
             </div>
 
+<<<<<<< HEAD
             {/* Location Button for Desktop */}
             <div className="hidden sm:block">
               <Button
@@ -138,10 +174,22 @@ export function SecondaryNav() {
                 <span className="text-sm">{getLocationDisplay()}</span>
               </Button>
             </div>
+=======
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 bg-transparent"
+              onClick={() => setIsLocationDialogOpen(true)}
+            >
+              <MapPin className="h-4 w-4" />
+              <span className="hidden sm:inline">{getLocationDisplay()}</span>
+            </Button>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
           </div>
         </div>
       </nav>
 
+<<<<<<< HEAD
       {/* Location Button for Mobile (Below Navbar) */}
       <div className="flex sm:hidden justify-center mt-2 mb-2 px-3">
         <Button
@@ -163,6 +211,13 @@ export function SecondaryNav() {
               Choisissez votre localisation
             </DialogTitle>
             <DialogDescription className="text-center text-sm text-muted-foreground">
+=======
+      <Dialog open={isLocationDialogOpen} onOpenChange={setIsLocationDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Choisissez votre localisation</DialogTitle>
+            <DialogDescription>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               Sélectionnez votre pays et ville pour voir les commerces et restaurants près de chez vous
             </DialogDescription>
           </DialogHeader>
@@ -178,7 +233,11 @@ export function SecondaryNav() {
                   setSelectedCity("")
                 }}
               >
+<<<<<<< HEAD
                 <SelectTrigger className="text-sm sm:text-base">
+=======
+                <SelectTrigger>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                   <SelectValue placeholder="Sélectionner une région" />
                 </SelectTrigger>
                 <SelectContent>
@@ -201,7 +260,11 @@ export function SecondaryNav() {
                     setSelectedCity("")
                   }}
                 >
+<<<<<<< HEAD
                   <SelectTrigger className="text-sm sm:text-base">
+=======
+                  <SelectTrigger>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
@@ -219,7 +282,11 @@ export function SecondaryNav() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Ville</label>
                 <Select value={selectedCity} onValueChange={setSelectedCity}>
+<<<<<<< HEAD
                   <SelectTrigger className="text-sm sm:text-base">
+=======
+                  <SelectTrigger>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
                     <SelectValue placeholder="Sélectionner une ville" />
                   </SelectTrigger>
                   <SelectContent>
@@ -235,11 +302,15 @@ export function SecondaryNav() {
               </div>
             )}
 
+<<<<<<< HEAD
             <Button
               className="w-full mt-2 text-sm sm:text-base"
               onClick={handleSaveLocation}
               disabled={!selectedCity || !selectedLocation}
             >
+=======
+            <Button className="w-full" onClick={handleSaveLocation} disabled={!selectedCity || !selectedLocation}>
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
               Enregistrer ma localisation
             </Button>
           </div>
@@ -247,4 +318,8 @@ export function SecondaryNav() {
       </Dialog>
     </>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e899e3933e2fb3ea988293be82ee60f3e5f0731c
