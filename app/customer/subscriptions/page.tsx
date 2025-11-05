@@ -67,7 +67,7 @@ export default function SubscriptionsPage() {
   ]
 
   return (
-    <div className="section-spacing">
+    <div className="section-spacing pt-20">
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-center md:text-left">Mes abonnements</h1>
         <p className="text-muted-foreground mt-2 text-center md:text-left">Gérez votre abonnement et découvrez nos offres</p>

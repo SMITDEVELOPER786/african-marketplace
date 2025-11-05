@@ -40,7 +40,7 @@ const promotions = [
 
 export default function PromotionsPage() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-20">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Promotions</h1>
         <p className="text-muted-foreground mt-2">Découvrez toutes les offres spéciales et promotions disponibles</p>

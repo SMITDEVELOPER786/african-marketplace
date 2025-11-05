@@ -38,7 +38,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
         className={`hidden md:block flex-shrink-0 transition-all duration-300 ${isCollapsed ? "w-16" : "w-64"}`}
         aria-hidden="true"
       />
-      <main className="flex-1 p-4 md:p-6 lg:p-8 bg-background">{children}</main>
+      <main className="flex-1 p-4 md:p-6 lg:p-8 bg-background ">{children}</main>
     </div>
   )
 }

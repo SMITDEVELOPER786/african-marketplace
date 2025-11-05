@@ -186,7 +186,7 @@ Présentez les codes-barres de chaque produit en magasin pour vérification lors
   }
 
   return (
-    <div className="container max-w-7xl py-8">
+    <div className="container max-w-7xl py-8 ">
       {/* Header */}
       <div className="mb-8">
         <Link

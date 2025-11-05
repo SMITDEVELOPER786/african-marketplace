@@ -87,14 +87,14 @@ export function CustomerSidebar() {
               <Button
                 variant={isActive ? "secondary" : "ghost"}
                 className={cn(
-                  "w-full justify-start gap-3 transition-all duration-200  ",
+                  "w-full justify-start gap-3 transition-all duration-200 hover:bg-primary  hover:text-white ",
                   isCollapsed && !mobile && "justify-center px-2",
                   isActive && "bg-sidebar-accent text-sidebar-primary font-medium shadow-sm",
-                  !isActive && "hover:text-white hover:font-semibold",
+                  !isActive && "hover:text-white hover:font-semibold ",
                 )}
                 title={isCollapsed && !mobile ? item.label : undefined}
               >
-                <Icon className={cn("h-5 w-5 flex-shrink-0", isActive && "text-sidebar-primary")} />
+                <Icon className={cn("h-5 w-5 flex-shrink-0 hover:text-white", isActive && "text-sidebar-primary hover:white")} />
                 {(!isCollapsed || mobile) && <span className="truncate">{item.label}</span>}
               </Button>
             </Link>

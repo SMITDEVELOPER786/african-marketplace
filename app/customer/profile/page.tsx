@@ -151,7 +151,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <div className="min-h-screen pb-20 md:pb-8">
+      <div className="min-h-screen pb-20 md:pb-8 pt-10">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
             {/* <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">

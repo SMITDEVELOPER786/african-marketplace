@@ -34,10 +34,10 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="section-spacing max-w-4xl">
+    <div className="section-spacing max-w-4xl pt-20">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Paramètres</h1>
-        <p className="text-muted-foreground mt-2">Gérez vos préférences et paramètres de compte</p>
+        <h1 className="text-3xl font-bold tracking-tight text-center md:text-left">Paramètres</h1>
+        <p className="text-muted-foreground mt-2 text-center md:text-left">Gérez vos préférences et paramètres de compte</p>
       </div>
 
       <div className="space-y-6">
@@ -225,7 +225,7 @@ export default function SettingsPage() {
 
         <div className="flex justify-end gap-3">
           <Button variant="outline">Annuler</Button>
-          <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">
+          <Button onClick={handleSave} className="bg-primary ">
             Enregistrer les modifications
           </Button>
         </div>

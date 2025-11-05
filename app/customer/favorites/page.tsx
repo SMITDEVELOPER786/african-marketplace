@@ -80,7 +80,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-20">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-center md:text-left">{t("customer.favorites")}</h1>
         <p className="text-muted-foreground  text-center sm:text-left">{t("customer.favoritesDesc")}</p>

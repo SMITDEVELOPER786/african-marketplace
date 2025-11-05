@@ -22,7 +22,7 @@ export default function SupportPage() {
   }
 
   return (
-    <section className="px-4 py-10 sm:px-6 lg:px-12 max-w-6xl mx-auto">
+    <section className="px-4 py-10 sm:px-6 lg:px-12 max-w-6xl mx-auto pt-20">
       {/* Header */}
       <div className="mb-10 text-center md:text-left">
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">Support</h1>

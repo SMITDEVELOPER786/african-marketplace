@@ -59,7 +59,7 @@ export default function DealsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-20">
       {/* --- Header Section --- */}
       <div className="text-center sm:text-left">
         <h1 className="text-3xl font-bold tracking-tight flex items-center justify-center sm:justify-start gap-2">
