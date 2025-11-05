@@ -89,7 +89,7 @@ export default function OrdersPage() {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="text-center md:text-left">
         <h1 className="text-3xl font-bold tracking-tight">Commandes</h1>
         <p className="text-muted-foreground">Suivez l'historique de toutes vos commandes</p>
       </div>
