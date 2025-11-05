@@ -91,9 +91,10 @@ export function SecondaryNav() {
       {/* NAVBAR */}
       <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex h-14 items-center justify-between">
+          <div className="flex h-10 pt-5 items-center justify-between">
             {/* Left Links */}
-            <div className="flex items-center gap-2 sm:gap-6 text-xs sm:text-sm overflow-x-auto no-scrollbar">
+<div className="flex items-center gap-2 sm:gap-6 text-xs sm:text-sm overflow-x-auto no-scrollbar justify-center sm:justify-start">
+
               <Link
                 href="/"
                 className="font-medium transition-colors hover:text-primary hover:bg-primary/5 px-2 py-1 sm:px-3 sm:py-2 rounded-md whitespace-nowrap"
