@@ -218,7 +218,7 @@ html {
   }
 
   /* Improve tap targets for mobile (minimum 44px) */
-  button,
+  button:not([role="switch"], [role="checkbox"]),
   a,
   input,
   select,

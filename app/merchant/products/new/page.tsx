@@ -189,7 +189,8 @@ export default function NewProductPage() {
   }
 
   return (
-    <div className="p-6 md:p-8">
+    // === FIX 2: Page padding changed from p-6 to p-4 ===
+    <div className="p-4 md:p-8">
       <div className="mb-6 flex items-center gap-4">
         <Link href="/merchant/catalog">
           <Button variant="ghost" size="icon">
@@ -197,7 +198,8 @@ export default function NewProductPage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold">Ajouter un produit</h1>
+          {/* === FIX 3: Title changed from text-3xl to responsive text-2xl sm:text-3xl === */}
+          <h1 className="text-2xl sm:text-3xl font-bold">Ajouter un produit</h1>
           <p className="mt-1 text-muted-foreground">Créez un nouveau produit pour votre boutique</p>
         </div>
       </div>
@@ -207,10 +209,11 @@ export default function NewProductPage() {
           {/* Main Content */}
           <div className="space-y-6 lg:col-span-2">
             <Tabs defaultValue="general" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="general">Informations générales</TabsTrigger>
-                <TabsTrigger value="pricing">Prix & Stock</TabsTrigger>
-                <TabsTrigger value="variants">Variantes</TabsTrigger>
+              {/* === FIX 1: Tabs grid changed from grid-cols-3 to responsive grid-cols-1 sm:grid-cols-3 === */}
+              <TabsList className="grid w-full  grid-cols-3">
+                <TabsTrigger value="general" className="text-[9px] sm:text-sm ">Informations générales</TabsTrigger>
+                <TabsTrigger value="pricing" className="text-[9px] sm:text-sm">Prix & Stock</TabsTrigger>
+                <TabsTrigger value="variants" className="text-[9px] sm:text-sm">Variantes</TabsTrigger>
               </TabsList>
 
               <TabsContent value="general" className="space-y-6">
@@ -441,7 +444,8 @@ export default function NewProductPage() {
                   <CardContent className="space-y-4">
                     <div>
                       <Label htmlFor="slug">URL du produit (slug)</Label>
-                      <div className="flex items-center gap-2">
+                      {/* === FIX 4: Changed flex to flex-col sm:flex-row === */}
+                      <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
                         <span className="text-sm text-muted-foreground">/produits/</span>
                         <Input
                           id="slug"
@@ -542,10 +546,11 @@ export default function NewProductPage() {
                         <div className="space-y-4">
                           <div>
                             <Label>Type de promotion</Label>
+                            {/* === FIX 5: RadioGroup changed to flex-col sm:flex-row === */}
                             <RadioGroup
                               value={formData.promotionType}
                               onValueChange={(value) => setFormData({ ...formData, promotionType: value })}
-                              className="mt-2 flex gap-4"
+                              className="mt-2 flex flex-col sm:flex-row gap-2 sm:gap-4"
                             >
                               <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="amount" id="amount" />

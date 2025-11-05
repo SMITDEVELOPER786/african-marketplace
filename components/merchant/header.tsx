@@ -46,13 +46,14 @@ export function MerchantHeader({ userName = "Com ANIKA", userRole = "Commerçant
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 h-16 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
+    <header className="fixed top-0 left-0 right-0 z-500 h-16 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
       <div className="flex h-full items-center justify-between px-4 md:px-6">
         <Link href="/merchant" className="flex items-center gap-2 transition-opacity hover:opacity-80">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary shadow-sm">
             <span className="font-bold text-primary-foreground text-lg">A</span>
           </div>
-          <span className="font-bold text-xl hidden sm:inline">AfroMarket</span>
+          {/* <span className="font-bold text-xl hidden sm:inline">AfroMarket</span> */}
+          <span className="font-bold text-xl hidden sm:inline truncate">AfroMarket</span>
         </Link>
 
         <div className="flex items-center gap-2 md:gap-3">

@@ -9,12 +9,12 @@ export default function MerchantLayout({ children }: { children: React.NodeNode 
       <MerchantHeader />
 
       {/* Container for sidebar and main content */}
-      <div className="flex pt-16">
+      <div className="flex pt-16 sm:pt-5">
         {/* Sidebar - Fixed on left with smooth transitions */}
         <MerchantSidebar />
 
         <main className="flex-1 min-h-[calc(100vh-4rem)] overflow-y-auto">
-          <div className="container-spacing section-spacing max-w-[1600px] mx-auto">{children}</div>
+          <div className="container-spacing section-spacing max-w-[1600px] mx-auto mt-10">{children}</div>
         </main>
       </div>
     </div>

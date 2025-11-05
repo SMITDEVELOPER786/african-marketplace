@@ -32,6 +32,10 @@ const Tooltip = dynamic(() => import("recharts").then((mod) => mod.Tooltip), { s
 const ResponsiveContainer = dynamic(() => import("recharts").then((mod) => mod.ResponsiveContainer), { ssr: false })
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Legend } from "recharts"
+
+
+
 
 const salesData = [
   { name: "Lun", sales: 4200, orders: 42 },
@@ -131,8 +135,8 @@ export default function MerchantDashboardPage() {
   ]
 
   return (
-    <div className="p-6 md:p-8">
-      <div className="mb-8">
+    <div className="p-0 md:p-0">
+      <div className="mb-8 -mt10">
         <h1 className="text-3xl font-bold">Tableau de bord</h1>
         <p className="mt-2 text-muted-foreground">Vue d'ensemble complète de votre activité commerciale</p>
       </div>
@@ -142,8 +146,8 @@ export default function MerchantDashboardPage() {
         {stats.map((stat) => {
           const Icon = stat.icon
           return (
-            <Card key={stat.title}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <Card key={stat.title} className="transition-all duration-300 hover:-mt-2 hover:shadow-lg hover:bg-sidebar-accent">
+              <CardHeader className="flex flex-row items-center justify-between pb-2 ">
                 <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>
                 <Icon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -161,14 +165,20 @@ export default function MerchantDashboardPage() {
       </div>
 
       <Tabs defaultValue="overview" className="mb-8">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
-          <TabsTrigger value="sales">Ventes détaillées</TabsTrigger>
-          <TabsTrigger value="products">Produits</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsTrigger value="overview" className="text-xs sm:text-sm">
+            Vue d'ensemble
+          </TabsTrigger>
+          <TabsTrigger value="sales" className="text-xs sm:text-sm">
+            Ventes détaillées
+          </TabsTrigger>
+          <TabsTrigger value="products" className="text-xs sm:text-sm">
+            Produits
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle>Ventes de la semaine</CardTitle>
@@ -191,14 +201,14 @@ export default function MerchantDashboardPage() {
                 <CardTitle>Répartition par catégorie</CardTitle>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
+                {/* <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
                       data={categoryData}
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      label={renderCustomizedLabel}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
@@ -209,7 +219,26 @@ export default function MerchantDashboardPage() {
                     </Pie>
                     <Tooltip />
                   </PieChart>
-                </ResponsiveContainer>
+                </ResponsiveContainer> */}
+                <ResponsiveContainer width="100%" height={300}>
+  <PieChart>
+    <Pie
+      data={categoryData}
+      cx="50%"
+      cy="50%"
+      
+      outerRadius={80}
+      fill="#8884d8"
+      dataKey="value"
+    >
+      {categoryData.map((entry, index) => (
+        <Cell key={`cell-${index}`} fill={entry.color} />
+      ))}
+    </Pie>
+    <Tooltip />
+    <Legend /> 
+  </PieChart>
+</ResponsiveContainer>
               </CardContent>
             </Card>
           </div>
