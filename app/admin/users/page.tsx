@@ -336,7 +336,7 @@ export default function AdminUsersPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4 ">
+        <TabsList className="mb-4 hidden">
           <TabsTrigger value="all">Tous ({users.length})</TabsTrigger>
           <TabsTrigger value="clients">Clients ({users.filter((u) => u.type === "client").length})</TabsTrigger>
           <TabsTrigger value="merchants">Commerçants ({users.filter((u) => u.type === "merchant").length})</TabsTrigger>
