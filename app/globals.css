@@ -1,6 +1,24 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Prevent horizontal scroll on all devices */
+html, body {
+  overflow-x: hidden !important;
+  width: 100%;
+  position: relative;
+}
+
+/* Optional: smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure container and components don’t overflow */
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
