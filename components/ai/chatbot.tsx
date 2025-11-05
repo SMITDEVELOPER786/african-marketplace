@@ -49,9 +49,9 @@ export function AIChatbot() {
    <Button
   onClick={() => setIsOpen(true)}
   size="lg"
- className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8 
-           h-14 w-14 rounded-full shadow-lg z-50 bg-[#b5432a] hover:bg-[#a53b24]"
-
+  className="fixed bottom-4 right-62 sm:bottom-6 sm:right-16 md:bottom-2 md:right-2 lg:right-16 xl:right-20 
+             h-14 w-14 rounded-full shadow-lg z-50 bg-[#b5432a] hover:bg-[#a53b24]
+             translate-x-0 overflow-hidden"
 >
   <MessageCircle className="h-6 w-6 text-white" />
 </Button>
@@ -62,7 +62,7 @@ export function AIChatbot() {
       {isOpen && (
       <Card
   className={cn(
-  "fixed bottom-3 right-60 sm:right-4 md:right-6 lg:right-8 w-[54%] sm:w-[90%] md:w-[370px] lg:w-[380px] xl:w-[400px]",
+  "fixed bottom-3 right-30 sm:right-4 md:right-6 lg:right-8 w-[54%] sm:w-[90%] md:w-[370px] lg:w-[380px] xl:w-[400px]",
   "max-h-[75vh] flex flex-col rounded-2xl border border-gray-200 shadow-2xl z-50"
 )}
 
@@ -140,3 +140,4 @@ export function AIChatbot() {
     </>
   )
 }
+
