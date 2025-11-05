@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Menu, Home, Store, UtensilsCrossed, Info, HelpCircle, Languages } from "lucide-react"
+import { Menu, X, Home, Store, UtensilsCrossed, Info, HelpCircle, Languages } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { useLanguage, type Language } from "@/lib/i18n-context"
@@ -30,17 +30,17 @@ export function MobileNav() {
     { href: "/help", label: t("nav.help"), icon: HelpCircle },
   ]
 
-  const currentLanguage = languages.find((lang) => lang.code === language)
-
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
+        {/* Let Sheet handle the toggle automatically, no onClick */}
         <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu className="h-5 w-5" />
-          <span className="sr-only">{t("common.openMenu")}</span>
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <span className="sr-only">{isOpen ? t("common.closeMenu") : t("common.openMenu")}</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[280px] sm:w-[320px]">
+
+      <SheetContent side="left" className="w-[280px] sm:w-[320px]" modal>
         <SheetHeader>
           <SheetTitle className="text-left">Menu</SheetTitle>
         </SheetHeader>
@@ -75,7 +75,7 @@ export function MobileNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setIsOpen(false)}
+                onClick={() => setIsOpen(false)} // close menu when a link is clicked
                 className="flex items-center gap-3 rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-muted"
               >
                 <Icon className="h-5 w-5 text-muted-foreground" />
