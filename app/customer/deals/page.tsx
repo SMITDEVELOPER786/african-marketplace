@@ -60,8 +60,9 @@ export default function DealsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+      {/* --- Header Section --- */}
+      <div className="text-center sm:text-left">
+        <h1 className="text-3xl font-bold tracking-tight flex items-center justify-center sm:justify-start gap-2">
           <Sparkles className="h-8 w-8 text-yellow-500" />
           Bonnes affaires
         </h1>
@@ -70,56 +71,57 @@ export default function DealsPage() {
         </p>
       </div>
 
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                placeholder="Rechercher une offre, un commerce..."
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value)
-                  setCurrentPage(1)
-                }}
-                className="pl-9"
-              />
-            </div>
-            <div className="flex gap-2">
-              <Select
-                value={categoryFilter}
-                onValueChange={(value) => {
-                  setCategoryFilter(value)
-                  setCurrentPage(1)
-                }}
-              >
-                <SelectTrigger className="w-[180px]">
-                  <Filter className="mr-2 h-4 w-4" />
-                  <SelectValue placeholder="Catégorie" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Toutes les catégories</SelectItem>
-                  <SelectItem value="fashion">Mode & Tissus</SelectItem>
-                  <SelectItem value="food">Restaurants</SelectItem>
-                  <SelectItem value="grocery">Épicerie</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Trier par" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="discount">Meilleure réduction</SelectItem>
-                  <SelectItem value="price">Prix croissant</SelectItem>
-                  <SelectItem value="popular">Plus populaire</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* --- Filter/Search Section --- */}
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  {/* Search Input */}
+  <div className="relative w-full sm:flex-1">
+    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+    <Input
+      placeholder="Rechercher une offre, un commerce..."
+      value={searchQuery}
+      onChange={(e) => {
+        setSearchQuery(e.target.value)
+        setCurrentPage(1)
+      }}
+      className="pl-9 w-full"
+    />
+  </div>
 
-      {/* Résultats */}
+  {/* Filters */}
+  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+    <Select
+      value={categoryFilter}
+      onValueChange={(value) => {
+        setCategoryFilter(value)
+        setCurrentPage(1)
+      }}
+    >
+      <SelectTrigger className="w-full sm:w-[180px]">
+        <Filter className="mr-2 h-4 w-4" />
+        <SelectValue placeholder="Catégorie" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="all">Toutes les catégories</SelectItem>
+        <SelectItem value="fashion">Mode & Tissus</SelectItem>
+        <SelectItem value="food">Restaurants</SelectItem>
+        <SelectItem value="grocery">Épicerie</SelectItem>
+      </SelectContent>
+    </Select>
+
+    <Select value={sortBy} onValueChange={setSortBy}>
+      <SelectTrigger className="w-full sm:w-[180px]">
+        <SelectValue placeholder="Trier par" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="discount">Meilleure réduction</SelectItem>
+        <SelectItem value="price">Prix croissant</SelectItem>
+        <SelectItem value="popular">Plus populaire</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</div>
+
+      {/* --- Results Section --- */}
       {paginatedDeals.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
@@ -165,7 +167,9 @@ export default function DealsPage() {
                 <CardContent className="space-y-4">
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl font-bold text-primary">€{deal.discountedPrice.toFixed(2)}</span>
-                    <span className="text-lg text-muted-foreground line-through">€{deal.originalPrice.toFixed(2)}</span>
+                    <span className="text-lg text-muted-foreground line-through">
+                      €{deal.originalPrice.toFixed(2)}
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between text-sm">
@@ -185,6 +189,7 @@ export default function DealsPage() {
             ))}
           </div>
 
+          {/* --- Pagination --- */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 mt-8">
               <Button
@@ -198,15 +203,10 @@ export default function DealsPage() {
               <div className="flex items-center gap-1">
                 {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
                   let pageNum
-                  if (totalPages <= 5) {
-                    pageNum = i + 1
-                  } else if (currentPage <= 3) {
-                    pageNum = i + 1
-                  } else if (currentPage >= totalPages - 2) {
-                    pageNum = totalPages - 4 + i
-                  } else {
-                    pageNum = currentPage - 2 + i
-                  }
+                  if (totalPages <= 5) pageNum = i + 1
+                  else if (currentPage <= 3) pageNum = i + 1
+                  else if (currentPage >= totalPages - 2) pageNum = totalPages - 4 + i
+                  else pageNum = currentPage - 2 + i
                   return (
                     <Button
                       key={pageNum}
