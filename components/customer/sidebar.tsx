@@ -102,12 +102,12 @@ export function CustomerSidebar() {
         })}
       </nav>
 
-      <div className="border-t border-sidebar-border p-3">
+      <div className="border-t border-sidebar-border p-3 ">
         <Link href="/login" onClick={() => mobile && setIsMobileOpen(false)}>
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-start gap-3 hover:bg-sidebar-accent transition-all duration-200 ",
+              "w-full justify-start gap-3 hover:bg-sidebar-accent transition-all duration-200 hover:bg-primary",
               isCollapsed && !mobile && "justify-center px-2",
             )}
             title={isCollapsed && !mobile ? "Se déconnecter" : undefined}
