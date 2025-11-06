@@ -101,6 +101,8 @@ function SearchResultsContent() {
     fetchResults()
   }, [fetchResults])
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
   const filteredResults = results.filter((result) => {
     if (filters.stores && result.type !== "store") return false
     if (filters.restaurants && result.type !== "restaurant") return false
@@ -228,7 +230,8 @@ function SearchResultsContent() {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+     <div className="grid gap-6 grid-cols-1 lg:grid-cols-[minmax(0,280px)_1fr]">
+
           <aside className="space-y-4">
             <Card>
               <CardContent className="p-4">
@@ -606,7 +609,9 @@ function SearchResultsContent() {
                 </div>
 
                 {totalPages > 1 && (
-                  <div className="flex items-center justify-center gap-2 mt-8">
+                  
+                    <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+
                     <Button
                       variant="outline"
                       size="sm"
