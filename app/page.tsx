@@ -14,6 +14,84 @@ import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/lib/auth-context"
 import { SearchBar } from "@/components/marketplace/search-bar"
 import { SecondaryNav } from "@/components/marketplace/secondary-nav"
+import { motion } from "framer-motion"
+import CountUp from "react-countup"
+import { useInView } from "react-intersection-observer"
+
+// Animated Number Component
+function AnimatedNumber({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+
+  return (
+    <span ref={ref}>
+      {inView ? (
+        <CountUp end={value} duration={2.5} separator="," suffix={suffix} />
+      ) : (
+        `0${suffix}`
+      )}
+    </span>
+  )
+}
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+}
+
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  }
+}
+
+const statsVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+}
+
+const statItemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+}
 
 const locations = {
   europe: {
@@ -236,24 +314,57 @@ export default function HomePage() {
     <div className="min-h-screen">
       <SecondaryNav />
 
-      <section className="border-b bg-gradient-to-b from-background to-muted/20 py-8 sm:py-12 lg:py-16">
+      {/* Hero Section */}
+      <motion.section 
+        className="border-b bg-gradient-to-b from-background to-muted/20 py-8 sm:py-12 lg:py-16"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl text-center">
+          <motion.div 
+            className="mx-auto max-w-4xl text-center"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <Badge className="mb-4 bg-primary/10 text-primary hover:bg-primary/20 text-xs sm:text-sm">
               🏆 Plateforme N°1 des produits africains dans le monde
             </Badge>
 
-            <p className="mt-4 text-base sm:text-lg lg:text-xl text-muted-foreground text-balance mx-auto max-w-[700px] px-4 sm:px-0">
+            <motion.h1 
+              className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-balance"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              Découvrez les saveurs et produits{" "}
+              <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                africains authentiques
+              </span>
+            </motion.h1>
+
+            <motion.p 
+              className="mt-4 text-base sm:text-lg lg:text-xl text-muted-foreground text-balance mx-auto max-w-[700px] px-4 sm:px-0"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               La meilleure marketplace pour trouver des produits africains authentiques et des restaurants près de chez
               vous
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          <div className="mx-auto mt-6 sm:mt-8 lg:mt-10 max-w-4xl px-4 sm:px-6">
+          <motion.div 
+            className="mx-auto mt-6 sm:mt-8 lg:mt-10 max-w-4xl px-4 sm:px-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
             <SearchBar variant="full" />
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       <Dialog open={isLocationDialogOpen} onOpenChange={setIsLocationDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
@@ -339,39 +450,66 @@ export default function HomePage() {
         </DialogContent>
       </Dialog>
 
-      <section className="py-12">
+      {/* Popular Categories Section */}
+      <motion.section 
+        className="py-12"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
+      >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 text-center sm:text-left">
+          <motion.div 
+            className="mb-8 text-center sm:text-left"
+            variants={itemVariants}
+          >
             <h2 className="text-3xl font-bold tracking-tight">Catégories populaires</h2>
             <p className="mt-2 text-muted-foreground">Explorez nos catégories de produits les plus populaires</p>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {popularCategories.map((category) => (
-              <Link key={category.id} href={`/search/results?category=${category.id}`}>
-                <Card className="group overflow-hidden transition-all hover:shadow-lg">
-                  <div className="relative aspect-[3/2] overflow-hidden">
-                    <img
-                      src={category.imageUrl || "/placeholder.svg"}
-                      alt={category.name}
-                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                      <h3 className="font-semibold text-lg">{category.name}</h3>
-                      <p className="text-sm text-white/90">{category.count} produits</p>
+          <motion.div 
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            variants={containerVariants}
+          >
+            {popularCategories.map((category, index) => (
+              <motion.div key={category.id} variants={cardVariants}>
+                <Link href={`/search/results?category=${category.id}`}>
+                  <Card className="group overflow-hidden transition-all hover:shadow-lg cursor-pointer">
+                    <div className="relative aspect-[3/2] overflow-hidden">
+                      <img
+                        src={category.imageUrl || "/placeholder.svg"}
+                        alt={category.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                        <h3 className="font-semibold text-lg">{category.name}</h3>
+                        <p className="text-sm text-white/90">
+                          <AnimatedNumber value={category.count} suffix=" produits" />
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              </Link>
+                  </Card>
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="bg-muted/50 py-12">
+      {/* Top Rated Businesses Section */}
+      <motion.section 
+        className="bg-muted/50 py-12"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
+      >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <motion.div 
+            className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            variants={itemVariants}
+          >
             <div>
               <div className="flex items-center gap-2">
                 <Star className="h-5 w-5 fill-primary text-primary" />
@@ -384,19 +522,34 @@ export default function HomePage() {
             <Button variant="outline" asChild className="shrink-0 bg-transparent">
               <Link href="/search/results?sort=rating">{t("common.viewAll")}</Link>
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {featuredBusinesses.map((business) => (
-              <BusinessCard key={business.id} {...business} />
+          <motion.div 
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            variants={containerVariants}
+          >
+            {featuredBusinesses.map((business, index) => (
+              <motion.div key={business.id} variants={cardVariants}>
+                <BusinessCard {...business} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="py-12">
+      {/* Featured Businesses Section */}
+      <motion.section 
+        className="py-12"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
+      >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <motion.div 
+            className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            variants={itemVariants}
+          >
             <div>
               <div className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-primary" />
@@ -409,22 +562,32 @@ export default function HomePage() {
             <Button variant="outline" asChild className="shrink-0 bg-transparent">
               <Link href="/search/results?featured=true">{t("common.viewAll")}</Link>
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {featuredBusinesses.slice(0, 4).map((business) => (
-              <div key={business.id} className="relative">
+          <motion.div 
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            variants={containerVariants}
+          >
+            {featuredBusinesses.slice(0, 4).map((business, index) => (
+              <motion.div key={business.id} className="relative" variants={cardVariants}>
                 {business.isPremium && <Badge className="absolute top-2 right-2 z-10 bg-primary">Vedette</Badge>}
                 <BusinessCard {...business} />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="bg-primary py-16 text-primary-foreground">
+      {/* Stats Section */}
+      <motion.section 
+        className="bg-primary py-16 text-primary-foreground"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={statsVariants}
+      >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-5xl">
+          <motion.div className="mx-auto max-w-5xl" variants={itemVariants}>
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold">Rejoignez la plus grande communauté africaine en Europe</h2>
               <p className="mt-3 text-lg text-primary-foreground/90">
@@ -432,38 +595,47 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-12">
-              <div className="text-center">
+            <motion.div 
+              className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-12"
+              variants={statsVariants}
+            >
+              <motion.div className="text-center" variants={statItemVariants}>
                 <div className="flex justify-center mb-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-foreground/10">
                     <Users className="h-6 w-6" />
                   </div>
                 </div>
-                <div className="text-4xl font-bold">50,000+</div>
+                <div className="text-4xl font-bold">
+                  <AnimatedNumber value={50000} suffix="+" />
+                </div>
                 <div className="mt-1 text-sm text-primary-foreground/80">Utilisateurs inscrits</div>
-              </div>
+              </motion.div>
 
-              <div className="text-center">
+              <motion.div className="text-center" variants={statItemVariants}>
                 <div className="flex justify-center mb-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-foreground/10">
                     <StoreIcon className="h-6 w-6" />
                   </div>
                 </div>
-                <div className="text-4xl font-bold">1,200+</div>
+                <div className="text-4xl font-bold">
+                  <AnimatedNumber value={1200} suffix="+" />
+                </div>
                 <div className="mt-1 text-sm text-primary-foreground/80">Commerces partenaires</div>
-              </div>
+              </motion.div>
 
-              <div className="text-center">
+              <motion.div className="text-center" variants={statItemVariants}>
                 <div className="flex justify-center mb-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-foreground/10">
                     <ShoppingBag className="h-6 w-6" />
                   </div>
                 </div>
-                <div className="text-4xl font-bold">100,000+</div>
+                <div className="text-4xl font-bold">
+                  <AnimatedNumber value={100000} suffix="+" />
+                </div>
                 <div className="mt-1 text-sm text-primary-foreground/80">Commandes réalisées</div>
-              </div>
+              </motion.div>
 
-              <div className="text-center">
+              <motion.div className="text-center" variants={statItemVariants}>
                 <div className="flex justify-center mb-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-foreground/10">
                     <Award className="h-6 w-6" />
@@ -471,25 +643,36 @@ export default function HomePage() {
                 </div>
                 <div className="text-4xl font-bold">4.8/5</div>
                 <div className="mt-1 text-sm text-primary-foreground/80">Note moyenne</div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {!isAuthenticated && (
-              <div className="text-center">
+              <motion.div className="text-center" variants={itemVariants}>
                 <Button size="lg" variant="secondary" className="h-12 px-8" asChild>
                   <Link href="/?signup=true">Créer mon compte gratuitement</Link>
                 </Button>
                 <p className="mt-3 text-sm text-primary-foreground/80">Rejoignez-nous en moins de 2 minutes</p>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="py-12 bg-muted/30">
+      {/* Download Section */}
+      <motion.section 
+        className="py-12 bg-muted/30"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
+      >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
+          <motion.div className="mx-auto max-w-3xl text-center" variants={itemVariants}>
+            <motion.div 
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -506,7 +689,7 @@ export default function HomePage() {
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" x2="12" y1="15" y2="3" />
               </svg>
-            </div>
+            </motion.div>
             <h2 className="text-2xl font-bold mb-3">Téléchargez notre cahier des charges</h2>
             <p className="text-muted-foreground mb-6">
               Découvrez tous les détails techniques et fonctionnels de la plateforme AfroMarket dans notre cahier des
@@ -536,9 +719,9 @@ export default function HomePage() {
             <p className="mt-3 text-sm text-muted-foreground">
               Format HTML - Ouvrez dans votre navigateur ou Word pour convertir en .docx
             </p>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       <MarketplaceFooter />
     </div>
