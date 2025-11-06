@@ -98,7 +98,7 @@ export default function CahierDesChargesPage() {
                 onClick={handleDownloadPDF}
                 disabled={isGenerating}
                 variant="outline"
-                className="border-orange-600 text-orange-600 hover:bg-orange-50 bg-transparent"
+                className="border-orange-600 text-orange-600 hover:bg-orange-50 bg-transparen t"
               >
                 <Download className="h-4 w-4 mr-2" />
                 {isGenerating ? "Génération..." : "Télécharger PDF"}

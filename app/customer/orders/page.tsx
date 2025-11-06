@@ -194,18 +194,18 @@ export default function OrdersPage() {
                           💵 Paiement en espèces {order.deliveryType === "delivery" ? "à la livraison" : "au retrait"}
                         </p>
                       </div>
-                      <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-3 border-t pt-3">
+                      <div className="flex items-center justify-between border-t pt-4">
                         <div>
                           <p className="text-xs sm:text-sm text-muted-foreground">{order.items} article(s)</p>
-                          <p className="text-base sm:text-lg font-semibold">€{order.total.toFixed(2)}</p>
+                          <p className="text-lg font-semibold">€{order.total.toFixed(2)}</p>
                         </div>
-                        <div className="flex flex-col xs:flex-row gap-2 w-full xs:w-auto">
-                          <Button variant="outline" size="sm" asChild className="text-xs w-full xs:w-auto">
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" asChild>
                             <Link href={`/customer/orders/${order.id}`}>Voir les détails</Link>
                           </Button>
                           <Button
                             size="sm"
-                            className="bg-[#B85C38] hover:bg-[#9A4A2E] text-xs w-full xs:w-auto"
+                            className="bg-[#B85C38] hover:bg-[#9A4A2E]"
                             onClick={() => handleReorder(order)}
                           >
                             Commander encore
@@ -218,15 +218,14 @@ export default function OrdersPage() {
 
                 {/* Responsive Pagination */}
                 {totalPages > 1 && (
-                  <div className="flex items-center justify-center gap-1 xs:gap-2 mt-6 sm:mt-8">
+                  <div className="flex items-center justify-center gap-2 mt-8">
                     <Button
                       variant="outline"
                       size="icon"
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="h-8 w-8 xs:h-10 xs:w-10"
                     >
-                      <ChevronLeft className="h-3 w-3 xs:h-4 xs:w-4" />
+                      <ChevronLeft className="h-4 w-4" />
                     </Button>
                     <div className="flex items-center gap-1">
                       {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
@@ -246,7 +245,7 @@ export default function OrdersPage() {
                             variant={currentPage === pageNum ? "default" : "outline"}
                             size="sm"
                             onClick={() => setCurrentPage(pageNum)}
-                            className="h-8 w-8 xs:h-10 xs:w-10 text-xs"
+                            className="w-10"
                           >
                             {pageNum}
                           </Button>
@@ -258,9 +257,8 @@ export default function OrdersPage() {
                       size="icon"
                       onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
-                      className="h-8 w-8 xs:h-10 xs:w-10"
                     >
-                      <ChevronRight className="h-3 w-3 xs:h-4 xs:w-4" />
+                      <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
                 )}
