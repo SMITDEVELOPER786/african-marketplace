@@ -27,7 +27,7 @@ export default function CustomerDashboard() {
   ]
 
   return (
-    <div className="flex justify-center px-4 sm:px-6 lg:px-8 pt-10">
+    <div className="flex justify-center px-4 sm:px-6 lg:px-8 ">
       <div className="w-full max-w-6xl space-y-8 py-6">
         {/* Header */}
         <div className="text-center md:text-left">

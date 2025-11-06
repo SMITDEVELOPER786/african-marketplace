@@ -154,20 +154,7 @@ export default function ProfilePage() {
       <div className="min-h-screen pb-20 md:pb-8 pt-10">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
-            {/* <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-              <Avatar className="h-20 w-20 border-4 border-background shadow-lg sm:h-24 sm:w-24">
-                <AvatarImage src="/professional-portrait.png" alt="John Doe" />
-                <AvatarFallback className="bg-primary text-primary-foreground text-xl font-semibold sm:text-2xl">
-                  JD
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                  {formData.firstName} {formData.lastName}
-                </h1>
-                <p className="text-muted-foreground mt-1 text-sm sm:text-base">{formData.email}</p>
-              </div>
-            </div> */}
+           
 <div className="flex flex-col items-center text-center gap-4 sm:flex-row sm:items-center sm:text-left sm:gap-6">
   <Avatar className="h-20 w-20 border-4 border-background shadow-lg sm:h-24 sm:w-24">
     <AvatarImage src="/professional-portrait.png" alt="John Doe" />
@@ -185,125 +172,12 @@ export default function ProfilePage() {
 
 
 
-            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-              <DialogTrigger asChild>
-                <Button size="lg" className="w-full bg-[oklch(0.55_0.15_35)] sm:w-auto">
-                  {t("common.edit")} {t("customer.profile")}
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>
-                    {t("common.edit")} {t("customer.profile")}
-                  </DialogTitle>
-                  <DialogDescription>
-                    {t("customer.updatePersonalInfo") || "Mettez à jour vos informations personnelles"}
-                  </DialogDescription>
-                </DialogHeader>
 
-                <div className="space-y-6 py-4">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="edit-firstName">{t("customer.firstName")}</Label>
-                      <Input
-                        id="edit-firstName"
-                        value={formData.firstName}
-                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="edit-lastName">{t("customer.lastName")}</Label>
-                      <Input
-                        id="edit-lastName"
-                        value={formData.lastName}
-                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-email">{t("customer.email")}</Label>
-                    <Input
-                      id="edit-email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-phone">{t("customer.phone")}</Label>
-                    <Input
-                      id="edit-phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-country">{t("common.location")}</Label>
-                    <Select
-                      value={formData.country}
-                      onValueChange={(value) => setFormData({ ...formData, country: value })}
-                    >
-                      <SelectTrigger id="edit-country">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {countries.map((country) => (
-                          <SelectItem key={country.code} value={country.code}>
-                            <span className="flex items-center gap-2">
-                              <span>{country.flag}</span>
-                              <span>{country.name}</span>
-                            </span>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <Separator />
-
-                  <div className="space-y-2">
-                    <Label htmlFor="edit-address">{t("customer.address")}</Label>
-                    <Input
-                      id="edit-address"
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="edit-city">{t("customer.city")}</Label>
-                      <Input
-                        id="edit-city"
-                        value={formData.city}
-                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="edit-postalCode">{t("customer.postalCode")}</Label>
-                      <Input
-                        id="edit-postalCode"
-                        value={formData.postalCode}
-                        onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                  <Button variant="outline" onClick={() => setIsEditDialogOpen(false)} className="w-full sm:w-auto">
-                    {t("common.cancel")}
-                  </Button>
-                  <Button onClick={handleSaveProfile} className="w-full bg-blue-600 hover:bg-blue-700 sm:w-auto">
-                    {t("common.save")}
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+            <Link href="/customer/profile/edit">
+  <Button size="lg" className="w-full bg-[oklch(0.55_0.15_35)] sm:w-auto">
+    {t("common.edit")} {t("customer.profile")}
+  </Button>
+</Link>
           </div>
 
           <div className="space-y-4 sm:space-y-6">
@@ -339,70 +213,12 @@ export default function ProfilePage() {
             <Card>
               <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <CardTitle className="text-lg sm:text-xl">{t("common.security")}</CardTitle>
-                <Dialog open={isPasswordDialogOpen} onOpenChange={setIsPasswordDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" size="sm" className="w-full sm:w-auto bg-accent text-white ">
-                      <Lock className="mr-2 h-4 w-4" />
-                      {t("customer.changePassword")}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-md">
-                    <DialogHeader>
-                      <DialogTitle>{t("customer.changePassword")}</DialogTitle>
-                      <DialogDescription>
-                        {t("customer.changePasswordDesc") || "Modifiez votre mot de passe pour sécuriser votre compte"}
-                      </DialogDescription>
-                    </DialogHeader>
-
-                    <div className="space-y-4 py-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="current-password">{t("customer.currentPassword")}</Label>
-                        <Input
-                          id="current-password"
-                          type="password"
-                          value={passwordData.currentPassword}
-                          onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="new-password">{t("customer.newPassword")}</Label>
-                        <Input
-                          id="new-password"
-                          type="password"
-                          value={passwordData.newPassword}
-                          onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                        />
-                        <p className="text-xs text-muted-foreground">
-                          {t("customer.passwordMinLength") || "Minimum 8 caractères"}
-                        </p>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="confirm-password">{t("customer.confirmPassword")}</Label>
-                        <Input
-                          id="confirm-password"
-                          type="password"
-                          value={passwordData.confirmPassword}
-                          onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-                      <Button
-                        variant="outline"
-                        onClick={() => setIsPasswordDialogOpen(false)}
-                        className="w-full sm:w-auto"
-                      >
-                        {t("common.cancel")}
-                      </Button>
-                      <Button onClick={handleChangePassword} className="w-full bg-blue-600 hover:bg-blue-700 sm:w-auto">
-                        {t("common.change")}
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+              <Link href="/customer/profile/changepassword">
+  <Button variant="outline" size="sm" className="w-full sm:w-auto bg-accent text-white">
+    <Lock className="mr-2 h-4 w-4" />
+    {t("customer.changePassword")}
+  </Button>
+</Link>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
