@@ -37,21 +37,21 @@ export default function OrdersPage() {
     switch (status) {
       case "delivered":
         return (
-          <Badge variant="default" className="gap-1 bg-green-500">
+          <Badge variant="default" className="gap-1 bg-green-500 text-xs">
             <CheckCircle className="h-3 w-3" />
             Livrée
           </Badge>
         )
       case "in_progress":
         return (
-          <Badge variant="default" className="gap-1 bg-blue-500">
+          <Badge variant="default" className="gap-1 bg-blue-500 text-xs">
             <Clock className="h-3 w-3" />
             En cours
           </Badge>
         )
       case "cancelled":
         return (
-          <Badge variant="destructive" className="gap-1">
+          <Badge variant="destructive" className="gap-1 text-xs">
             <XCircle className="h-3 w-3" />
             Annulée
           </Badge>
@@ -88,148 +88,187 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="space-y-6 ">
-      <div className="text-center md:text-left">
-        <h1 className="text-3xl font-bold tracking-tight">Commandes</h1>
-        <p className="text-muted-foreground">Suivez l'historique de toutes vos commandes</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 py-4 sm:py-6 lg:py-8">
+        {/* Header */}
+        <div className="text-center md:text-left mb-6">
+          <h1 className="text-xl xs:text-2xl sm:text-3xl font-bold tracking-tight">Commandes</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+            Suivez l'historique de toutes vos commandes
+          </p>
+        </div>
 
-      <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList>
-          <TabsTrigger value="all">Toutes ({allOrders.length})</TabsTrigger>
-          <TabsTrigger value="in_progress">
-            En cours ({allOrders.filter((o) => o.status === "in_progress").length})
-          </TabsTrigger>
-          <TabsTrigger value="delivered">
-            Livrées ({allOrders.filter((o) => o.status === "delivered").length})
-          </TabsTrigger>
-          <TabsTrigger value="cancelled">
-            Annulées ({allOrders.filter((o) => o.status === "cancelled").length})
-          </TabsTrigger>
-        </TabsList>
+        {/* Responsive Tabs */}
+        <Tabs value={activeTab} onValueChange={handleTabChange}>
+          <div className="overflow-x-auto">
+            <TabsList className="w-full flex min-w-max p-1 h-auto bg-muted/50">
+              <TabsTrigger 
+                value="all" 
+                className="flex-1 min-w-0 text-xs xs:text-sm px-2 xs:px-3 py-2 data-[state=active]:bg-background"
+              >
+                Toutes
+                <span className="ml-1.5 text-muted-foreground">
+                  ({allOrders.length})
+                </span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="in_progress" 
+                className="flex-1 min-w-0 text-xs xs:text-sm px-2 xs:px-3 py-2 data-[state=active]:bg-background"
+              >
+                En cours
+                <span className="ml-1.5 text-muted-foreground">
+                  ({allOrders.filter((o) => o.status === "in_progress").length})
+                </span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="delivered" 
+                className="flex-1 min-w-0 text-xs xs:text-sm px-2 xs:px-3 py-2 data-[state=active]:bg-background"
+              >
+                Livrées
+                <span className="ml-1.5 text-muted-foreground">
+                  ({allOrders.filter((o) => o.status === "delivered").length})
+                </span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="cancelled" 
+                className="flex-1 min-w-0 text-xs xs:text-sm px-2 xs:px-3 py-2 data-[state=active]:bg-background"
+              >
+                Annulées
+                <span className="ml-1.5 text-muted-foreground">
+                  ({allOrders.filter((o) => o.status === "cancelled").length})
+                </span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-        <TabsContent value={activeTab} className="mt-6 space-y-4">
-          {paginatedOrders.length === 0 ? (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-12">
-                <Package className="h-12 w-12 text-muted-foreground/50" />
-                <h3 className="mt-4 text-lg font-semibold">Aucune commande</h3>
-                <p className="mt-2 text-center text-sm text-muted-foreground">
-                  Vous n'avez pas encore passé de commande
-                </p>
-                <Link href="/stores">
-                  <Button className="mt-6 bg-[#B85C38] hover:bg-[#9A4A2E]">
-                    <ShoppingBag className="mr-2 h-4 w-4" />
-                    Commencer mes achats
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ) : (
-            <>
-              {paginatedOrders.map((order) => (
-                <Card key={order.id}>
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-lg">{order.storeName}</CardTitle>
-                        <p className="text-sm text-muted-foreground">Commande: {order.id}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {new Date(order.date).toLocaleDateString("fr-FR", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
+          <TabsContent value={activeTab} className="mt-4 sm:mt-6 space-y-3 xs:space-y-4">
+            {paginatedOrders.length === 0 ? (
+              <Card>
+                <CardContent className="flex flex-col items-center justify-center py-8 sm:py-12">
+                  <Package className="h-8 w-8 sm:h-12 sm:w-12 text-muted-foreground/50" />
+                  <h3 className="mt-3 sm:mt-4 text-base sm:text-lg font-semibold">Aucune commande</h3>
+                  <p className="mt-1 sm:mt-2 text-center text-xs sm:text-sm text-muted-foreground">
+                    Vous n'avez pas encore passé de commande
+                  </p>
+                  <Link href="/stores">
+                    <Button className="mt-4 sm:mt-6 bg-[#B85C38] hover:bg-[#9A4A2E] text-xs sm:text-sm">
+                      <ShoppingBag className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                      Commencer mes achats
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+                {paginatedOrders.map((order) => (
+                  <Card key={order.id} className="overflow-hidden hover:shadow-md transition-shadow duration-200">
+                    <CardHeader className="p-3 xs:p-4 sm:p-6">
+                      <div className="flex flex-col xs:flex-row xs:items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <CardTitle className="text-base sm:text-lg leading-tight">{order.storeName}</CardTitle>
+                          <p className="text-xs sm:text-sm text-muted-foreground mt-1">Commande: {order.id}</p>
+                          <p className="text-xs sm:text-sm text-muted-foreground">
+                            {new Date(order.date).toLocaleDateString("fr-FR", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 mt-2 xs:mt-0">
+                          {getStatusBadge(order.status)}
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="p-3 xs:p-4 sm:p-6 pt-0 space-y-3 xs:space-y-4">
+                      <div className="flex items-start gap-2 text-xs sm:text-sm">
+                        <MapPin className="h-3 w-3 xs:h-4 xs:w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium">{order.deliveryType === "delivery" ? "Livraison à" : "Retrait à"}</p>
+                          <p className="text-muted-foreground break-words">{order.address}</p>
+                        </div>
+                      </div>
+                      <div className="bg-muted/50 rounded-lg p-2 xs:p-3 text-xs sm:text-sm">
+                        <p className="font-medium">Mode de paiement</p>
+                        <p className="text-muted-foreground">
+                          💵 Paiement en espèces {order.deliveryType === "delivery" ? "à la livraison" : "au retrait"}
                         </p>
                       </div>
-                      {getStatusBadge(order.status)}
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-start gap-2 text-sm">
-                      <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                      <div>
-                        <p className="font-medium">{order.deliveryType === "delivery" ? "Livraison à" : "Retrait à"}</p>
-                        <p className="text-muted-foreground">{order.address}</p>
+                      <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-3 border-t pt-3">
+                        <div>
+                          <p className="text-xs sm:text-sm text-muted-foreground">{order.items} article(s)</p>
+                          <p className="text-base sm:text-lg font-semibold">€{order.total.toFixed(2)}</p>
+                        </div>
+                        <div className="flex flex-col xs:flex-row gap-2 w-full xs:w-auto">
+                          <Button variant="outline" size="sm" asChild className="text-xs w-full xs:w-auto">
+                            <Link href={`/customer/orders/${order.id}`}>Voir les détails</Link>
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="bg-[#B85C38] hover:bg-[#9A4A2E] text-xs w-full xs:w-auto"
+                            onClick={() => handleReorder(order)}
+                          >
+                            Commander encore
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="bg-muted/50 rounded-lg p-3 text-sm">
-                      <p className="font-medium">Mode de paiement</p>
-                      <p className="text-muted-foreground">
-                        💵 Paiement en espèces {order.deliveryType === "delivery" ? "à la livraison" : "au retrait"}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between border-t pt-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">{order.items} article(s)</p>
-                        <p className="text-lg font-semibold">€{order.total.toFixed(2)}</p>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button variant="outline" size="sm" asChild>
-                          <Link href={`/customer/orders/${order.id}`}>Voir les détails</Link>
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="bg-[#B85C38] hover:bg-[#9A4A2E]"
-                          onClick={() => handleReorder(order)}
-                        >
-                          Recommander
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardContent>
+                  </Card>
+                ))}
 
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-8">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                      let pageNum
-                      if (totalPages <= 5) {
-                        pageNum = i + 1
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i
-                      } else {
-                        pageNum = currentPage - 2 + i
-                      }
-                      return (
-                        <Button
-                          key={pageNum}
-                          variant={currentPage === pageNum ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setCurrentPage(pageNum)}
-                          className="w-10"
-                        >
-                          {pageNum}
-                        </Button>
-                      )
-                    })}
+                {/* Responsive Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-1 xs:gap-2 mt-6 sm:mt-8">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="h-8 w-8 xs:h-10 xs:w-10"
+                    >
+                      <ChevronLeft className="h-3 w-3 xs:h-4 xs:w-4" />
+                    </Button>
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                        let pageNum
+                        if (totalPages <= 5) {
+                          pageNum = i + 1
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i
+                        } else {
+                          pageNum = currentPage - 2 + i
+                        }
+                        return (
+                          <Button
+                            key={pageNum}
+                            variant={currentPage === pageNum ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setCurrentPage(pageNum)}
+                            className="h-8 w-8 xs:h-10 xs:w-10 text-xs"
+                          >
+                            {pageNum}
+                          </Button>
+                        )
+                      })}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="h-8 w-8 xs:h-10 xs:w-10"
+                    >
+                      <ChevronRight className="h-3 w-3 xs:h-4 xs:w-4" />
+                    </Button>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={currentPage === totalPages}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-            </>
-          )}
-        </TabsContent>
-      </Tabs>
+                )}
+              </>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   )
 }
