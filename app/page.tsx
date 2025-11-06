@@ -18,11 +18,12 @@ import { motion } from "framer-motion"
 import CountUp from "react-countup"
 import { useInView } from "react-intersection-observer"
 
-// Animated Number Component
+// Animated Number Component with mobile optimization
 function AnimatedNumber({ value, suffix = "" }: { value: number; suffix?: string }) {
   const { ref, inView } = useInView({
     triggerOnce: true,
-    threshold: 0.1,
+    threshold: 0.1, // Lower threshold for mobile
+    rootMargin: '-50px 0px',
   })
 
   return (
@@ -36,36 +37,36 @@ function AnimatedNumber({ value, suffix = "" }: { value: number; suffix?: string
   )
 }
 
-// Animation variants
+// Animation variants with mobile optimizations
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2
+      staggerChildren: 0.15 // Faster stagger for mobile
     }
   }
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.5, // Shorter duration for mobile
       ease: "easeOut"
     }
   }
 }
 
 const cardVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { opacity: 0, scale: 0.95 }, // Less aggressive scale for mobile
   visible: {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 0.5,
+      duration: 0.4,
       ease: "easeOut"
     }
   }
@@ -76,18 +77,18 @@ const statsVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15
+      staggerChildren: 0.1 // Faster stagger for stats on mobile
     }
   }
 }
 
 const statItemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 15 }, // Smaller y movement for mobile
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 0.5,
       ease: "easeOut"
     }
   }
@@ -215,6 +216,35 @@ const popularCategories = [
   },
 ]
 
+// Safe motion component wrapper
+const SafeMotionSection = ({ children, className, ...props }: any) => {
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  if (isMobile) {
+    return (
+      <section className={className}>
+        {children}
+      </section>
+    )
+  }
+
+  return (
+    <motion.section className={className} {...props}>
+      {children}
+    </motion.section>
+  )
+}
+
 export default function HomePage() {
   const { t } = useLanguage()
   const { isAuthenticated } = useAuth()
@@ -315,28 +345,28 @@ export default function HomePage() {
       <SecondaryNav />
 
       {/* Hero Section */}
-      <motion.section 
-        className="border-b bg-gradient-to-b from-background to-muted/20 py-8 sm:py-12 lg:py-16"
+      <SafeMotionSection 
+        className="border-b bg-gradient-to-b from-background to-muted/20 py-6 sm:py-12 lg:py-16"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.6 }}
       >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             className="mx-auto max-w-4xl text-center"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Badge className="mb-4 bg-primary/10 text-primary hover:bg-primary/20 text-xs sm:text-sm">
+            <Badge className="mb-3 sm:mb-4 bg-primary/10 text-primary hover:bg-primary/20 text-xs sm:text-sm">
               🏆 Plateforme N°1 des produits africains dans le monde
             </Badge>
 
             <motion.h1 
-              className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-balance"
+              className="mt-4 sm:mt-6 text-2xl sm:text-4xl font-bold tracking-tight lg:text-5xl text-balance"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
             >
               Découvrez les saveurs et produits{" "}
               <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
@@ -345,10 +375,10 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.p 
-              className="mt-4 text-base sm:text-lg lg:text-xl text-muted-foreground text-balance mx-auto max-w-[700px] px-4 sm:px-0"
+              className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg text-muted-foreground text-balance mx-auto max-w-[700px] px-2 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
               La meilleure marketplace pour trouver des produits africains authentiques et des restaurants près de chez
               vous
@@ -356,18 +386,18 @@ export default function HomePage() {
           </motion.div>
 
           <motion.div 
-            className="mx-auto mt-6 sm:mt-8 lg:mt-10 max-w-4xl px-4 sm:px-6"
-            initial={{ opacity: 0, y: 30 }}
+            className="mx-auto mt-4 sm:mt-6 lg:mt-8 max-w-4xl w-full px-2 sm:px-6"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
             <SearchBar variant="full" />
           </motion.div>
         </div>
-      </motion.section>
+      </SafeMotionSection>
 
       <Dialog open={isLocationDialogOpen} onOpenChange={setIsLocationDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto mx-4 w-[calc(100vw-2rem)] sm:mx-auto">
           <DialogHeader>
             <DialogTitle>Choisissez votre localisation</DialogTitle>
             <DialogDescription>
@@ -375,8 +405,8 @@ export default function HomePage() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
+          <div className="space-y-4 py-4 w-full">
+            <div className="space-y-2 w-full">
               <label className="text-sm font-medium">Région</label>
               <Select
                 value={selectedRegion}
@@ -386,10 +416,10 @@ export default function HomePage() {
                   setSelectedCity("")
                 }}
               >
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Sélectionner une région" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="w-full">
                   <SelectItem value="europe">Europe</SelectItem>
                   <SelectItem value="usa">États-Unis</SelectItem>
                   <SelectItem value="canada">Canada</SelectItem>
@@ -398,7 +428,7 @@ export default function HomePage() {
             </div>
 
             {selectedRegion && (
-              <div className="space-y-2">
+              <div className="space-y-2 w-full">
                 <label className="text-sm font-medium">
                   {selectedRegion === "europe" ? "Pays" : selectedRegion === "usa" ? "État" : "Province"}
                 </label>
@@ -409,10 +439,10 @@ export default function HomePage() {
                     setSelectedCity("")
                   }}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="w-full">
                     {Object.keys(locations[selectedRegion as keyof typeof locations]).map((loc) => (
                       <SelectItem key={loc} value={loc}>
                         {loc.charAt(0).toUpperCase() + loc.slice(1)}
@@ -424,13 +454,13 @@ export default function HomePage() {
             )}
 
             {selectedLocation && (
-              <div className="space-y-2">
+              <div className="space-y-2 w-full">
                 <label className="text-sm font-medium">Ville</label>
                 <Select value={selectedCity} onValueChange={setSelectedCity}>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Sélectionner une ville" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="w-full">
                     {locations[selectedRegion as keyof typeof locations][
                       selectedLocation as keyof (typeof locations)[keyof typeof locations]
                     ]?.map((city: string) => (
@@ -451,30 +481,34 @@ export default function HomePage() {
       </Dialog>
 
       {/* Popular Categories Section */}
-      <motion.section 
-        className="py-12"
+      <SafeMotionSection 
+        className="py-8 sm:py-12"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ 
+          once: true, 
+          amount: 0.1, // Lower threshold for mobile
+          margin: "-30px 0px" 
+        }}
         variants={containerVariants}
       >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
-            className="mb-8 text-center sm:text-left"
+            className="mb-6 sm:mb-8 text-center sm:text-left"
             variants={itemVariants}
           >
-            <h2 className="text-3xl font-bold tracking-tight">Catégories populaires</h2>
-            <p className="mt-2 text-muted-foreground">Explorez nos catégories de produits les plus populaires</p>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">Catégories populaires</h2>
+            <p className="mt-1 sm:mt-2 text-sm sm:text-base text-muted-foreground">Explorez nos catégories de produits les plus populaires</p>
           </motion.div>
 
           <motion.div 
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full"
             variants={containerVariants}
           >
             {popularCategories.map((category, index) => (
-              <motion.div key={category.id} variants={cardVariants}>
+              <motion.div key={category.id} variants={cardVariants} className="w-full">
                 <Link href={`/search/results?category=${category.id}`}>
-                  <Card className="group overflow-hidden transition-all hover:shadow-lg cursor-pointer">
+                  <Card className="group overflow-hidden transition-all hover:shadow-lg cursor-pointer w-full">
                     <div className="relative aspect-[3/2] overflow-hidden">
                       <img
                         src={category.imageUrl || "/placeholder.svg"}
@@ -482,9 +516,9 @@ export default function HomePage() {
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                        <h3 className="font-semibold text-lg">{category.name}</h3>
-                        <p className="text-sm text-white/90">
+                      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-white">
+                        <h3 className="font-semibold text-base sm:text-lg">{category.name}</h3>
+                        <p className="text-xs sm:text-sm text-white/90">
                           <AnimatedNumber value={category.count} suffix=" produits" />
                         </p>
                       </div>
@@ -495,188 +529,220 @@ export default function HomePage() {
             ))}
           </motion.div>
         </div>
-      </motion.section>
+      </SafeMotionSection>
 
       {/* Top Rated Businesses Section */}
-      <motion.section 
-        className="bg-muted/50 py-12"
+      <SafeMotionSection 
+        className="bg-muted/50 py-8 sm:py-12"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ 
+          once: true, 
+          amount: 0.1,
+          margin: "-30px 0px" 
+        }}
         variants={containerVariants}
       >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
-            className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            className="mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 w-full"
             variants={itemVariants}
           >
-            <div>
+            <div className="w-full sm:w-auto">
               <div className="flex items-center gap-2">
-                <Star className="h-5 w-5 fill-primary text-primary" />
-                <h2 className="text-3xl font-bold tracking-tight">Commerces les mieux notés</h2>
+                <Star className="h-4 w-4 sm:h-5 sm:w-5 fill-primary text-primary" />
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">Commerces les mieux notés</h2>
               </div>
-              <p className="mt-2 text-muted-foreground">
+              <p className="mt-1 sm:mt-2 text-sm sm:text-base text-muted-foreground">
                 Les commerces et restaurants les mieux notés près de chez vous
               </p>
             </div>
-            <Button variant="outline" asChild className="shrink-0 bg-transparent">
+            <Button variant="outline" asChild className="shrink-0 bg-transparent text-xs sm:text-sm w-full sm:w-auto mt-3 sm:mt-0">
               <Link href="/search/results?sort=rating">{t("common.viewAll")}</Link>
             </Button>
           </motion.div>
 
           <motion.div 
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full"
             variants={containerVariants}
           >
             {featuredBusinesses.map((business, index) => (
-              <motion.div key={business.id} variants={cardVariants}>
+              <motion.div key={business.id} variants={cardVariants} className="w-full">
                 <BusinessCard {...business} />
               </motion.div>
             ))}
           </motion.div>
         </div>
-      </motion.section>
+      </SafeMotionSection>
 
       {/* Featured Businesses Section */}
-      <motion.section 
-        className="py-12"
+      <SafeMotionSection 
+        className="py-8 sm:py-12"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ 
+          once: true, 
+          amount: 0.1,
+          margin: "-30px 0px" 
+        }}
         variants={containerVariants}
       >
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
-            className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            className="mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 w-full"
             variants={itemVariants}
           >
-            <div>
+            <div className="w-full sm:w-auto">
               <div className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-primary" />
-                <h2 className="text-3xl font-bold tracking-tight">Commerces vedettes</h2>
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">Commerces vedettes</h2>
               </div>
-              <p className="mt-2 text-muted-foreground">
+              <p className="mt-1 sm:mt-2 text-sm sm:text-base text-muted-foreground">
                 Découvrez nos commerces et restaurants partenaires mis en avant
               </p>
             </div>
-            <Button variant="outline" asChild className="shrink-0 bg-transparent">
+            <Button variant="outline" asChild className="shrink-0 bg-transparent text-xs sm:text-sm w-full sm:w-auto mt-3 sm:mt-0">
               <Link href="/search/results?featured=true">{t("common.viewAll")}</Link>
             </Button>
           </motion.div>
 
           <motion.div 
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full"
             variants={containerVariants}
           >
             {featuredBusinesses.slice(0, 4).map((business, index) => (
-              <motion.div key={business.id} className="relative" variants={cardVariants}>
-                {business.isPremium && <Badge className="absolute top-2 right-2 z-10 bg-primary">Vedette</Badge>}
+              <motion.div key={business.id} className="relative w-full" variants={cardVariants}>
+                {business.isPremium && <Badge className="absolute top-2 right-2 z-10 bg-primary text-xs">Vedette</Badge>}
                 <BusinessCard {...business} />
               </motion.div>
             ))}
           </motion.div>
         </div>
-      </motion.section>
+      </SafeMotionSection>
 
       {/* Stats Section */}
-      <motion.section 
-        className="bg-primary py-16 text-primary-foreground"
+      <SafeMotionSection 
+        className="bg-primary py-8 sm:py-12 lg:py-16 text-primary-foreground"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ 
+          once: true, 
+          amount: 0.1,
+          margin: "-30px 0px" 
+        }}
         variants={statsVariants}
       >
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div className="mx-auto max-w-5xl" variants={itemVariants}>
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold">Rejoignez la plus grande communauté africaine en Europe</h2>
-              <p className="mt-3 text-lg text-primary-foreground/90">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <motion.div className="mx-auto max-w-5xl w-full" variants={itemVariants}>
+            <div className="text-center mb-6 sm:mb-8 lg:mb-12 w-full">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold">Rejoignez la plus grande communauté africaine en Europe</h2>
+              <p className="mt-2 sm:mt-3 text-sm sm:text-lg text-primary-foreground/90 px-2 sm:px-0">
                 Des milliers d'utilisateurs nous font confiance chaque jour
               </p>
             </div>
 
             <motion.div 
-              className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-12"
+              className="grid gap-4 sm:gap-6 lg:gap-8 grid-cols-2 lg:grid-cols-4 mb-6 sm:mb-8 lg:mb-12 w-full"
               variants={statsVariants}
             >
               <motion.div className="text-center" variants={statItemVariants}>
-                <div className="flex justify-center mb-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-foreground/10">
-                    <Users className="h-6 w-6" />
+                <div className="flex justify-center mb-2 sm:mb-3">
+                  <div className="flex h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-primary-foreground/10">
+                    <Users className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                   </div>
                 </div>
-                <div className="text-4xl font-bold">
+                <div className="text-xl sm:text-2xl lg:text-4xl font-bold">
                   <AnimatedNumber value={50000} suffix="+" />
                 </div>
-                <div className="mt-1 text-sm text-primary-foreground/80">Utilisateurs inscrits</div>
+                <div className="mt-1 text-xs sm:text-sm text-primary-foreground/80">Utilisateurs inscrits</div>
               </motion.div>
 
               <motion.div className="text-center" variants={statItemVariants}>
-                <div className="flex justify-center mb-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-foreground/10">
-                    <StoreIcon className="h-6 w-6" />
+                <div className="flex justify-center mb-2 sm:mb-3">
+                  <div className="flex h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-primary-foreground/10">
+                    <StoreIcon className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                   </div>
                 </div>
-                <div className="text-4xl font-bold">
+                <div className="text-xl sm:text-2xl lg:text-4xl font-bold">
                   <AnimatedNumber value={1200} suffix="+" />
                 </div>
-                <div className="mt-1 text-sm text-primary-foreground/80">Commerces partenaires</div>
+                <div className="mt-1 text-xs sm:text-sm text-primary-foreground/80">Commerces partenaires</div>
               </motion.div>
 
               <motion.div className="text-center" variants={statItemVariants}>
-                <div className="flex justify-center mb-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-foreground/10">
-                    <ShoppingBag className="h-6 w-6" />
+                <div className="flex justify-center mb-2 sm:mb-3">
+                  <div className="flex h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-primary-foreground/10">
+                    <ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                   </div>
                 </div>
-                <div className="text-4xl font-bold">
+                <div className="text-xl sm:text-2xl lg:text-4xl font-bold">
                   <AnimatedNumber value={100000} suffix="+" />
                 </div>
-                <div className="mt-1 text-sm text-primary-foreground/80">Commandes réalisées</div>
+                <div className="mt-1 text-xs sm:text-sm text-primary-foreground/80">Commandes réalisées</div>
               </motion.div>
 
               <motion.div className="text-center" variants={statItemVariants}>
-                <div className="flex justify-center mb-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-foreground/10">
-                    <Award className="h-6 w-6" />
+                <div className="flex justify-center mb-2 sm:mb-3">
+                  <div className="flex h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-primary-foreground/10">
+                    <Award className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                   </div>
                 </div>
-                <div className="text-4xl font-bold">4.8/5</div>
-                <div className="mt-1 text-sm text-primary-foreground/80">Note moyenne</div>
+                <div className="text-xl sm:text-2xl lg:text-4xl font-bold">4.8/5</div>
+                <div className="mt-1 text-xs sm:text-sm text-primary-foreground/80">Note moyenne</div>
               </motion.div>
             </motion.div>
 
             {!isAuthenticated && (
-              <motion.div className="text-center" variants={itemVariants}>
-                <Button size="lg" variant="secondary" className="h-12 px-8" asChild>
-                  <Link href="/?signup=true">Créer mon compte gratuitement</Link>
-                </Button>
-                <p className="mt-3 text-sm text-primary-foreground/80">Rejoignez-nous en moins de 2 minutes</p>
+              <motion.div className="text-center w-full" variants={itemVariants}>
+                <Button 
+  size="lg"
+  className="
+    bg-white
+    hover:bg-gray-50
+    text-primary font-bold
+    shadow-lg
+    animate-pulse hover:animate-none
+    border-2 border-primary
+    hover:border-primary/80
+    transition-all duration-300
+    hover:scale-105
+    relative overflow-hidden
+    group
+  "
+>
+  <span className="relative z-10">🎯 Télécharger maintenant</span>
+  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+</Button>
+                <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-primary-foreground/80">Rejoignez-nous en moins de 2 minutes</p>
               </motion.div>
             )}
           </motion.div>
         </div>
-      </motion.section>
+      </SafeMotionSection>
 
       {/* Download Section */}
-      <motion.section 
-        className="py-12 bg-muted/30"
+      <SafeMotionSection 
+        className="py-8 sm:py-12 bg-muted/30"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ 
+          once: true, 
+          amount: 0.1,
+          margin: "-30px 0px" 
+        }}
         variants={containerVariants}
       >
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div className="mx-auto max-w-3xl text-center" variants={itemVariants}>
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <motion.div className="mx-auto max-w-3xl text-center w-full" variants={itemVariants}>
             <motion.div 
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4"
-              whileHover={{ scale: 1.1 }}
+              className="inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-primary/10 mb-3 sm:mb-4"
+              whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -690,17 +756,17 @@ export default function HomePage() {
                 <line x1="12" x2="12" y1="15" y2="3" />
               </svg>
             </motion.div>
-            <h2 className="text-2xl font-bold mb-3">Téléchargez notre cahier des charges</h2>
-            <p className="text-muted-foreground mb-6">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3">Téléchargez notre cahier des charges</h2>
+            <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 px-2 sm:px-0">
               Découvrez tous les détails techniques et fonctionnels de la plateforme AfroMarket dans notre cahier des
               charges complet.
             </p>
-            <Button size="lg" asChild className="h-12 px-8">
+            <Button size="lg" asChild className="h-10 sm:h-12 px-6 sm:px-8 text-sm sm:text-base w-full sm:w-auto">
               <a href="/api/download-cahier-des-charges" download>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -716,12 +782,12 @@ export default function HomePage() {
                 Télécharger le cahier des charges (HTML)
               </a>
             </Button>
-            <p className="mt-3 text-sm text-muted-foreground">
+            <p className="mt-2 sm:mt-3 text-xs text-muted-foreground">
               Format HTML - Ouvrez dans votre navigateur ou Word pour convertir en .docx
             </p>
           </motion.div>
         </div>
-      </motion.section>
+      </SafeMotionSection>
 
       <MarketplaceFooter />
     </div>
