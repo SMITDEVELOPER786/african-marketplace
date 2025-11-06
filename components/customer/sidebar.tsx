@@ -130,7 +130,7 @@ export function CustomerSidebar() {
       size="icon"
       className="fixed left-4 top-[4.5rem] z-50 md:hidden shadow-lg hover:shadow-xl transition-shadow duration-200 bg-background border-2"
     >
-      <Menu className="h-5 w-5 bottom-1.5" />
+      <ChevronRight className="h-5 w-5 bottom-1.5" />
       <span className="sr-only ">Ouvrir le menu</span>
     </Button>
   </SheetTrigger>
