@@ -48,30 +48,39 @@ export function AIRecommendations() {
         <CardDescription>{t("customer.basedOnPreferences")}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4 md:grid-cols-3">
-          {recommendations.map((item) => (
-            <Link key={item.id} href={`/products/${item.id}`}>
-              <Card className="overflow-hidden transition-all hover:shadow-lg">
-                <div className="relative h-48 w-full">
-                  <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
-                  <Badge className="absolute right-2 top-2 bg-primary">
-                    {item.reason === "basedOnPreferences" && t("customer.recommendedForYou")}
-                    {item.reason === "trendingNow" && t("customer.trendingNow")}
-                    {item.reason === "newArrivals" && t("customer.newArrivals")}
-                  </Badge>
-                </div>
-                <CardContent className="p-4">
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-sm text-muted-foreground">{item.store}</p>
-                  <div className="mt-2 flex items-center justify-between">
-                    <span className="text-lg font-bold">{item.price}</span>
-                    <Button size="sm">{t("store.viewDetails")}</Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+  {recommendations.map((item) => (
+    <Link key={item.id} href={`/products/${item.id}`}>
+      <Card className="overflow-hidden transition-all hover:shadow-lg h-full flex flex-col">
+        <div className="relative h-48 w-full">
+          <Image
+            src={item.image || "/placeholder.svg"}
+            alt={item.name}
+            fill
+            className="object-cover"
+          />
+          <Badge className="absolute right-2 top-2 bg-primary text-white">
+            {item.reason === "basedOnPreferences" && t("customer.recommendedForYou")}
+            {item.reason === "trendingNow" && t("customer.trendingNow")}
+            {item.reason === "newArrivals" && t("customer.newArrivals")}
+          </Badge>
         </div>
+        <CardContent className="p-4 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 className="font-semibold">{item.name}</h3>
+            <p className="text-sm text-muted-foreground">{item.store}</p>
+          </div>
+          <div className="mt-2 flex items-center justify-between">
+            <span className="text-lg font-bold">{item.price}</span>
+            <Button size="sm">{t("store.viewDetails")}</Button>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  ))}
+</div>
+
+             
       </CardContent>
     </Card>
   )
