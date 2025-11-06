@@ -437,7 +437,7 @@ export default function RequestsPage() {
                           <div className="flex gap-2">
                             <Button
                               variant="outline"
-                              className="flex-1 border-green-300 text-green-700 hover:bg-green-50 bg-transparent"
+                              className="flex-1 border-green-300 text-green-700 hover:bg-green-50 hover:text-green-700 bg-transparent"
                               onClick={() => handleRespondToRequest(request.id, "accept")}
                             >
                               <CheckCircle2 className="mr-2 h-4 w-4" />
@@ -445,7 +445,7 @@ export default function RequestsPage() {
                             </Button>
                             <Button
                               variant="outline"
-                              className="flex-1 border-red-300 text-red-700 hover:bg-red-50 bg-transparent"
+                              className="flex-1 border-red-300 text-red-700 hover:bg-red-50 hover:text-red-700 bg-transparent"
                               onClick={() => handleRespondToRequest(request.id, "reject")}
                             >
                               <XCircle className="mr-2 h-4 w-4" />
