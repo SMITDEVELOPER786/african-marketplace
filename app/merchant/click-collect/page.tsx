@@ -660,7 +660,7 @@ export default function ClickCollectPage() {
   }
 
   return (
-    <div className="p-6 md:p-8">
+    <div className="p-2 md:p-8">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold">Clic & Collect</h1>
@@ -670,7 +670,7 @@ export default function ClickCollectPage() {
 
       {/* Stats Cards */}
       <div className="mb-6 grid gap-4 md:grid-cols-4">
-        <Card>
+        <Card className="transition-all duration-300 hover:-mt-2 hover:shadow-lg hover:bg-sidebar-accent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Nouvelles demandes</CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
@@ -679,7 +679,7 @@ export default function ClickCollectPage() {
             <div className="text-2xl font-bold">{orders.filter((o) => o.status === "received").length}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="transition-all duration-300 hover:-mt-2 hover:shadow-lg hover:bg-sidebar-accent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">En préparation</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
@@ -688,7 +688,7 @@ export default function ClickCollectPage() {
             <div className="text-2xl font-bold">{orders.filter((o) => o.status === "preparing").length}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="transition-all duration-300 hover:-mt-2 hover:shadow-lg hover:bg-sidebar-accent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Prêtes</CardTitle>
             <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
@@ -697,7 +697,7 @@ export default function ClickCollectPage() {
             <div className="text-2xl font-bold">{orders.filter((o) => o.status === "ready").length}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="transition-all duration-300 hover:-mt-2 hover:shadow-lg hover:bg-sidebar-accent">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Récupérées aujourd'hui</CardTitle>
             <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
@@ -712,7 +712,7 @@ export default function ClickCollectPage() {
       <Card className="mb-6">
         <CardContent className="p-4">
           <div className="flex flex-col gap-4">
-            <div className="flex gap-4">
+           <div className="flex flex-col gap-4 md:flex-row md:gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -797,14 +797,14 @@ export default function ClickCollectPage() {
 
       {selectedOrders.length > 0 && (
         <Card className="mb-6 border-primary">
-          <CardContent className="flex items-center justify-between p-4">
+          <CardContent className="flex flex-col items-start gap-4 p-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
               <span className="font-medium">{selectedOrders.length} commande(s) sélectionnée(s)</span>
               <Button variant="ghost" size="sm" onClick={() => setSelectedOrders([])}>
                 Désélectionner tout
               </Button>
             </div>
-            <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="gap-2 bg-transparent">
@@ -922,11 +922,11 @@ export default function ClickCollectPage() {
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-6">
-          <TabsTrigger value="all">Toutes</TabsTrigger>
-          <TabsTrigger value="pending">En attente</TabsTrigger>
-          <TabsTrigger value="ready">Prêtes</TabsTrigger>
-          <TabsTrigger value="completed">Récupérées</TabsTrigger>
-          <TabsTrigger value="cancelled">Annulées</TabsTrigger>
+          <TabsTrigger value="all" className="text-[9px] sm:text-sm">Toutes</TabsTrigger>
+          <TabsTrigger value="pending" className="text-[9px] sm:text-sm">En attente</TabsTrigger>
+          <TabsTrigger value="ready" className="text-[9px] sm:text-sm">Prêtes</TabsTrigger>
+          <TabsTrigger value="completed" className="text-[9px] sm:text-sm">Récupérées</TabsTrigger>
+          <TabsTrigger value="cancelled" className="text-[9px] sm:text-sm">Annulées</TabsTrigger>
         </TabsList>
 
         <TabsContent value={activeTab}>
@@ -973,7 +973,7 @@ export default function ClickCollectPage() {
                         </Button>
                       </th>
                       <th className="p-4 text-left text-sm font-medium">Paiement</th>
-                      <th className="p-4 text-left text-sm font-medium">Créneau</th>
+                      <th className="p-4 text-left text-sm font-medium sm:flex hidden mt-3">Créneau</th>
                       <th className="p-4 text-left text-sm font-medium">Statut</th>
                       <th className="p-4 text-right text-sm font-medium">Actions</th>
                     </tr>
@@ -993,19 +993,19 @@ export default function ClickCollectPage() {
                               aria-label={`Sélectionner ${order.id}`}
                             />
                           </td>
-                          <td className="p-4 font-mono text-sm font-medium">{order.id}</td>
+                          <td className="p-4 font-mono text-xs sm:text-sm font-medium ">{order.id}</td>
                           <td className="p-4">
                             <div className="flex flex-col">
-                              <span className="font-medium">{order.customer.name}</span>
-                              <span className="text-xs text-muted-foreground">{order.customer.phone}</span>
+                              <span className="font-medium text-xs sm:text-sm text-nowrap">{order.customer.name}</span>
+                              <span className="text-[9px] sm:text-xs text-muted-foreground">{order.customer.phone}</span>
                             </div>
                           </td>
-                          <td className="p-4 text-muted-foreground">
+                          <td className="p-4 text-xs sm:text-sm text-muted-foreground">
                             {order.items.length} article{order.items.length > 1 ? "s" : ""}
                           </td>
-                          <td className="p-4 font-medium">€{order.total.toFixed(2)}</td>
+                          <td className="p-4 text-xs sm:text-sm font-medium text-nowrap">€{order.total.toFixed(2)}</td>
                           <td className="p-4">
-                            <Badge variant={order.paymentStatus === "paid" ? "default" : "secondary"}>
+                            <Badge variant={order.paymentStatus === "paid" ? "default" : "secondary"} className="text-xs sm:text-sm text-nowrap">
                               {order.paymentStatus === "paid"
                                 ? "Payé"
                                 : order.paymentMethod === "pay_on_collect"
@@ -1013,14 +1013,14 @@ export default function ClickCollectPage() {
                                   : "En attente"}
                             </Badge>
                           </td>
-                          <td className="p-4">
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                              <Calendar className="h-3 w-3" />
+                          <td className="p-4 hidden sm:flex mt-3">
+                            <div className="flex text-xs  items-baseline gap-1  text-muted-foreground">
+                              <Calendar className="h-3 w-3 " />
                               {order.pickupSlot}
                             </div>
                           </td>
                           <td className="p-4">
-                            <Badge variant={statusInfo.variant} className="gap-1">
+                            <Badge variant={statusInfo.variant} className="gap-1 text-xs sm:text-sm text-nowrap">
                               <StatusIcon className="h-3 w-3" />
                               {statusInfo.label}
                             </Badge>
@@ -1208,7 +1208,7 @@ export default function ClickCollectPage() {
 
               {sortedOrders.length > 0 && (
                 <div className="flex items-center justify-between border-t p-4">
-                  <div className="flex items-center gap-4">
+                  <div className="hidden sm:flex items-center gap-4">
                     <div className="flex items-center gap-2">
                       <Label className="text-sm">Afficher</Label>
                       <Select value={itemsPerPage.toString()} onValueChange={(value) => setItemsPerPage(Number(value))}>

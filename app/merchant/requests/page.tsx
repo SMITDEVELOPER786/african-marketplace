@@ -154,7 +154,7 @@ export default function MerchantRequestsPage() {
       </div>
 
       {/* Statistiques */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total</CardTitle>
@@ -240,7 +240,7 @@ export default function MerchantRequestsPage() {
                             <CardTitle className="text-lg">{request.subject}</CardTitle>
                             {getStatusBadge(request.status)}
                           </div>
-                          <CardDescription className="flex items-center gap-4 text-sm">
+                         <CardDescription className="flex flex-col items-start gap-2 text-sm sm:flex-row sm:items-center sm:gap-4">
                             <span className="flex items-center gap-1">
                               <User className="h-3 w-3" />
                               {request.customerName}
@@ -269,7 +269,7 @@ export default function MerchantRequestsPage() {
                         </div>
                       )}
 
-                      <div className="flex gap-2">
+                     <div className="flex flex-wrap gap-2">
                         {request.status !== "closed" && (
                           <>
                             <Button onClick={() => handleRespond(request)} size="sm" className="gap-2">
@@ -305,13 +305,17 @@ export default function MerchantRequestsPage() {
                         className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
                       />
                     </PaginationItem>
-                    {[...Array(totalPages)].map((_, i) => (
-                      <PaginationItem key={i}>
-                        <PaginationLink onClick={() => setCurrentPage(i + 1)} isActive={currentPage === i + 1}>
-                          {i + 1}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
+                   {[...Array(totalPages)].map((_, i) => (
+  <PaginationItem key={i} className="hidden sm:block">
+    <PaginationLink
+      onClick={() => setCurrentPage(i + 1)}
+      isActive={currentPage === i + 1}
+      className="cursor-pointer"
+    >
+      {i + 1}
+    </PaginationLink>
+  </PaginationItem>
+))}
                     <PaginationItem>
                       <PaginationNext
                         onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
@@ -328,21 +332,21 @@ export default function MerchantRequestsPage() {
 
       {/* Dialog de réponse */}
       <Dialog open={isResponseDialogOpen} onOpenChange={setIsResponseDialogOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className=" w-[90%] sm:w-[600px] ">
           <DialogHeader>
             <DialogTitle>Répondre à la demande</DialogTitle>
             <DialogDescription>
               Envoyez une réponse à {selectedRequest?.customerName} ({selectedRequest?.customerEmail})
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-4">
+        <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto pr-2">
             <div className="space-y-2">
               <Label>Sujet</Label>
-              <Input value={selectedRequest?.subject || ""} disabled />
+              <Input value={selectedRequest?.subject || ""} disabled className="!text-xs sm:!text-sm" />
             </div>
             <div className="space-y-2">
               <Label>Message du client</Label>
-              <Textarea value={selectedRequest?.message || ""} disabled rows={3} />
+              <Textarea value={selectedRequest?.message || ""} disabled rows={3} className="!text-xs sm:!text-sm" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="response">Votre réponse</Label>
@@ -352,11 +356,12 @@ export default function MerchantRequestsPage() {
                 value={responseText}
                 onChange={(e) => setResponseText(e.target.value)}
                 rows={5}
+                
               />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsResponseDialogOpen(false)}>
+            <Button  onClick={() => setIsResponseDialogOpen(false)} >
               Annuler
             </Button>
             <Button onClick={handleSendResponse} disabled={!responseText.trim()} className="gap-2">
