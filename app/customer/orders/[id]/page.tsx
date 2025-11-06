@@ -287,7 +287,7 @@ export default function OrderDetailPage() {
             <CardTitle>Articles commandés</CardTitle>
             <Button onClick={handleDownloadPDF} variant="outline" size="sm">
               <Download className="mr-2 h-4 w-4" />
-              Télécharger en PDF
+              PDF
             </Button>
           </div>
         </CardHeader>

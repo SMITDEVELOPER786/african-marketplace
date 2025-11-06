@@ -164,14 +164,14 @@ export function SearchBar({
           </Button>
         )}
         <Sparkles className="absolute right-3 sm:right-4 top-1/2 h-4 w-4 sm:h-5 sm:w-5 -translate-y-1/2 text-primary cursor-pointer hover:scale-110 transition-transform" />
-        <Input
-          type="search"
-          placeholder="Recherchez des produits, commerces, restaurants..."
-          className="h-12 sm:h-14 pl-10 sm:pl-12 pr-16 sm:pr-20 text-sm sm:text-base"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
+     <Input
+  type="search"
+  placeholder="Recherchez des produits..."
+  className="h-11 sm:h-14 pl-10 sm:pl-12 pr-16 sm:pr-20 text-xs sm:text-sm md:text-base placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base"
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+  onKeyDown={handleKeyDown}
+/>
 
         {showSuggestions && aiSuggestions.length > 0 && (
           <div className="absolute top-full mt-2 w-full rounded-lg border bg-background shadow-lg z-50">
