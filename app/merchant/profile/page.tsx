@@ -164,8 +164,8 @@ export default function MerchantProfilePage() {
     <div className="min-h-screen pb-20 md:pb-8">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+          <div className="flex items-start gap-3">
+            <div className="flex h-9 w-20 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary/10">
               <Store className="h-6 w-6 text-primary" />
             </div>
             <div>
@@ -236,19 +236,19 @@ export default function MerchantProfilePage() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-5 lg:w-auto">
-            <TabsTrigger value="general" className="text-xs sm:text-sm">
+            <TabsTrigger value="general" className="text-[9px] sm:text-sm">
               Général
             </TabsTrigger>
-            <TabsTrigger value="location" className="text-xs sm:text-sm">
+            <TabsTrigger value="location" className="text-[9px] sm:text-sm">
               Localisation
             </TabsTrigger>
-            <TabsTrigger value="contact" className="text-xs sm:text-sm">
+            <TabsTrigger value="contact" className="text-[9px] sm:text-sm">
               Contact
             </TabsTrigger>
-            <TabsTrigger value="hours" className="text-xs sm:text-sm">
+            <TabsTrigger value="hours" className="text-[9px] sm:text-sm">
               Horaires
             </TabsTrigger>
-            <TabsTrigger value="media" className="text-xs sm:text-sm">
+            <TabsTrigger value="media" className="text-[9px] sm:text-sm">
               Médias
             </TabsTrigger>
           </TabsList>
@@ -320,7 +320,7 @@ export default function MerchantProfilePage() {
                   <Label htmlFor="categories">Catégories</Label>
                   <Select>
                     <SelectTrigger id="categories">
-                      <SelectValue placeholder="Sélectionnez une ou plusieurs catégories" />
+                      <SelectValue placeholder="Sélectionnez les catégories" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="african">Produits africains</SelectItem>
@@ -359,19 +359,19 @@ export default function MerchantProfilePage() {
                 <div className="space-y-2">
                   <Label htmlFor="status">Statut du commerce</Label>
                   <Select value={formData.status} onValueChange={(value) => handleInputChange("status", value)}>
-                    <SelectTrigger id="status">
+                    <SelectTrigger id="status" className="w-60 sm:w-96">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent >
                       <SelectItem value="active">
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-green-500" />
+                          <CheckCircle2 className="h-4 w-4 text-green-500 " />
                           Actif - Ouvert aux réservations
                         </div>
                       </SelectItem>
                       <SelectItem value="paused">
                         <div className="flex items-center gap-2">
-                          <AlertCircle className="h-4 w-4 text-orange-500" />
+                          <AlertCircle className="h-4 w-4 text-orange-500 " />
                           En pause - Temporairement fermé
                         </div>
                       </SelectItem>
@@ -767,6 +767,7 @@ export default function MerchantProfilePage() {
                       id="accessibility"
                       checked={formData.accessibility}
                       onCheckedChange={(checked) => handleInputChange("accessibility", checked)}
+                    
                     />
                     <Label htmlFor="accessibility" className="font-normal">
                       Commerce accessible aux personnes à mobilité réduite
@@ -1044,7 +1045,7 @@ export default function MerchantProfilePage() {
                       </div>
 
                       {schedule.isOpen ? (
-                        <div className="flex flex-1 items-center gap-3">
+                       <div className="flex flex-1 flex-col items-stretch gap-3 sm:flex-row sm:items-center">
                           <div className="flex items-center gap-2">
                             <Label className="text-sm text-muted-foreground">De</Label>
                             <Input
@@ -1055,7 +1056,7 @@ export default function MerchantProfilePage() {
                                 newHours[index].openTime = e.target.value
                                 setOpeningHours(newHours)
                               }}
-                              className="w-32"
+                            className="w-full sm:w-32"
                             />
                           </div>
                           <div className="flex items-center gap-2">
@@ -1068,7 +1069,7 @@ export default function MerchantProfilePage() {
                                 newHours[index].closeTime = e.target.value
                                 setOpeningHours(newHours)
                               }}
-                              className="w-32"
+                             className="w-full sm:w-32"
                             />
                           </div>
                         </div>
@@ -1283,7 +1284,7 @@ export default function MerchantProfilePage() {
                   <p className="text-sm text-muted-foreground">
                     Format recommandé : carré (500x500px minimum), PNG ou JPG
                   </p>
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                     <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border-2 border-dashed bg-muted">
                       {logoPreview ? (
                         <img
@@ -1341,7 +1342,7 @@ export default function MerchantProfilePage() {
                       ) : (
                         <div className="text-center">
                           <Upload className="mx-auto h-8 w-8 text-muted-foreground" />
-                          <p className="mt-2 text-sm text-muted-foreground">Cliquez pour télécharger une bannière</p>
+                          <p className="mt-2 text-xs sm:text-sm text-muted-foreground">Cliquez pour télécharger une bannière</p>
                         </div>
                       )}
                     </div>

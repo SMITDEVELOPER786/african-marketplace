@@ -509,15 +509,15 @@ export default function MerchantCatalogPage() {
   const goToNextPage = () => setCurrentPage((prev) => Math.min(totalPages, prev + 1))
 
   return (
-    <div className="p-6 md:p-8">
+    <div className="p-4 md:p-8"> {/* <-- FIX: Reduced padding on mobile */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold">Catalogue</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold">Catalogue</h1> {/* <-- FIX: Responsive H1 */}
         <p className="mt-2 text-muted-foreground">Gérez vos produits et leur inventaire</p>
       </div>
 
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6"> {/* <-- FIX: Reduced padding on mobile */}
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Total Produits</p>
@@ -531,7 +531,7 @@ export default function MerchantCatalogPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6"> {/* <-- FIX: Reduced padding on mobile */}
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Produits Actifs</p>
@@ -548,7 +548,7 @@ export default function MerchantCatalogPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6"> {/* <-- FIX: Reduced padding on mobile */}
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Stock Faible</p>
@@ -563,7 +563,7 @@ export default function MerchantCatalogPage() {
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6"> {/* <-- FIX: Reduced padding on mobile */}
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Valeur Totale</p>
@@ -587,7 +587,7 @@ export default function MerchantCatalogPage() {
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     type="search"
-                    placeholder="Rechercher par nom, SKU, catégorie..."
+                    placeholder="Rechercher par nom, SKU..." /* <-- FIX: Shorter placeholder */
                     className="pl-9"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -827,11 +827,12 @@ export default function MerchantCatalogPage() {
                         />
                       </th>
                       <th className="p-4 text-left text-sm font-medium">Produit</th>
-                      <th className="p-4 text-left text-sm font-medium">SKU</th>
-                      <th className="p-4 text-left text-sm font-medium">Catégorie</th>
+                      {/* === FIX 1: Hide columns on mobile === */}
+                      <th className="hidden p-4 text-left text-sm font-medium md:table-cell">SKU</th>
+                      <th className="hidden p-4 text-left text-sm font-medium md:table-cell">Catégorie</th>
                       <th className="p-4 text-left text-sm font-medium">Prix</th>
                       <th className="p-4 text-left text-sm font-medium">Stock</th>
-                      <th className="p-4 text-left text-sm font-medium">Poids</th>
+                      <th className="hidden p-4 text-left text-sm font-medium md:table-cell">Poids</th>
                       <th className="p-4 text-left text-sm font-medium">Statut</th>
                       <th className="p-4 text-right text-sm font-medium">Actions</th>
                     </tr>
@@ -870,33 +871,38 @@ export default function MerchantCatalogPage() {
                                   className="h-full w-full object-cover"
                                 />
                               </div>
-                              <span className="font-medium">{product.name}</span>
+                              <span className="text-sm sm:text-md font-medium">{product.name}</span>
                             </div>
                           </td>
-                          <td className="p-4 font-mono text-sm text-muted-foreground">{product.sku}</td>
-                          <td className="p-4">
+                          {/* === FIX 1: Hide columns on mobile === */}
+                          <td className="hidden p-4 font-mono text-sm text-muted-foreground md:table-cell">
+                            {product.sku}
+                          </td>
+                          <td className="hidden p-4 md:table-cell">
                             <div className="flex flex-col">
                               <span className="text-sm">{product.category}</span>
                               <span className="text-xs text-muted-foreground">{product.subcategory}</span>
                             </div>
                           </td>
-                          <td className="p-4 font-medium">€{product.price.toFixed(2)}</td>
+                          <td className="p-4 text-sm sm:text-md  font-medium">€{product.price.toFixed(2)}</td>
                           <td className="p-4">
                             <span
                               className={
                                 product.stock === 0
-                                  ? "text-destructive"
+                                  ? "text-destructive text-sm sm:text-md text-nowrap"
                                   : product.stock < 10
-                                    ? "text-orange-600"
-                                    : "text-muted-foreground"
+                                    ? "text-orange-600 text-sm sm:text-md text-nowrap"
+                                    : "text-muted-foreground text-sm sm:text-md text-nowrap"
                               }
                             >
                               {product.stock} unités
                             </span>
                           </td>
-                          <td className="p-4 text-sm text-muted-foreground">{product.weight}</td>
+                          {/* === FIX 1: Hide columns on mobile === */}
+                          <td className="hidden p-4 text-sm text-muted-foreground md:table-cell">{product.weight}</td>
                           <td className="p-4">
                             <Badge
+                            className="text-nowrap"
                               variant={
                                 product.status === "active"
                                   ? "default"
@@ -952,7 +958,7 @@ export default function MerchantCatalogPage() {
 
               {filteredProducts.length > 0 && (
                 <div className="flex flex-col gap-4 border-t p-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-center gap-4">
+                  <div className="hidden sm:flex items-center gap-4">
                     <div className="flex items-center gap-2">
                       <Label className="text-sm text-muted-foreground">Afficher</Label>
                       <Select
@@ -980,11 +986,12 @@ export default function MerchantCatalogPage() {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  {/* === FIX 2: Simplify pagination on mobile === */}
+                  <div className="flex items-center gap-1">
                     <Button
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 bg-transparent"
+                      className="hidden h-9 w-9 bg-transparent sm:inline-flex" /* <-- FIX: Hide on mobile */
                       onClick={goToFirstPage}
                       disabled={currentPage === 1}
                     >
@@ -1039,7 +1046,7 @@ export default function MerchantCatalogPage() {
                     <Button
                       variant="outline"
                       size="icon"
-                      className="h-9 w-9 bg-transparent"
+                      className="hidden h-9 w-9 bg-transparent sm:inline-flex" /* <-- FIX: Hide on mobile */
                       onClick={goToLastPage}
                       disabled={currentPage === totalPages}
                     >
@@ -1167,7 +1174,7 @@ export default function MerchantCatalogPage() {
               <Card>
                 <CardContent className="p-4">
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex items-center gap-4">
+                    <div className="hidden sm:flex items-center gap-4">
                       <div className="flex items-center gap-2">
                         <Label className="text-sm text-muted-foreground">Afficher</Label>
                         <Select
@@ -1195,11 +1202,12 @@ export default function MerchantCatalogPage() {
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    {/* === FIX 2: Simplify pagination on mobile === */}
+                    <div className="flex items-center gap-1">
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-9 w-9 bg-transparent"
+                        className="hidden h-9 w-9 bg-transparent sm:inline-flex" /* <-- FIX: Hide on mobile */
                         onClick={goToFirstPage}
                         disabled={currentPage === 1}
                       >
@@ -1254,7 +1262,7 @@ export default function MerchantCatalogPage() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-9 w-9 bg-transparent"
+                        className="hidden h-9 w-9 bg-transparent sm:inline-flex" /* <-- FIX: Hide on mobile */
                         onClick={goToLastPage}
                         disabled={currentPage === totalPages}
                       >
@@ -1268,6 +1276,10 @@ export default function MerchantCatalogPage() {
           </div>
         )}
       </div>
+
+      {/* --- ALL DIALOGS (Modals) --- */}
+      {/* In modals, 'sm:grid-cols-2' already handles responsiveness (stacks on mobile) */}
+      {/* So, no major fixes are needed in the dialogs. */}
 
       <Dialog open={!!editProduct} onOpenChange={() => setEditProduct(null)}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
