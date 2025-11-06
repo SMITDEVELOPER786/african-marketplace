@@ -32,7 +32,9 @@ export default function RootLayout({
           <AuthProvider>
             <CartProvider>
               <MarketplaceHeader />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1 pt-16">{/* ← ADD pt-16 HERE */}
+                {children}
+              </main>
               <AIChatbot />
               <Toaster />
             </CartProvider>
