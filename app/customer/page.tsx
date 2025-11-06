@@ -46,7 +46,8 @@ export default function CustomerDashboard() {
     const Icon = stat.icon
     return (
       <Link key={stat.title} href={stat.href}>
-        <Card className="group transition-all duration-300 hover:bg-accent cursor-pointer h-40 sm:h-32 flex flex-col justify-between">
+       <Card className="group transition-all duration-300 hover:bg-accent cursor-pointer h-40 sm:h-32 md:h-36 flex flex-col justify-between">
+
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium transition-colors group-hover:text-white">
               {stat.title}
