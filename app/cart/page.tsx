@@ -8,17 +8,23 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
 export default function CartPage() {
   const { t } = useLanguage()
   const { items, updateQuantity, removeItem, getSubtotal } = useCart()
+  const [cartItems, setCartItems] = useState(items)
+
+  useEffect(() => {
+    setCartItems(items)
+  }, [items])
 
   const subtotal = getSubtotal()
   const deliveryFee = subtotal > 50 ? 0 : 5.99
   const tax = subtotal * 0.08
   const total = subtotal + deliveryFee + tax
 
-  if (items.length === 0) {
+  if (cartItems.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
         <div className="flex h-24 w-24 items-center justify-center rounded-full bg-muted mb-6">
@@ -39,7 +45,7 @@ export default function CartPage() {
   }
 
   // Group items by business
-  const itemsByBusiness = items.reduce(
+  const itemsByBusiness = cartItems.reduce(
     (acc, item) => {
       if (!acc[item.businessId]) {
         acc[item.businessId] = {
@@ -50,7 +56,7 @@ export default function CartPage() {
       acc[item.businessId].items.push(item)
       return acc
     },
-    {} as Record<string, { businessName: string; items: typeof items }>
+    {} as Record<string, { businessName: string; items: typeof cartItems }>
   )
 
   return (
@@ -97,25 +103,25 @@ export default function CartPage() {
                             <Button
                               variant="outline"
                               size="icon"
-                              className="h-8 w-8 bg-transparent hover:bg-muted"
-                              onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                              className="h-8 w-8 border border-black text-black hover:text-black hover:border-black hover:bg-transparent"
+                              onClick={() => {
+                                if (item.quantity > 1) updateQuantity(item.productId, item.quantity - 1)
+                              }}
                             >
                               <Minus className="h-3 w-3" />
                             </Button>
+
                             <Input
-                              type="number"
-                              min="1"
-                              max={item.stock}
+                              readOnly
+                              type="text"
                               value={item.quantity}
-                              onChange={(e) =>
-                                updateQuantity(item.productId, Number.parseInt(e.target.value) || 1)
-                              }
-                              className="h-8 w-16 text-center"
+                              className="h-8 w-16 text-center border border-black bg-white text-black font-semibold"
                             />
+
                             <Button
                               variant="outline"
                               size="icon"
-                              className="h-8 w-8 bg-transparent hover:bg-muted"
+                              className="h-8 w-8 border border-black text-black hover:text-black hover:border-black hover:bg-transparent"
                               onClick={() => updateQuantity(item.productId, item.quantity + 1)}
                               disabled={item.quantity >= item.stock}
                             >
@@ -195,7 +201,7 @@ export default function CartPage() {
               <Link href="/">
                 <Button
                   variant="outline"
-                  className="mt-3 w-full bg-transparent hover:bg-muted transition-colors"
+                  className="mt-3 w-full bg-transparent hover:text-black"
                 >
                   {t("cart.continueShopping")}
                 </Button>
