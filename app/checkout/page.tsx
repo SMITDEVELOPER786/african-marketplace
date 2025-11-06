@@ -53,15 +53,15 @@ export default function CheckoutPage() {
           </Button>
         </Link>
 
-        <h1 className="mb-10 text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="mb-10 text-3xl font-bold tracking-tight text-foreground text-center sm:text-left">
           Checkout
         </h1>
 
         <form onSubmit={handleSubmit}>
           <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
-            {/* LEFT SECTION - FORM */}
+            {/* LEFT SECTION */}
             <div className="space-y-8">
-              {/* Fulfillment Type */}
+              {/* Fulfillment Method */}
               <Card className="rounded-2xl border border-border/60 shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
                   <CardTitle className="text-lg font-semibold text-foreground">
@@ -75,11 +75,15 @@ export default function CheckoutPage() {
                     className="grid gap-4"
                   >
                     <div className="flex items-start space-x-3 rounded-xl border border-border/60 p-4 hover:bg-muted/30 transition-colors">
-                      <RadioGroupItem
-                        value="delivery"
-                        id="delivery"
-                        className="mt-1 w-5 h-5 border border-gray-600 rounded-sm checked:bg-black checked:after:hidden"
-                      />
+                      <div className="relative">
+                        <RadioGroupItem
+                          value="delivery"
+                          id="delivery"
+                          className="appearance-none border border-gray-600 h-5 w-5 rounded-full cursor-pointer 
+                                     data-[state=checked]:bg-primary data-[state=checked]:border-black
+                                     flex items-center justify-center"
+                        />
+                      </div>
                       <Label htmlFor="delivery" className="flex-1 cursor-pointer">
                         <div className="flex items-center gap-2">
                           <Truck className="h-5 w-5 text-primary" />
@@ -92,14 +96,18 @@ export default function CheckoutPage() {
                     </div>
 
                     <div className="flex items-start space-x-3 rounded-xl border border-border/60 p-4 hover:bg-muted/30 transition-colors">
-                      <RadioGroupItem
-                        value="click_collect"
-                        id="click_collect"
-                        className="mt-1 w-5 h-5 border border-gray-600 rounded-sm checked:bg-black checked:after:hidden"
-                      />
+                      <div className="relative">
+                        <RadioGroupItem
+                          value="click_collect"
+                          id="click_collect"
+                          className="appearance-none border border-gray-600 h-5 w-5 rounded-full cursor-pointer 
+                                     data-[state=checked]:bg-primary data-[state=checked]:border-black
+                                     flex items-center justify-center"
+                        />
+                      </div>
                       <Label htmlFor="click_collect" className="flex-1 cursor-pointer">
                         <div className="flex items-center gap-2">
-                          <Package className="h-5 w-5 text-primary" />
+                          
                           <span className="font-semibold">Click & Collect</span>
                         </div>
                         <p className="mt-1 text-sm text-muted-foreground">
