@@ -46,30 +46,32 @@ export function AIChatbot() {
     <>
       {/* Floating Chat Icon */}
       {!isOpen && (
-   <Button
-  onClick={() => setIsOpen(true)}
-  size="lg"
-  className="fixed bottom-4 right-4 sm:bottom-6 sm:right-16 md:bottom-2 md:right-2 lg:right-16 xl:right-20
-             h-14 w-14 rounded-full shadow-lg z-50 bg-[#b5432a] hover:bg-[#a53b24]
-             overflow-hidden"
->
-  <MessageCircle className="h-6 w-6 text-white" />
-</Button>
-
-
+        <Button
+          onClick={() => setIsOpen(true)}
+          size="lg"
+          className="fixed bottom-20 right-4 sm:bottom-6 sm:right-16 md:bottom-2 md:right-2 lg:right-16 xl:right-20
+                     h-14 w-14 rounded-full shadow-lg z-50 bg-[#b5432a] hover:bg-[#a53b24]
+                     overflow-hidden"
+        >
+          <MessageCircle className="h-6 w-6 text-white" />
+        </Button>
       )}
 
       {/* Chat Window */}
       {isOpen && (
-      <Card
-  className={cn(
-  "fixed bottom-3 right-50 sm:right-4 md:right-6 lg:right-8 w-[54%] sm:w-[90%] md:w-[370px] lg:w-[380px] xl:w-[400px]",
-  "max-h-[75vh] flex flex-col rounded-2xl border border-gray-200 shadow-2xl z-50"
-)}
-
-
->
-
+        <Card
+          className={cn(
+            "fixed bottom-4 right-4 w-[calc(100vw-2rem)] sm:w-[90%] md:w-[370px] lg:w-[380px] xl:w-[400px]",
+            "max-h-[75vh] flex flex-col rounded-2xl border border-gray-200 shadow-2xl z-50",
+            "mx-auto" // Center on mobile
+          )}
+          style={{
+            // Ensure it stays within viewport
+            maxWidth: 'calc(100vw - 2rem)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+          }}
+        >
           {/* Header */}
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1">
             <div className="flex items-center gap-2">
@@ -91,11 +93,10 @@ export function AIChatbot() {
           {/* Chat Body */}
           <CardContent className="flex flex-col flex-grow space-y-0">
             {/* Messages (Scrollable Area) */}
-           <div
-  className="flex-grow overflow-y-auto max-h-[45vh] sm:max-h-[50vh] rounded-lg border p-3 bg-background
-             space-y-4 overflow-x-hidden"
->
-
+            <div
+              className="flex-grow overflow-y-auto max-h-[45vh] sm:max-h-[50vh] rounded-lg border p-3 bg-background
+                         space-y-4 overflow-x-hidden"
+            >
               {messages.map((message, index) => (
                 <div
                   key={index}
@@ -141,4 +142,3 @@ export function AIChatbot() {
     </>
   )
 }
-

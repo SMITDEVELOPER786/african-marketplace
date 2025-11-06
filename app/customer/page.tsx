@@ -32,7 +32,8 @@ export default function CustomerDashboard() {
         {/* Header */}
         <div className="text-center md:text-left">
           <h1 className="text-3xl font-bold">
-            {t("customer.welcome")}, {user?.firstName}!
+              {t("customer.welcome")}, John Doe!
+            {/* {t("customer.welcome")}, {user?.firstName}! */}
           </h1>
           <p className="text-muted-foreground">{t("customer.overview")}</p>
         </div>
