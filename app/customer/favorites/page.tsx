@@ -80,126 +80,153 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="space-y-6 pt-20">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-center md:text-left">{t("customer.favorites")}</h1>
-        <p className="text-muted-foreground  text-center sm:text-left">{t("customer.favoritesDesc")}</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-3 xs:px-4 sm:px-6 py-4 sm:py-6 lg:py-8">
+        <div className="text-center md:text-left mb-6">
+          <h1 className="text-xl xs:text-2xl sm:text-3xl font-bold tracking-tight">{t("customer.favorites")}</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+            {t("customer.favoritesDesc")}
+          </p>
+        </div>
 
-      <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList>
-          <TabsTrigger value="all" className="gap-2">
-            <Heart className="h-4 w-4" />
-            Tous
-          </TabsTrigger>
-          <TabsTrigger value="stores" className="gap-2">
-            <Store className="h-4 w-4" />
-            Commerces
-          </TabsTrigger>
-          <TabsTrigger value="restaurants" className="gap-2">
-            <UtensilsCrossed className="h-4 w-4" />
-            Restaurants
-          </TabsTrigger>
-        </TabsList>
+        <Tabs value={activeTab} onValueChange={handleTabChange}>
+          {/* Centered Tabs on Mobile */}
+          <div className="flex justify-center">
+            <TabsList className="inline-flex w-auto">
+              <TabsTrigger value="all" className="gap-2 text-xs xs:text-sm">
+                <Heart className="h-3 w-3 xs:h-4 xs:w-4" />
+                Tous
+              </TabsTrigger>
+              <TabsTrigger value="stores" className="gap-2 text-xs xs:text-sm">
+                <Store className="h-3 w-3 xs:h-4 xs:w-4" />
+                Commerces
+              </TabsTrigger>
+              <TabsTrigger value="restaurants" className="gap-2 text-xs xs:text-sm">
+                <UtensilsCrossed className="h-3 w-3 xs:h-4 xs:w-4" />
+                Restaurants
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-        <TabsContent value={activeTab} className="mt-6">
-          {paginatedItems.length === 0 ? (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-12">
-                <Heart className="h-12 w-12 text-muted-foreground/50" />
-                <h3 className="mt-4 text-lg font-semibold">{t("customer.noFavorites")}</h3>
-                <p className="mt-2 text-center text-sm text-muted-foreground">{t("customer.noFavoritesDesc")}</p>
-                <Button className="mt-6">{t("customer.exploreBusiness")}</Button>
-              </CardContent>
-            </Card>
-          ) : (
-            <>
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {paginatedItems.map((business) => (
-                  <Card key={business.id} className="overflow-hidden group hover:shadow-lg transition-shadow">
-                    <div className="relative h-48">
-                      <Image
-                        src={business.imageUrl || "/placeholder.svg"}
-                        alt={business.name}
-                        fill
-                        className="object-cover"
-                      />
-                      {business.isPremium && <Badge className="absolute top-2 left-2 bg-yellow-500">En vedette</Badge>}
-                      <Button
-                        size="icon"
-                        variant="secondary"
-                        className="absolute top-2 right-2 h-9 w-9 rounded-full bg-white/90 hover:bg-white shadow-md"
-                        onClick={() => handleRemoveFavorite(business.id, business.name)}
-                      >
-                        <Heart className="h-5 w-5 fill-red-500 text-red-500" />
-                      </Button>
-                    </div>
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="font-semibold text-lg line-clamp-1">{business.name}</h3>
-                        <div className="flex items-center gap-1 text-sm">
-                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                          <span className="font-medium">{business.rating}</span>
-                          <span className="text-muted-foreground">({business.reviewCount})</span>
-                        </div>
-                      </div>
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{business.description}</p>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                        <Badge variant="outline">{business.countryOrigin}</Badge>
-                        {business.type === "restaurant" && <Badge variant="outline">{business.cuisineType}</Badge>}
-                      </div>
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground mb-4">
-                        <MapPin className="h-4 w-4" />
-                        <span>{business.location}</span>
-                      </div>
-                      <Link href={`/${business.type === "store" ? "stores" : "restaurants"}/${business.id}`}>
-                        <Button className="w-full bg-transparent" variant="outline">
-                          <ShoppingBag className="mr-2 h-4 w-4" />
-                          Voir les détails
+          <TabsContent value={activeTab} className="mt-4 sm:mt-6">
+            {paginatedItems.length === 0 ? (
+              <Card>
+                <CardContent className="flex flex-col items-center justify-center py-8 sm:py-12">
+                  <Heart className="h-8 w-8 sm:h-12 sm:w-12 text-muted-foreground/50" />
+                  <h3 className="mt-3 sm:mt-4 text-base sm:text-lg font-semibold">{t("customer.noFavorites")}</h3>
+                  <p className="mt-1 sm:mt-2 text-center text-xs sm:text-sm text-muted-foreground">
+                    {t("customer.noFavoritesDesc")}
+                  </p>
+                  <Button className="mt-4 sm:mt-6 text-xs sm:text-sm">
+                    {t("customer.exploreBusiness")}
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+                <div className="grid gap-3 xs:gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                  {paginatedItems.map((business) => (
+                    <Card key={business.id} className="overflow-hidden group hover:shadow-lg transition-shadow">
+                      <div className="relative h-40 xs:h-48">
+                        <Image
+                          src={business.imageUrl || "/placeholder.svg"}
+                          alt={business.name}
+                          fill
+                          className="object-cover"
+                        />
+                        {business.isPremium && (
+                          <Badge className="absolute top-2 left-2 bg-yellow-500 text-xs">
+                            En vedette
+                          </Badge>
+                        )}
+                        <Button
+                          size="icon"
+                          variant="secondary"
+                          className="absolute top-2 right-2 h-7 w-7 xs:h-9 xs:w-9 rounded-full bg-white/90 hover:bg-white shadow-md"
+                          onClick={() => handleRemoveFavorite(business.id, business.name)}
+                        >
+                          <Heart className="h-3 w-3 xs:h-5 xs:w-5 fill-red-500 text-red-500" />
                         </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-8">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <Button
-                        key={page}
-                        variant={currentPage === page ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setCurrentPage(page)}
-                        className="w-10"
-                      >
-                        {page}
-                      </Button>
-                    ))}
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={currentPage === totalPages}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
+                      </div>
+                      <CardContent className="p-3 xs:p-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <h3 className="font-semibold text-sm xs:text-base sm:text-lg line-clamp-1">
+                            {business.name}
+                          </h3>
+                          <div className="flex items-center gap-1 text-xs xs:text-sm">
+                            <Star className="h-3 w-3 xs:h-4 xs:w-4 fill-yellow-400 text-yellow-400" />
+                            <span className="font-medium">{business.rating}</span>
+                            <span className="text-muted-foreground">({business.reviewCount})</span>
+                          </div>
+                        </div>
+                        <p className="text-xs xs:text-sm text-muted-foreground line-clamp-2 mb-2 xs:mb-3">
+                          {business.description}
+                        </p>
+                        <div className="flex items-center gap-2 text-xs xs:text-sm text-muted-foreground mb-2 xs:mb-3">
+                          <Badge variant="outline" className="text-xs">
+                            {business.countryOrigin}
+                          </Badge>
+                          {business.type === "restaurant" && (
+                            <Badge variant="outline" className="text-xs">
+                              {business.cuisineType}
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs xs:text-sm text-muted-foreground mb-3 xs:mb-4">
+                          <MapPin className="h-3 w-3 xs:h-4 xs:w-4" />
+                          <span>{business.location}</span>
+                        </div>
+                        <Link href={`/${business.type === "store" ? "stores" : "restaurants"}/${business.id}`}>
+                          <Button className="w-full bg-transparent text-xs xs:text-sm" variant="outline" size="sm">
+                            <ShoppingBag className="mr-2 h-3 w-3 xs:h-4 xs:w-4" />
+                            Voir les détails
+                          </Button>
+                        </Link>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
-              )}
-            </>
-          )}
-        </TabsContent>
-      </Tabs>
+
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-1 xs:gap-2 mt-6 sm:mt-8">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="h-8 w-8 xs:h-10 xs:w-10"
+                    >
+                      <ChevronLeft className="h-3 w-3 xs:h-4 xs:w-4" />
+                    </Button>
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <Button
+                          key={page}
+                          variant={currentPage === page ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setCurrentPage(page)}
+                          className="h-8 w-8 xs:h-10 xs:w-10 text-xs"
+                        >
+                          {page}
+                        </Button>
+                      ))}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="h-8 w-8 xs:h-10 xs:w-10"
+                    >
+                      <ChevronRight className="h-3 w-3 xs:h-4 xs:w-4" />
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   )
 }
