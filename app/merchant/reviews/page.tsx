@@ -5,7 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   Dialog,
   DialogContent,
@@ -17,7 +23,15 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Search, Star, MessageSquare, Reply, Download, ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  Search,
+  Star,
+  MessageSquare,
+  Reply,
+  Download,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 interface Review {
@@ -57,14 +71,16 @@ export default function MerchantReviewsPage() {
       date: "2025-01-20",
       product: "Sac en cuir artisanal",
       status: "responded",
-      response: "Merci beaucoup pour votre retour ! Nous sommes ravis que vous soyez satisfaite de votre achat.",
+      response:
+        "Merci beaucoup pour votre retour ! Nous sommes ravis que vous soyez satisfaite de votre achat.",
       responseDate: "2025-01-21",
     },
     {
       id: "2",
       customerName: "Jean Martin",
       rating: 4,
-      comment: "Très bon produit, conforme à la description. Seul bémol : l'emballage pourrait être amélioré.",
+      comment:
+        "Très bon produit, conforme à la description. Seul bémol : l'emballage pourrait être amélioré.",
       date: "2025-01-19",
       product: "Tissu Wax Premium",
       status: "pending",
@@ -78,14 +94,16 @@ export default function MerchantReviewsPage() {
       date: "2025-01-18",
       product: "Épices africaines",
       status: "responded",
-      response: "Merci pour ce merveilleux commentaire ! Au plaisir de vous revoir bientôt.",
+      response:
+        "Merci pour ce merveilleux commentaire ! Au plaisir de vous revoir bientôt.",
       responseDate: "2025-01-18",
     },
     {
       id: "4",
       customerName: "Pierre Dubois",
       rating: 3,
-      comment: "Produit correct mais les prix sont un peu élevés. La qualité est là mais j'attendais mieux.",
+      comment:
+        "Produit correct mais les prix sont un peu élevés. La qualité est là mais j'attendais mieux.",
       date: "2025-01-17",
       product: "Huile de palme bio",
       status: "pending",
@@ -94,7 +112,8 @@ export default function MerchantReviewsPage() {
       id: "5",
       customerName: "Fatou Diallo",
       rating: 5,
-      comment: "Parfait ! Exactement ce que je cherchais. Le service client est très réactif et professionnel.",
+      comment:
+        "Parfait ! Exactement ce que je cherchais. Le service client est très réactif et professionnel.",
       date: "2025-01-16",
       product: "Bijoux traditionnels",
       status: "responded",
@@ -125,7 +144,8 @@ export default function MerchantReviewsPage() {
       id: "8",
       customerName: "Moussa Diop",
       rating: 2,
-      comment: "Déçu par la qualité. Le produit ne correspond pas à la description.",
+      comment:
+        "Déçu par la qualité. Le produit ne correspond pas à la description.",
       date: "2025-01-13",
       product: "Épices africaines",
       status: "pending",
@@ -206,12 +226,12 @@ export default function MerchantReviewsPage() {
         r.customerName,
         r.rating.toString(),
         r.product || "",
-        r.comment,
-        r.response || "",
+        `"${r.comment.replace(/"/g, '""')}"`, // Handle quotes in comment
+        `"${(r.response || "").replace(/"/g, '""')}"`, // Handle quotes in response
         r.status === "pending" ? "En attente" : "Répondu",
       ]),
     ]
-      .map((row) => row.map((cell) => `"${cell}"`).join(","))
+      .map((row) => row.join(","))
       .join("\n")
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
@@ -230,18 +250,23 @@ export default function MerchantReviewsPage() {
     const matchesSearch =
       review.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       review.comment.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (review.product && review.product.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (review.product &&
+        review.product.toLowerCase().includes(searchQuery.toLowerCase())) ||
       review.id.toLowerCase().includes(searchQuery.toLowerCase())
 
     const matchesStatus = statusFilter === "all" || review.status === statusFilter
-    const matchesRating = ratingFilter === "all" || review.rating.toString() === ratingFilter
-    const matchesProduct = productFilter === "all" || review.product === productFilter
+    const matchesRating =
+      ratingFilter === "all" || review.rating.toString() === ratingFilter
+    const matchesProduct =
+      productFilter === "all" || review.product === productFilter
 
     let matchesDate = true
     if (dateFilter !== "all") {
       const reviewDate = new Date(review.date)
       const today = new Date()
-      const daysDiff = Math.floor((today.getTime() - reviewDate.getTime()) / (1000 * 60 * 60 * 24))
+      const daysDiff = Math.floor(
+        (today.getTime() - reviewDate.getTime()) / (1000 * 60 * 60 * 24),
+      )
 
       if (dateFilter === "today") matchesDate = daysDiff === 0
       else if (dateFilter === "week") matchesDate = daysDiff <= 7
@@ -249,7 +274,13 @@ export default function MerchantReviewsPage() {
       else if (dateFilter === "year") matchesDate = daysDiff <= 365
     }
 
-    return matchesSearch && matchesStatus && matchesRating && matchesProduct && matchesDate
+    return (
+      matchesSearch &&
+      matchesStatus &&
+      matchesRating &&
+      matchesProduct &&
+      matchesDate
+    )
   })
 
   const totalPages = Math.ceil(filteredReviews.length / itemsPerPage)
@@ -262,43 +293,65 @@ export default function MerchantReviewsPage() {
     setCurrentPage(1)
   }
 
-  const averageRating = reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length : 0
+  const averageRating =
+    reviews.length > 0
+      ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
+      : 0
 
   const ratingDistribution = [5, 4, 3, 2, 1].map((rating) => ({
     rating,
     count: reviews.filter((r) => r.rating === rating).length,
-    percentage: reviews.length > 0 ? (reviews.filter((r) => r.rating === rating).length / reviews.length) * 100 : 0,
+    percentage:
+      reviews.length > 0
+        ? (reviews.filter((r) => r.rating === rating).length / reviews.length) *
+          100
+        : 0,
   }))
 
-  const uniqueProducts = Array.from(new Set(reviews.map((r) => r.product).filter(Boolean))) as string[]
+  const uniqueProducts = Array.from(
+    new Set(reviews.map((r) => r.product).filter(Boolean)),
+  ) as string[]
 
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="flex-1 space-y-6 p-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
+      {/* Padding mobile pe p-4, desktop pe p-8 */}
+      <div className="flex-1 space-y-6 p-4 md:p-8">
+        
+        {/* Header: Mobile pe vertical (flex-col), sm se horizontal (sm:flex-row) */}
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="font-bold text-3xl tracking-tight">Commentaires & Avis</h1>
-            <p className="text-muted-foreground">Gérez les avis de vos clients sur vos produits</p>
+            <h1 className="font-bold text-3xl tracking-tight">
+              Commentaires & Avis
+            </h1>
+            <p className="text-muted-foreground">
+              Gérez les avis de vos clients sur vos produits
+            </p>
           </div>
-          <Button onClick={handleExport}>
+          {/* Button mobile pe full width, sm se auto width */}
+          <Button onClick={handleExport} className="w-full sm:w-auto">
             <Download className="mr-2 h-4 w-4" />
             Exporter
           </Button>
         </div>
 
-        {/* Statistics */}
-        <div className="grid gap-4 md:grid-cols-4">
+        {/* Statistics: Ye pehle se responsive tha (md:grid-cols-4) */}
+        <div className="grid gap-2 md:gap-4 grid-cols-2 md:grid-cols-4">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium">Note moyenne</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Note moyenne
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-3xl">{averageRating.toFixed(1)}</span>
+                <span className="font-bold text-3xl">
+                  {averageRating.toFixed(1)}
+                </span>
                 <Star className="h-6 w-6 fill-yellow-400 text-yellow-400" />
               </div>
-              <p className="text-muted-foreground text-xs">Sur {reviews.length} avis</p>
+              <p className="text-muted-foreground text-xs">
+                Sur {reviews.length} avis
+              </p>
             </CardContent>
           </Card>
 
@@ -307,8 +360,12 @@ export default function MerchantReviewsPage() {
               <CardTitle className="text-sm font-medium">En attente</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="font-bold text-3xl">{reviews.filter((r) => r.status === "pending").length}</div>
-              <p className="text-muted-foreground text-xs">Nécessitent une réponse</p>
+              <div className="font-bold text-3xl">
+                {reviews.filter((r) => r.status === "pending").length}
+              </div>
+              <p className="text-muted-foreground text-xs">
+                Nécessitent une réponse
+              </p>
             </CardContent>
           </Card>
 
@@ -317,7 +374,9 @@ export default function MerchantReviewsPage() {
               <CardTitle className="text-sm font-medium">Répondus</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="font-bold text-3xl">{reviews.filter((r) => r.status === "responded").length}</div>
+              <div className="font-bold text-3xl">
+                {reviews.filter((r) => r.status === "responded").length}
+              </div>
               <p className="text-muted-foreground text-xs">Avec réponse</p>
             </CardContent>
           </Card>
@@ -333,7 +392,7 @@ export default function MerchantReviewsPage() {
           </Card>
         </div>
 
-        {/* Rating Distribution */}
+        {/* Rating Distribution: Widths adjust kiye responsive k liye */}
         <Card>
           <CardHeader>
             <CardTitle>Distribution des notes</CardTitle>
@@ -341,31 +400,37 @@ export default function MerchantReviewsPage() {
           <CardContent>
             <div className="space-y-3">
               {ratingDistribution.map(({ rating, count, percentage }) => (
-                <div key={rating} className="flex items-center gap-4">
-                  <div className="flex w-20 items-center gap-1">
-                    <span className="font-medium text-sm">{rating}</span>
+                <div key={rating} className="flex items-center gap-0 sm:gap-4">
+                  <div className="flex w-10 sm:w-16 items-center gap-1">
+                    <span className="font-medium text-xs sm:text-sm">{rating}</span>
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                   </div>
                   <div className="flex-1">
                     <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
-                      <div className="h-full bg-yellow-400" style={{ width: `${percentage}%` }} />
+                      <div
+                        className="h-full bg-yellow-400"
+                        style={{ width: `${percentage}%` }}
+                      />
                     </div>
                   </div>
-                  <span className="w-12 text-muted-foreground text-sm">{count}</span>
+                  <span className="w-10 text-right text-muted-foreground text-xs sm:text-sm">
+                    {count}
+                  </span>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
 
+        {/* Filters: Ab sab filters md pe barabar width lenge */}
         <Card>
           <CardContent className="pt-6">
             <div className="space-y-4">
-              <div className="flex flex-col gap-4 md:flex-row md:items-end">
-                <div className="flex-1">
-                  <Label htmlFor="search">Rechercher</Label>
+              <div className="flex flex-col gap-4 md:flex-row md:items-start">
+                <div className="w-full ">
+                  <Label htmlFor="search" className="mb-2">Rechercher</Label>
                   <div className="relative">
-                    <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
+                    <Search className="absolute top-3.5 left-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="search"
                       placeholder="ID, client, produit ou commentaire..."
@@ -378,16 +443,18 @@ export default function MerchantReviewsPage() {
                     />
                   </div>
                 </div>
-                <div className="w-full md:w-48">
-                  <Label htmlFor="status">Statut</Label>
+                {/* md:flex-1 add kiya hai taake barabar width lein */}
+                <div className="w-full ">
+                  <Label htmlFor="status"  className="mb-2">Statut</Label>
                   <Select
                     value={statusFilter}
                     onValueChange={(value) => {
                       setStatusFilter(value)
                       handleFilterChange()
                     }}
+                    
                   >
-                    <SelectTrigger id="status">
+                    <SelectTrigger id="status" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -397,8 +464,8 @@ export default function MerchantReviewsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="w-full md:w-48">
-                  <Label htmlFor="rating">Note</Label>
+                <div className="w-full ">
+                  <Label htmlFor="rating"  className="mb-2">Note</Label>
                   <Select
                     value={ratingFilter}
                     onValueChange={(value) => {
@@ -406,7 +473,7 @@ export default function MerchantReviewsPage() {
                       handleFilterChange()
                     }}
                   >
-                    <SelectTrigger id="rating">
+                    <SelectTrigger id="rating" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -421,9 +488,9 @@ export default function MerchantReviewsPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-4 md:flex-row md:items-end">
-                <div className="flex-1">
-                  <Label htmlFor="product">Produit</Label>
+              <div className="flex flex-col gap-6 md:flex-row md:items-end">
+                <div className="w-full">
+                  <Label htmlFor="product" className="mb-2">Produit</Label>
                   <Select
                     value={productFilter}
                     onValueChange={(value) => {
@@ -431,7 +498,7 @@ export default function MerchantReviewsPage() {
                       handleFilterChange()
                     }}
                   >
-                    <SelectTrigger id="product">
+                    <SelectTrigger id="product" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -444,8 +511,8 @@ export default function MerchantReviewsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="flex-1">
-                  <Label htmlFor="date">Période</Label>
+                <div className="w-full">
+                  <Label htmlFor="date"  className="mb-2">Période</Label>
                   <Select
                     value={dateFilter}
                     onValueChange={(value) => {
@@ -453,7 +520,7 @@ export default function MerchantReviewsPage() {
                       handleFilterChange()
                     }}
                   >
-                    <SelectTrigger id="date">
+                    <SelectTrigger id="date" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -465,8 +532,8 @@ export default function MerchantReviewsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="flex-1">
-                  <Label htmlFor="perPage">Afficher</Label>
+                <div className="w-full">
+                  <Label htmlFor="perPage"  className="mb-2">Afficher</Label>
                   <Select
                     value={itemsPerPage.toString()}
                     onValueChange={(value) => {
@@ -474,7 +541,7 @@ export default function MerchantReviewsPage() {
                       setCurrentPage(1)
                     }}
                   >
-                    <SelectTrigger id="perPage">
+                    <SelectTrigger id="perPage" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -503,31 +570,48 @@ export default function MerchantReviewsPage() {
             paginatedReviews.map((review) => (
               <Card key={review.id}>
                 <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
+                  <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex items-start gap-3">
                       <Avatar>
-                        <AvatarImage src={review.customerAvatar || "/placeholder.svg"} />
-                        <AvatarFallback>{review.customerName.charAt(0)}</AvatarFallback>
+                        <AvatarImage
+                          src={review.customerAvatar || "/placeholder.svg"}
+                        />
+                        <AvatarFallback>
+                          {review.customerName.charAt(0)}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
                         <p className="font-semibold">{review.customerName}</p>
-                        <div className="flex items-center gap-2">
+                        {/* Rating/Date: Mobile pe vertical, sm se horizontal */}
+                        <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
                           <div className="flex">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
                                 className={`h-4 w-4 ${
-                                  i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                                  i < review.rating
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-gray-300"
                                 }`}
                               />
                             ))}
                           </div>
-                          <span className="text-muted-foreground text-sm">{review.date}</span>
+                          <span className="text-muted-foreground text-sm">
+                            {review.date}
+                          </span>
                         </div>
-                        {review.product && <p className="text-muted-foreground text-xs">Produit : {review.product}</p>}
+                        {review.product && (
+                          <p className="text-muted-foreground text-xs">
+                            Produit : {review.product}
+                          </p>
+                        )}
                       </div>
                     </div>
-                    <Badge variant={review.status === "pending" ? "secondary" : "default"}>
+                    {/* Badge mobile pe neeche, sm mein side pe */}
+                    <Badge
+                      variant={review.status === "pending" ? "secondary" : "default"}
+                      className="mt-2 sm:mt-0"
+                    >
                       {review.status === "pending" ? "En attente" : "Répondu"}
                     </Badge>
                   </div>
@@ -540,7 +624,9 @@ export default function MerchantReviewsPage() {
                       <div className="mb-2 flex items-center gap-2">
                         <Reply className="h-4 w-4 text-primary" />
                         <span className="font-medium text-sm">Votre réponse</span>
-                        <span className="text-muted-foreground text-xs">• {review.responseDate}</span>
+                        <span className="text-muted-foreground text-xs">
+                          • {review.responseDate}
+                        </span>
                       </div>
                       <p className="text-sm">{review.response}</p>
                     </div>
@@ -567,16 +653,25 @@ export default function MerchantReviewsPage() {
           )}
         </div>
 
+        {/* Pagination: Responsive kar diya */}
         {filteredReviews.length > 0 && (
           <Card>
             <CardContent className="pt-6">
               <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-                <p className="text-muted-foreground text-sm">
-                  Affichage de {startIndex + 1} à {Math.min(endIndex, filteredReviews.length)} sur{" "}
+                <p className="hidden sm:block text-muted-foreground text-sm">
+                  Affichage de {startIndex + 1} à{" "}
+                  {Math.min(endIndex, filteredReviews.length)} sur{" "}
                   {filteredReviews.length} commentaire(s)
                 </p>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" onClick={() => setCurrentPage(1)} disabled={currentPage === 1}>
+                  {/* Ye buttons mobile pe chupp jayenge */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage(1)}
+                    disabled={currentPage === 1}
+                    className="hidden sm:flex"
+                  >
                     Première
                   </Button>
                   <Button
@@ -587,7 +682,9 @@ export default function MerchantReviewsPage() {
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
-                  <div className="flex items-center gap-1">
+
+                  {/* Ye page numbers mobile pe chupp jayenge */}
+                  <div className="hidden items-center gap-1 sm:flex">
                     {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                       let pageNum
                       if (totalPages <= 5) {
@@ -612,19 +709,29 @@ export default function MerchantReviewsPage() {
                       )
                     })}
                   </div>
+
+                  {/* Mobile pe "Page X sur Y" dikhega */}
+                  <div className="flex items-center text-sm font-medium sm:hidden">
+                    Page {currentPage} sur {totalPages}
+                  </div>
+
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                    }
                     disabled={currentPage === totalPages}
                   >
                     <ChevronRight className="h-4 w-4" />
                   </Button>
+                  {/* Ye buttons mobile pe chupp jayenge */}
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setCurrentPage(totalPages)}
                     disabled={currentPage === totalPages}
+                    className="hidden sm:flex"
                   >
                     Dernière
                   </Button>
@@ -635,24 +742,34 @@ export default function MerchantReviewsPage() {
         )}
       </div>
 
-      {/* Reply Dialog */}
+      {/* Reply Dialog: Responsive pop-up */}
       <Dialog open={isReplyDialogOpen} onOpenChange={setIsReplyDialogOpen}>
-        <DialogContent>
+        {/* Mobile pe 90% width, sm se max-w-[500px] */}
+        <DialogContent className="w-[90%] sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>Répondre au commentaire</DialogTitle>
-            <DialogDescription>Rédigez votre réponse au client</DialogDescription>
+            <DialogDescription>
+              Rédigez votre réponse au client
+            </DialogDescription>
           </DialogHeader>
           {selectedReview && (
-            <div className="space-y-4 py-4">
+            // Pop-up ko scrollable banaya agar content lamba ho
+            <div className="space-y-4 py-4 max-h-[70vh] overflow-y-auto pr-2">
               <div className="rounded-lg border bg-muted/50 p-4">
                 <div className="mb-2 flex items-center gap-2">
                   <Avatar className="h-6 w-6">
-                    <AvatarFallback className="text-xs">{selectedReview.customerName.charAt(0)}</AvatarFallback>
+                    <AvatarFallback className="text-xs">
+                      {selectedReview.customerName.charAt(0)}
+                    </AvatarFallback>
                   </Avatar>
-                  <span className="font-medium text-sm">{selectedReview.customerName}</span>
+                  <span className="font-medium text-sm">
+                    {selectedReview.customerName}
+                  </span>
                 </div>
                 {selectedReview.product && (
-                  <p className="mb-2 text-muted-foreground text-xs">Produit : {selectedReview.product}</p>
+                  <p className="mb-2 text-muted-foreground text-xs">
+                    Produit : {selectedReview.product}
+                  </p>
                 )}
                 <p className="text-sm">{selectedReview.comment}</p>
               </div>
@@ -662,14 +779,17 @@ export default function MerchantReviewsPage() {
                   id="reply"
                   placeholder="Écrivez votre réponse..."
                   value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
+                  onChange={(e) => setReplyText(e.g.value)}
                   rows={4}
                 />
               </div>
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsReplyDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsReplyDialogOpen(false)}
+            >
               Annuler
             </Button>
             <Button onClick={handleReply} disabled={!replyText.trim()}>

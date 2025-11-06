@@ -87,7 +87,7 @@ export function MerchantSidebar({ isRestaurant = false }: MerchantSidebarProps) 
   const SidebarContent = ({ mobile = false }: { mobile?: boolean }) => (
     <div className="flex h-full flex-col bg-sidebar">
       {!mobile && (
-        <div className="flex h-10 items-center justify-end border-b border-sidebar-border px-4 py-1">
+        <div className="flex h-16 items-center justify-end border-b border-sidebar-border px-4 py-1">
           <Button
             variant="outline"
             size="icon"

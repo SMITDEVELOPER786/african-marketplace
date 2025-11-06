@@ -14,7 +14,7 @@ export default function MerchantLayout({ children }: { children: React.NodeNode 
         <MerchantSidebar />
 
         <main className="flex-1 min-h-[calc(100vh-4rem)] overflow-y-auto">
-          <div className="container-spacing section-spacing max-w-[1600px] mx-auto mt-10">{children}</div>
+          <div className="container-spacing section-spacing max-w-[1600px] mx-auto mt-0">{children}</div>
         </main>
       </div>
     </div>

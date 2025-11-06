@@ -135,7 +135,7 @@ export default function MerchantDashboardPage() {
   ]
 
   return (
-    <div className="p-0 md:p-0">
+    <div className="p-4 md:p-0">
       <div className="mb-8 -mt10">
         <h1 className="text-3xl font-bold">Tableau de bord</h1>
         <p className="mt-2 text-muted-foreground">Vue d'ensemble complète de votre activité commerciale</p>
