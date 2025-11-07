@@ -220,7 +220,7 @@ export default function CustomerReviewsPage() {
                 </div>
                 <div>
                   <Label>Note</Label>
-                  <div className="mt-2">{renderStars(5, true, () => {})}</div>
+                  <div className="mb-2">{renderStars(5, true, () => {})}</div>
                 </div>
                 <div>
                   <Label htmlFor="title">Titre de l'avis</Label>

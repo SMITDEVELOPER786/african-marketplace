@@ -34,10 +34,11 @@ import {
   CalendarPlus,
   CheckCircle2,
   AlertCircle,
+  MoreVertical,
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
-import { addToCalendar } from "@/utils/addToCalendar" // Import the handleAddToCalendar function
+import { addToCalendar } from "@/utils/addToCalendar"
 
 const allReservations = [
   {
@@ -121,6 +122,7 @@ export default function ReservationsPage() {
   const { toast } = useToast()
   const [activeTab, setActiveTab] = useState("current")
   const [currentPage, setCurrentPage] = useState(1)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<number | null>(null)
 
   const [modifyDialogOpen, setModifyDialogOpen] = useState(false)
   const [selectedReservation, setSelectedReservation] = useState<any>(null)
@@ -160,11 +162,13 @@ export default function ReservationsPage() {
   const handleTabChange = (value: string) => {
     setActiveTab(value)
     setCurrentPage(1)
+    setMobileMenuOpen(null)
   }
 
   const handleCancelReservation = (reservation: any) => {
     setSelectedReservation(reservation)
     setCancelDialogOpen(true)
+    setMobileMenuOpen(null)
   }
 
   const confirmCancelReservation = () => {
@@ -183,6 +187,7 @@ export default function ReservationsPage() {
     setModifyTime(reservation.time)
     setModifyGuests(reservation.guests.toString())
     setModifyDialogOpen(true)
+    setMobileMenuOpen(null)
   }
 
   const confirmModifyReservation = () => {
@@ -198,6 +203,7 @@ export default function ReservationsPage() {
     setReviewRating(reservation.review?.rating || 0)
     setReviewComment(reservation.review?.comment || "")
     setReviewDialogOpen(true)
+    setMobileMenuOpen(null)
   }
 
   const submitReview = () => {
@@ -213,10 +219,10 @@ export default function ReservationsPage() {
   const handleDownloadPDF = (reservation: any) => {
     setPdfReservation(reservation)
     setPdfDialogOpen(true)
+    setMobileMenuOpen(null)
   }
 
   const generateAndDownloadPDF = () => {
-    // Generate PDF content
     const pdfContent = `
       <!DOCTYPE html>
       <html>
@@ -298,6 +304,10 @@ export default function ReservationsPage() {
               font-size: 14px;
               font-weight: bold;
             }
+            @media print {
+              body { padding: 20px; }
+              .qr-section { break-inside: avoid; }
+            }
           </style>
         </head>
         <body>
@@ -371,7 +381,6 @@ export default function ReservationsPage() {
       </html>
     `
 
-    // Create blob and download
     const blob = new Blob([pdfContent], { type: "text/html" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -391,7 +400,6 @@ export default function ReservationsPage() {
   }
 
   const generateQRCodeSVG = (data: string) => {
-    // Simple QR code pattern (in production, use a proper QR code library)
     const size = 5
     const pattern = []
     for (let i = 0; i < 30; i++) {
@@ -410,17 +418,16 @@ export default function ReservationsPage() {
     setReminderReservation(reservation)
     setWhatsappNumber(reservation.phone)
     setReminderDialogOpen(true)
+    setMobileMenuOpen(null)
   }
 
   const sendWhatsAppReminder = async () => {
-    // In production, this would call a backend API that uses WhatsApp Business API or Twilio
     const message = `Bonjour ! Rappel de votre réservation chez ${reminderReservation?.restaurant} le ${new Date(
       reminderReservation?.date,
     ).toLocaleDateString(
       "fr-FR",
     )} à ${reminderReservation?.time} pour ${reminderReservation?.guests} personne(s). À bientôt !`
 
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     toast({
@@ -437,243 +444,343 @@ export default function ReservationsPage() {
       title: "Réservation ajoutée au calendrier",
       description: `Votre réservation chez ${reservation.restaurant} a été ajoutée à votre calendrier.`,
     })
+    setMobileMenuOpen(null)
+  }
+
+  const toggleMobileMenu = (id: number) => {
+    setMobileMenuOpen(mobileMenuOpen === id ? null : id)
   }
 
   return (
-    <div className="space-y-6 pt-20">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-center">
-
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Réservations</h1>
-          <p className="text-muted-foreground mt-2">Gérez vos réservations de restaurants</p>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-6 space-y-6 max-w-6xl">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="text-center sm:text-left">
+            <h1 className="text-3xl font-bold tracking-tight">Réservations</h1>
+            <p className="text-muted-foreground mt-2">Gérez vos réservations de restaurants</p>
+          </div>
+          <Link href="/restaurants" className="flex justify-center sm:justify-start">
+            <Button className="bg-[#B85C38] hover:bg-[#9A4A2E] w-full sm:w-auto">
+              <Plus className="mr-2 h-4 w-4" />
+              Nouvelle réservation
+            </Button>
+          </Link>
         </div>
-        <Link href="/restaurants">
-          <Button className="bg-[#B85C38] hover:bg-[#9A4A2E]">
-            <Plus className="mr-2 h-4 w-4" />
-            Nouvelle réservation
-          </Button>
-        </Link>
+
+        {/* Tabs */}
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+          <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto">
+            <TabsTrigger value="current">En cours ({getCurrentReservations().length})</TabsTrigger>
+            <TabsTrigger value="history">Historique ({getHistoryReservations().length})</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value={activeTab} className="space-y-4 mt-6">
+            {paginatedReservations.length === 0 ? (
+              <Card className="mx-auto max-w-md">
+                <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+                  <Calendar className="h-12 w-12 text-muted-foreground/50" />
+                  <h3 className="mt-4 text-lg font-semibold">
+                    {activeTab === "current" ? "Aucune réservation en cours" : "Aucun historique"}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground px-4">
+                    {activeTab === "current"
+                      ? "Réservez une table dans l'un de nos restaurants partenaires"
+                      : "Vos anciennes réservations apparaîtront ici"}
+                  </p>
+                  {activeTab === "current" && (
+                    <Link href="/restaurants" className="mt-6">
+                      <Button className="bg-[#B85C38] hover:bg-[#9A4A2E]">Découvrir les restaurants</Button>
+                    </Link>
+                  )}
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+                {/* Reservations Grid */}
+                <div className="grid gap-4 md:gap-6">
+                  {paginatedReservations.map((reservation) => (
+                    <Card key={reservation.id} className="relative overflow-hidden">
+                      <CardHeader className="pb-3">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <CardTitle className="text-xl truncate">{reservation.restaurant}</CardTitle>
+                            <CardDescription className="flex items-start gap-1 mt-1">
+                              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                              <span className="text-sm line-clamp-1">{reservation.address}</span>
+                            </CardDescription>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant={statusConfig[reservation.status as keyof typeof statusConfig].variant}
+                              className={`${statusConfig[reservation.status as keyof typeof statusConfig].color} whitespace-nowrap`}
+                            >
+                              {statusConfig[reservation.status as keyof typeof statusConfig].label}
+                            </Badge>
+                            {/* Mobile Menu Button */}
+                            <div className="sm:hidden">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => toggleMobileMenu(reservation.id)}
+                                className="h-8 w-8"
+                              >
+                                <MoreVertical className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {/* Reservation Details */}
+                        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                            <div className="min-w-0">
+                              <p className="font-medium">Date</p>
+                              <p className="text-muted-foreground truncate">
+                                {new Date(reservation.date).toLocaleDateString("fr-FR")}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                            <div className="min-w-0">
+                              <p className="font-medium">Heure</p>
+                              <p className="text-muted-foreground">{reservation.time}</p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <Users className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                            <div className="min-w-0">
+                              <p className="font-medium">Personnes</p>
+                              <p className="text-muted-foreground">{reservation.guests}</p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                            <div className="min-w-0">
+                              <p className="font-medium">Téléphone</p>
+                              <p className="text-muted-foreground font-mono text-xs">{reservation.phone}</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Review Section */}
+                        {reservation.status === "completed" && reservation.review && (
+                          <div className="bg-muted/50 rounded-lg p-3">
+                            <div className="flex items-center gap-2 mb-2">
+                              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                              <p className="text-sm font-medium">Votre avis</p>
+                            </div>
+                            <div className="flex items-center gap-1 mb-2">
+                              {Array.from({ length: 5 }).map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className={`h-4 w-4 ${
+                                    i < reservation.review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <p className="text-sm text-muted-foreground">{reservation.review.comment}</p>
+                          </div>
+                        )}
+
+                        {/* Action Buttons */}
+                        {(reservation.status === "confirmed" || reservation.status === "pending") && (
+                          <div className="space-y-3">
+                            {/* Mobile Menu Dropdown */}
+                            {mobileMenuOpen === reservation.id && (
+                              <div className="sm:hidden absolute top-12 right-2 bg-background border rounded-lg shadow-lg z-10 p-2 space-y-1 min-w-32">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="w-full justify-start"
+                                  onClick={() => handleModifyReservation(reservation)}
+                                >
+                                  Modifier
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="w-full justify-start text-destructive"
+                                  onClick={() => handleCancelReservation(reservation)}
+                                >
+                                  Annuler
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="w-full justify-start"
+                                  onClick={() => handleDownloadPDF(reservation)}
+                                >
+                                  <Download className="mr-2 h-4 w-4" />
+                                  PDF
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="w-full justify-start"
+                                  onClick={() => handleAddToCalendar(reservation)}
+                                >
+                                  <CalendarPlus className="mr-2 h-4 w-4" />
+                                  Calendrier
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="w-full justify-start"
+                                  onClick={() => handleSetReminder(reservation)}
+                                >
+                                  <Bell className="mr-2 h-4 w-4" />
+                                  Rappel
+                                </Button>
+                              </div>
+                            )}
+
+                            {/* Primary Actions - Mobile */}
+                            <div className="sm:hidden grid grid-cols-2 gap-2">
+                              <Button
+                                variant="outline"
+                                className="w-full"
+                                onClick={() => handleModifyReservation(reservation)}
+                              >
+                                Modifier
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                className="w-full"
+                                onClick={() => handleCancelReservation(reservation)}
+                              >
+                                Annuler
+                              </Button>
+                            </div>
+
+                            {/* Secondary Actions - Desktop */}
+                            <div className="hidden sm:flex flex-col sm:flex-row gap-2">
+                              <div className="flex gap-2 flex-1">
+                                <Link href={`/customer/reservations/modify`} className="flex-1">
+                                <Button
+                                  variant="outline"
+                                  className="flex-1"
+                                  onClick={() => handleModifyReservation(reservation)}
+                                >
+                                  Modifier
+                                </Button>
+                                </Link>
+                                
+                                <Button
+                                  variant="destructive"
+                                  className="flex-1"
+                                  onClick={() => handleCancelReservation(reservation)}
+                                >
+                                  Annuler
+                                </Button>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleDownloadPDF(reservation)}
+                                >
+                                  <Download className="mr-2 h-4 w-4" />
+                                  PDF
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleAddToCalendar(reservation)}
+                                >
+                                  <CalendarPlus className="mr-2 h-4 w-4" />
+                                  Calendrier
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleSetReminder(reservation)}
+                                >
+                                  <Bell className="mr-2 h-4 w-4" />
+                                  Rappel
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Completed Reservation Actions */}
+                        {reservation.status === "completed" && (
+                          <div className="flex flex-col sm:flex-row gap-2">
+                            {!reservation.review && (
+                              <Button
+                                variant="outline"
+                                className="flex-1"
+                                onClick={() => handleAddReview(reservation)}
+                              >
+                                <Star className="mr-2 h-4 w-4" />
+                                Laisser un avis
+                              </Button>
+                            )}
+                            <Link href={`/restaurants/${reservation.id}`} className="flex-1">
+                              <Button variant="outline" className="w-full">
+                                Réserver à nouveau
+                              </Button>
+                            </Link>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 mt-8">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="h-9 w-9"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <Button
+                          key={page}
+                          variant={currentPage === page ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setCurrentPage(page)}
+                          className={`h-9 w-9 ${currentPage === page ? "bg-[#B85C38] hover:bg-[#9A4A2E]" : ""}`}
+                        >
+                          {page}
+                        </Button>
+                      ))}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="h-9 w-9"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
 
-      <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList className="grid w-full max-w-md grid-cols-2">
-          <TabsTrigger value="current">En cours ({getCurrentReservations().length})</TabsTrigger>
-          <TabsTrigger value="history">Historique ({getHistoryReservations().length})</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value={activeTab} className="space-y-4 mt-6">
-          {paginatedReservations.length === 0 ? (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-12">
-                <Calendar className="h-12 w-12 text-muted-foreground/50" />
-                <h3 className="mt-4 text-lg font-semibold">
-                  {activeTab === "current" ? "Aucune réservation en cours" : "Aucun historique"}
-                </h3>
-                <p className="mt-2 text-center text-sm text-muted-foreground">
-                  {activeTab === "current"
-                    ? "Réservez une table dans l'un de nos restaurants partenaires"
-                    : "Vos anciennes réservations apparaîtront ici"}
-                </p>
-                {activeTab === "current" && (
-                  <Link href="/restaurants">
-                    <Button className="mt-6 bg-[#B85C38] hover:bg-[#9A4A2E]">Découvrir les restaurants</Button>
-                  </Link>
-                )}
-              </CardContent>
-            </Card>
-          ) : (
-            <>
-              <div className="grid gap-6">
-                {paginatedReservations.map((reservation) => (
-                  <Card key={reservation.id}>
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <CardTitle className="text-xl">{reservation.restaurant}</CardTitle>
-                          <CardDescription className="flex items-center gap-1 mt-1">
-                            <MapPin className="h-4 w-4" />
-                            {reservation.address}
-                          </CardDescription>
-                        </div>
-                        <Badge
-                          variant={statusConfig[reservation.status as keyof typeof statusConfig].variant}
-                          className={statusConfig[reservation.status as keyof typeof statusConfig].color}
-                        >
-                          {statusConfig[reservation.status as keyof typeof statusConfig].label}
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="text-sm font-medium">Date</p>
-                            <p className="text-sm text-muted-foreground">
-                              {new Date(reservation.date).toLocaleDateString("fr-FR")}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <Clock className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="text-sm font-medium">Heure</p>
-                            <p className="text-sm text-muted-foreground">{reservation.time}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <Users className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="text-sm font-medium">Personnes</p>
-                            <p className="text-sm text-muted-foreground">{reservation.guests}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <Phone className="h-5 w-5 text-muted-foreground" />
-                          <div>
-                            <p className="text-sm font-medium">Téléphone</p>
-                            <p className="text-sm text-muted-foreground">{reservation.phone}</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {reservation.status === "completed" && reservation.review && (
-                        <div className="bg-muted/50 rounded-lg p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <MessageSquare className="h-4 w-4 text-muted-foreground" />
-                            <p className="text-sm font-medium">Votre avis</p>
-                          </div>
-                          <div className="flex items-center gap-1 mb-2">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`h-4 w-4 ${
-                                  i < reservation.review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-                                }`}
-                              />
-                            ))}
-                          </div>
-                          <p className="text-sm text-muted-foreground">{reservation.review.comment}</p>
-                        </div>
-                      )}
-
-                      {(reservation.status === "confirmed" || reservation.status === "pending") && (
-                        <div className="space-y-2">
-                        <div className="flex flex-col sm:flex-row gap-2">
-
-                            <Button
-                              variant="outline"
-                              className="flex-1 bg-transparent"
-                              onClick={() => handleModifyReservation(reservation)}
-                            >
-                              Modifier
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              className="flex-1"
-                              onClick={() => handleCancelReservation(reservation)}
-                            >
-                              Annuler
-                            </Button>
-                          </div>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1 bg-transparent w-full sm:w-auto"
-                              onClick={() => handleDownloadPDF(reservation)}
-                            >
-                              <Download className="mr-2 h-4 w-4" />
-                              PDF
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1 bg-transparent"
-                              onClick={() => handleAddToCalendar(reservation)}
-                            >
-                              <CalendarPlus className="mr-2 h-4 w-4 " />
-                              Calendrier
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex-1 bg-transparent w-full sm:w-auto"
-                              onClick={() => handleSetReminder(reservation)}
-                            >
-                              <Bell className="mr-2 h-4 w-4" />
-                              Rappel
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                      {reservation.status === "completed" && (
-                        <div className="flex gap-2">
-                          {!reservation.review && (
-                            <Button
-                              variant="outline"
-                              className="flex-1 bg-transparent"
-                              onClick={() => handleAddReview(reservation)}
-                            >
-                              <Star className="mr-2 h-4 w-4" />
-                              Laisser un avis
-                            </Button>
-                          )}
-                          <Link href={`/restaurants/${reservation.id}`} className="flex-1">
-                            <Button variant="outline" className="w-full bg-transparent">
-                              Réserver à nouveau
-                            </Button>
-                          </Link>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-8">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <Button
-                        key={page}
-                        variant={currentPage === page ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setCurrentPage(page)}
-                        className={`w-10 ${currentPage === page ? "bg-[#B85C38] hover:bg-[#9A4A2E]" : ""}`}
-                      >
-                        {page}
-                      </Button>
-                    ))}
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={currentPage === totalPages}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-            </>
-          )}
-        </TabsContent>
-      </Tabs>
-
+      {/* PDF Dialog */}
       <Dialog open={pdfDialogOpen} onOpenChange={setPdfDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Download className="h-5 w-5 text-[#B85C38]" />
@@ -712,20 +819,21 @@ export default function ReservationsPage() {
               </AlertDescription>
             </Alert>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setPdfDialogOpen(false)}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setPdfDialogOpen(false)} className="flex-1">
               Annuler
             </Button>
-            <Button onClick={generateAndDownloadPDF} className="bg-[#B85C38] hover:bg-[#9A4A2E]">
+            <Button onClick={generateAndDownloadPDF} className="bg-[#B85C38] hover:bg-[#9A4A2E] flex-1">
               <Download className="mr-2 h-4 w-4" />
-              Télécharger le PDF
+              Télécharger
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
+      {/* Reminder Dialog */}
       <Dialog open={reminderDialogOpen} onOpenChange={setReminderDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Bell className="h-5 w-5 text-[#B85C38]" />
@@ -783,24 +891,25 @@ export default function ReservationsPage() {
               </p>
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setReminderDialogOpen(false)}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setReminderDialogOpen(false)} className="flex-1">
               Annuler
             </Button>
             <Button
               onClick={sendWhatsAppReminder}
               disabled={!whatsappNumber}
-              className="bg-[#25D366] hover:bg-[#1DA851] text-white"
+              className="bg-[#25D366] hover:bg-[#1DA851] text-white flex-1"
             >
               <Bell className="mr-2 h-4 w-4" />
-              Programmer le rappel
+              Programmer
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
+      {/* Cancel Dialog */}
       <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-destructive">
               <AlertCircle className="h-5 w-5" />
@@ -851,20 +960,21 @@ export default function ReservationsPage() {
               </AlertDescription>
             </Alert>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setCancelDialogOpen(false)}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setCancelDialogOpen(false)} className="flex-1">
               Retour
             </Button>
-            <Button variant="destructive" onClick={confirmCancelReservation}>
+            <Button variant="destructive" onClick={confirmCancelReservation} className="flex-1">
               <AlertCircle className="mr-2 h-4 w-4" />
-              Confirmer l'annulation
+              Confirmer
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={modifyDialogOpen} onOpenChange={setModifyDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+      {/* Modify Dialog */}
+      {/* <Dialog open={modifyDialogOpen} onOpenChange={setModifyDialogOpen}>
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Modifier la réservation</DialogTitle>
             <DialogDescription>
@@ -902,19 +1012,20 @@ export default function ReservationsPage() {
               </p>
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setModifyDialogOpen(false)}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setModifyDialogOpen(false)} className="flex-1">
               Annuler
             </Button>
-            <Button onClick={confirmModifyReservation} className="bg-[#B85C38] hover:bg-[#9A4A2E]">
-              Confirmer la modification
+            <Button onClick={confirmModifyReservation} className="bg-[#B85C38] hover:bg-[#9A4A2E] flex-1">
+              Confirmer
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
 
+      {/* Review Dialog */}
       <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Laisser un avis</DialogTitle>
             <DialogDescription>Partagez votre expérience chez {selectedReservation?.restaurant}</DialogDescription>
@@ -948,12 +1059,16 @@ export default function ReservationsPage() {
               />
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setReviewDialogOpen(false)}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setReviewDialogOpen(false)} className="flex-1">
               Annuler
             </Button>
-            <Button onClick={submitReview} disabled={reviewRating === 0} className="bg-[#B85C38] hover:bg-[#9A4A2E]">
-              Publier l'avis
+            <Button 
+              onClick={submitReview} 
+              disabled={reviewRating === 0} 
+              className="bg-[#B85C38] hover:bg-[#9A4A2E] flex-1"
+            >
+              Publier
             </Button>
           </DialogFooter>
         </DialogContent>

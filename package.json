@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev --hostname 0.0.0.0",
+    "dev": "node api.js && next dev --hostname 0.0.0.0",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "node api.js && next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
