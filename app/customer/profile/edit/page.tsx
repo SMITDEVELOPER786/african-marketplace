@@ -81,80 +81,96 @@ export default function EditProfilePage() {
 
   return (
     <>
-      <div className="min-h-screen pb-20 md:pb-8 pt-10">
-        <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 lg:px-8">
-          {/* Header with Back Button */}
-          <div className="mb-6 flex items-center gap-4">
+      <div className="min-h-screen pb-20 md:pb-8 pt-4 md:pt-10">
+        <div className="mx-auto max-w-2xl px-3 sm:px-4 py-4 sm:py-6 lg:px-8">
+          {/* Header with Back Button - Improved mobile spacing */}
+          <div className="mb-4 sm:mb-6 flex items-center gap-3 sm:gap-4">
             <Link href="/customer/profile">
-              <Button variant="outline" size="icon" className="h-10 w-10">
+              <Button variant="outline" size="icon" className="h-9 w-9 sm:h-10 sm:w-10">
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </Link>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight truncate">
                 {t("common.edit")} {t("customer.profile")}
               </h1>
-              <p className="text-muted-foreground mt-1">
+              <p className="text-muted-foreground mt-1 text-sm sm:text-base">
                 {t("customer.updatePersonalInfo") || "Mettez à jour vos informations personnelles"}
               </p>
             </div>
           </div>
 
           {/* Edit Form */}
-          <Card>
-            <CardContent className="pt-6">
-              <div className="space-y-6">
-                <div className="grid gap-4 sm:grid-cols-2">
+          <Card className="border-0 sm:border shadow-none sm:shadow-sm">
+            <CardContent className="pt-4 sm:pt-6 px-3 sm:px-6">
+              <div className="space-y-4 sm:space-y-6">
+                {/* Name fields - stack vertically on mobile */}
+                <div className="flex flex-col sm:grid gap-3 sm:gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="edit-firstName">{t("customer.firstName")}</Label>
+                    <Label htmlFor="edit-firstName" className="text-sm sm:text-base">
+                      {t("customer.firstName")}
+                    </Label>
                     <Input
                       id="edit-firstName"
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      className="h-10 sm:h-9 text-sm sm:text-base"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="edit-lastName">{t("customer.lastName")}</Label>
+                    <Label htmlFor="edit-lastName" className="text-sm sm:text-base">
+                      {t("customer.lastName")}
+                    </Label>
                     <Input
                       id="edit-lastName"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      className="h-10 sm:h-9 text-sm sm:text-base"
                     />
                   </div>
                 </div>
 
+                {/* Single column fields */}
                 <div className="space-y-2">
-                  <Label htmlFor="edit-email">{t("customer.email")}</Label>
+                  <Label htmlFor="edit-email" className="text-sm sm:text-base">
+                    {t("customer.email")}
+                  </Label>
                   <Input
                     id="edit-email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="h-10 sm:h-9 text-sm sm:text-base"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="edit-phone">{t("customer.phone")}</Label>
+                  <Label htmlFor="edit-phone" className="text-sm sm:text-base">
+                    {t("customer.phone")}
+                  </Label>
                   <Input
                     id="edit-phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="h-10 sm:h-9 text-sm sm:text-base"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="edit-country">{t("common.location")}</Label>
+                  <Label htmlFor="edit-country" className="text-sm sm:text-base">
+                    {t("common.location")}
+                  </Label>
                   <Select
                     value={formData.country}
                     onValueChange={(value) => setFormData({ ...formData, country: value })}
                   >
-                    <SelectTrigger id="edit-country">
+                    <SelectTrigger id="edit-country" className="h-10 sm:h-9 text-sm sm:text-base">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="max-h-[200px] sm:max-h-none">
                       {countries.map((country) => (
-                        <SelectItem key={country.code} value={country.code}>
+                        <SelectItem key={country.code} value={country.code} className="text-sm sm:text-base">
                           <span className="flex items-center gap-2">
                             <span>{country.flag}</span>
                             <span>{country.name}</span>
@@ -165,45 +181,58 @@ export default function EditProfilePage() {
                   </Select>
                 </div>
 
-                <Separator />
+                <Separator className="my-2 sm:my-4" />
 
                 <div className="space-y-2">
-                  <Label htmlFor="edit-address">{t("customer.address")}</Label>
+                  <Label htmlFor="edit-address" className="text-sm sm:text-base">
+                    {t("customer.address")}
+                  </Label>
                   <Input
                     id="edit-address"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                    className="h-10 sm:h-9 text-sm sm:text-base"
                   />
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                {/* City and Postal Code - stack vertically on mobile */}
+                <div className="flex flex-col sm:grid gap-3 sm:gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="edit-city">{t("customer.city")}</Label>
+                    <Label htmlFor="edit-city" className="text-sm sm:text-base">
+                      {t("customer.city")}
+                    </Label>
                     <Input
                       id="edit-city"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                      className="h-10 sm:h-9 text-sm sm:text-base"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="edit-postalCode">{t("customer.postalCode")}</Label>
+                    <Label htmlFor="edit-postalCode" className="text-sm sm:text-base">
+                      {t("customer.postalCode")}
+                    </Label>
                     <Input
                       id="edit-postalCode"
                       value={formData.postalCode}
                       onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
+                      className="h-10 sm:h-9 text-sm sm:text-base"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end mt-8 pt-6 border-t">
-                <Link href="/customer/profile" className="w-full sm:w-auto">
-                  <Button variant="outline" className="w-full hover:bg-accent">
+              {/* Action Buttons - Improved mobile layout */}
+              <div className="flex flex-col gap-3 sm:flex-row sm:justify-end mt-6 sm:mt-8 pt-4 sm:pt-6 border-t">
+                <Link href="/customer/profile" className="w-full sm:w-auto order-2 sm:order-1">
+                  <Button variant="outline" className="w-full hover:bg-accent h-11 sm:h-9 text-sm sm:text-base">
                     {t("common.cancel")}
                   </Button>
                 </Link>
-                <Button onClick={handleSaveProfile} className="w-full bg-primary  sm:w-auto">
+                <Button 
+                  onClick={handleSaveProfile} 
+                  className="w-full bg-primary sm:w-auto h-11 sm:h-9 text-sm sm:text-base order-1 sm:order-2"
+                >
                   <Save className="mr-2 h-4 w-4" />
                   {t("common.save")}
                 </Button>
