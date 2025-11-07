@@ -12,6 +12,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"
+
+import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -176,14 +186,18 @@ export default function StoreDetailPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
-        <Tabs defaultValue="products" className="space-y-6">
+     {/* Main Content */}
+<div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-muted/30">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <Tabs defaultValue="products" className="space-y-6">
+
+
           <TabsList>
             <TabsTrigger value="products">Produits ({storeProducts.length})</TabsTrigger>
             <TabsTrigger value="about">À propos</TabsTrigger>
             <TabsTrigger value="reviews">Avis ({store.review_count})</TabsTrigger>
           </TabsList>
-
+<div className="overflow-hidden transition-[height] duration-500 ease-in-out">
           <TabsContent value="products" className="space-y-6">
             <div className="flex flex-col gap-3 sm:flex-row">
               <div className="relative flex-1">
@@ -234,6 +248,7 @@ export default function StoreDetailPage() {
                 </SelectContent>
               </Select>
             </div>
+            
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {paginatedProducts.map((product) => (
@@ -348,93 +363,196 @@ export default function StoreDetailPage() {
           </TabsContent>
 
           <TabsContent value="about">
-            <Card>
-              <CardContent className="p-6 prose prose-sm max-w-none">
-                <h2>À propos de {store.name}</h2>
-                <p>{store.description}</p>
-                <p>
-                  Nous travaillons directement avec des agriculteurs et des fournisseurs à travers l'Afrique pour vous
-                  apporter les produits africains les plus authentiques et de haute qualité.
-                </p>
-                <h3>Notre engagement</h3>
-                <ul>
-                  <li>Produits 100% authentiques</li>
-                  <li>Qualité garantie</li>
-                  <li>Prix compétitifs</li>
-                  <li>Service client exceptionnel</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </TabsContent>
+  <Card className="shadow-sm border border-muted/40 hover:shadow-md transition-all duration-300 rounded-2xl bg-gradient-to-br from-muted/40 to-background">
+    <CardContent className="p-8 space-y-6">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-primary mb-2">
+          À propos de {store.name}
+        </h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          {store.description}
+        </p>
+      </div>
 
-          <TabsContent value="reviews" className="space-y-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-4xl font-bold">{store.rating}</span>
-                      <div>
-                        <div className="flex items-center gap-1">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star
-                              key={star}
-                              className={`h-4 w-4 ${star <= store.rating ? "fill-secondary text-secondary" : "text-muted"}`}
-                            />
-                          ))}
-                        </div>
-                        <p className="text-sm text-muted-foreground">Basé sur {store.review_count} avis</p>
-                      </div>
-                    </div>
-                  </div>
-                  <Button>Écrire un avis</Button>
-                </div>
+      <div className="border-t border-muted/50 pt-6 space-y-4">
+        <p className="text-foreground leading-relaxed">
+          Nous travaillons directement avec des <span className="font-semibold text-primary">agriculteurs</span> et des
+          <span className="font-semibold text-primary"> fournisseurs</span> à travers l’Afrique pour vous apporter les
+          produits les plus <span className="italic">authentiques</span> et de <span className="font-semibold">haute qualité</span>.
+        </p>
 
-                <Separator className="mb-6" />
+        <div className="bg-muted/30 p-6 rounded-xl border border-muted/20">
+          <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-primary" />
+            Notre engagement
+          </h3>
+          <ul className="grid sm:grid-cols-2 gap-3 text-muted-foreground">
+            <li className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-primary/80" />
+              Produits 100% authentiques
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-primary/80" />
+              Qualité garantie
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-primary/80" />
+              Prix compétitifs
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-primary/80" />
+              Service client exceptionnel
+            </li>
+          </ul>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+</TabsContent>
 
-                <div className="space-y-6">
-                  {MOCK_REVIEWS.map((review) => (
-                    <div key={review.id} className="flex gap-4">
-                      <Avatar>
-                        <AvatarFallback>{review.author[0]}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <div>
-                            <p className="font-semibold">{review.author}</p>
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                              <div className="flex items-center gap-1">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <Star
-                                    key={star}
-                                    className={`h-3.5 w-3.5 ${
-                                      star <= review.rating ? "fill-secondary text-secondary" : "text-muted"
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                              <span>•</span>
-                              <span>{review.date}</span>
-                              {review.verified && (
-                                <>
-                                  <span>•</span>
-                                  <Badge variant="secondary" className="text-xs">
-                                    Achat vérifié
-                                  </Badge>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <p className="text-sm">{review.comment}</p>
-                      </div>
-                    </div>
+
+        <TabsContent value="reviews" className="space-y-6">
+  <Card>
+    <CardContent className="p-6">
+      {/* Header with rating summary and Write Review button */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-4xl font-bold">{store.rating}</span>
+            <div>
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star
+                    key={star}
+                    className={`h-4 w-4 ${star <= store.rating ? "fill-secondary text-secondary" : "text-muted"}`}
+                  />
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Basé sur {store.review_count} avis
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Review Modal Trigger */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Écrire un avis</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Écrire un avis</DialogTitle>
+              <DialogDescription>
+                Partagez votre expérience sur {store.name}.
+              </DialogDescription>
+            </DialogHeader>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                // You can later handle review submission logic here
+                alert("Merci pour votre avis !")
+              }}
+              className="space-y-4"
+            >
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Votre nom
+                </label>
+                <Input required placeholder="Entrez votre nom" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Note
+                </label>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Button
+                      key={star}
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="hover:text-yellow-500"
+                    >
+                      <Star className="h-5 w-5" />
+                    </Button>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Votre commentaire
+                </label>
+                <textarea
+                  required
+                  placeholder="Écrivez votre avis ici..."
+                  className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+                  rows={4}
+                ></textarea>
+              </div>
+
+              <DialogFooter>
+                <Button type="submit" className="w-full">
+                  Soumettre l’avis
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <Separator className="mb-6" />
+
+      {/* Reviews List */}
+      <div className="space-y-6">
+        {MOCK_REVIEWS.map((review) => (
+          <div key={review.id} className="flex gap-4">
+            <Avatar>
+              <AvatarFallback>{review.author[0]}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="font-semibold">{review.author}</p>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className={`h-3.5 w-3.5 ${
+                            star <= review.rating ? "fill-secondary text-secondary" : "text-muted"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span>•</span>
+                    <span>{review.date}</span>
+                    {review.verified && (
+                      <>
+                        <span>•</span>
+                        <Badge variant="secondary" className="text-xs">
+                          Achat vérifié
+                        </Badge>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm">{review.comment}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </CardContent>
+  </Card>
+</TabsContent>
+
+          </div>
         </Tabs>
+        </div>
       </div>
 
       <MarketplaceFooter />
